@@ -31,4 +31,20 @@ public class TelegramProperties {
     private Duration updateListenerSleep = Duration.ofSeconds(1);
 
     private boolean debug;
+
+    public String getUrl() {
+        return this.url;
+    }
+
+    public String getToken() {
+        return this.token;
+    }
+
+    public Duration getUpdateListenerSleep() {
+        return this.updateListenerSleep;
+    }
+
+    public boolean isDebug() {
+        return this.debug;
+    }
 }
