@@ -3,11 +3,11 @@ package backend.academy.linktracker.bot.services;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LoggingEventBuilder;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class TelegramBotUpdateListener implements UpdatesListener {
@@ -26,7 +26,7 @@ public class TelegramBotUpdateListener implements UpdatesListener {
 
     @Override
     public int process(List<Update> list) {
-        for (var u: list) {
+        for (var u : list) {
             handleUpdate(u);
         }
 
@@ -50,10 +50,7 @@ public class TelegramBotUpdateListener implements UpdatesListener {
             message = cmd.execute(bot, update.message().from(), update.message().chat(), null);
         }
 
-
         utils.sendMessage(chatId, message);
         logUpdate.log(String.format("Response message - %s", message));
     }
-
-
 }
