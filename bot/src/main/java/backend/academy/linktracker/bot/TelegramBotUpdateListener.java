@@ -5,11 +5,15 @@ import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LoggingEventBuilder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class TelegramBotUpdateListener implements UpdatesListener {
+    private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdateListener.class);
     private final TelegramBot bot;
 
     public TelegramBotUpdateListener(TelegramBot bot) {
@@ -33,23 +37,20 @@ public class TelegramBotUpdateListener implements UpdatesListener {
 
         String text = update.message().text().trim();
         Long chatId = update.message().chat().id();
+        LoggingEventBuilder logUpdate = logger.atDebug().addKeyValue("chatId", chatId);
 
-        if ("/start".equalsIgnoreCase(text)) {
-            sendMessage(chatId, "Hello world!");
-            return;
-        }
-
-        if ("/help".equalsIgnoreCase(text)) {
-            String message = """
+        String message = switch (text.toLowerCase()) {
+            case "/start" -> "Hello world!";
+            case "/help" -> """
                 Available commands:
                 /start - Welcome message
                 /help - List all commands
                 """;
-            sendMessage(chatId, message);
-            return;
-        }
+            default -> "Неизвестная команда. Воспользуйтесь /help, чтобы посмотреть список доступных команд.";
+        };
 
-        sendMessage(chatId, "Неизвестная команда. Воспользуйтесь /help, чтобы посмотреть список доступных команд.");
+        sendMessage(chatId, message);
+        logUpdate.log(String.format("Response message - %s", message));
     }
 
     private void sendMessage(long chatId, String message) {
