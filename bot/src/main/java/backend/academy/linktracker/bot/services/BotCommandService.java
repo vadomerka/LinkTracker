@@ -21,6 +21,10 @@ public class BotCommandService {
         hc.setCommandService(this);
     }
 
+    public BotCommandService getInstance() {
+        return this;
+    }
+
     public BotCommandExec getCommand(String commandName) {
         return commandMap.get(commandName);
     }
@@ -33,7 +37,7 @@ public class BotCommandService {
         var hmb = new StringBuilder();
         hmb.append("Available commands:\n");
         for (var c : getAllCommands()) {
-            hmb.append(String.format("%s - %s\n", c.command(), c.description()));
+            hmb.append(String.format("%s - %s%n", c.command(), c.description()));
         }
         return hmb.toString();
     }

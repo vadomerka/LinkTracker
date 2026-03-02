@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BotCommandInitializer {
-    private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdateListener.class);
+    private final Logger logger = LoggerFactory.getLogger(BotCommandInitializer.class);
     private final TelegramBot bot;
     private final BotCommandService commandService;
     private final List<BotCommandScope> scopes = new ArrayList<>(List.of(
