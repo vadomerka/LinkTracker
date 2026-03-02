@@ -30,7 +30,7 @@ public class TelegramBotUpdateListener implements UpdatesListener {
             handleUpdate(u);
         }
 
-        return UpdatesListener.CONFIRMED_UPDATES_ALL;
+        return CONFIRMED_UPDATES_ALL;
     }
 
     private void handleUpdate(Update update) {

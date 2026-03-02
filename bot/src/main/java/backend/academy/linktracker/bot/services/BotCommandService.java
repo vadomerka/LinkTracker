@@ -2,7 +2,6 @@ package backend.academy.linktracker.bot.services;
 
 import backend.academy.linktracker.bot.models.commands.BotCommandExec;
 import backend.academy.linktracker.bot.models.commands.HelpCommand;
-import com.pengrad.telegrambot.model.BotCommand;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -16,13 +15,9 @@ public class BotCommandService {
 
     public BotCommandService(List<BotCommandExec> commands) {
         this.commands = commands;
-        this.commandMap = commands.stream().collect(Collectors.toMap(BotCommand::command, Function.identity()));
+        this.commandMap = commands.stream().collect(Collectors.toMap(BotCommandExec::getCommand, Function.identity()));
         var hc = (HelpCommand) getCommand("/help");
         hc.setCommandService(this);
-    }
-
-    public BotCommandService getInstance() {
-        return this;
     }
 
     public BotCommandExec getCommand(String commandName) {
@@ -37,7 +32,7 @@ public class BotCommandService {
         var hmb = new StringBuilder();
         hmb.append("Available commands:\n");
         for (var c : getAllCommands()) {
-            hmb.append(String.format("%s - %s%n", c.command(), c.description()));
+            hmb.append(String.format("%s - %s%n", c.getCommand(), c.getDescription()));
         }
         return hmb.toString();
     }

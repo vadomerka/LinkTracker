@@ -36,7 +36,7 @@ public class BotCommandInitializer {
 
         var arr = commandService.getAllCommands();
         BotCommand[] commands = arr.stream()
-                .map((bce) -> new BotCommand(bce.command(), bce.description()))
+                .map((bce) -> new BotCommand(bce.getCommand(), bce.getDescription()))
                 .toList()
                 .toArray(new BotCommand[0]);
         for (var scope : scopes) {
