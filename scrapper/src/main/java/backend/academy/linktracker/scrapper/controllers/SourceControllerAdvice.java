@@ -70,7 +70,7 @@ public class SourceControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ResponseEntity<@NotNull ApiErrorResponse> unknownExceptionHandler(Exception ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-            new ApiErrorResponse("Произошла непредвиденная ошибка",
+            new ApiErrorResponse("Некорректные параметры запроса",
                 HttpStatus.BAD_REQUEST.toString(), ex)
         );
     }

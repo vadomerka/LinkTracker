@@ -20,7 +20,7 @@ public record ApiErrorResponse(
             ex.getClass().getName(),
             ex.getMessage(),
             Arrays.stream(ex.getStackTrace())
-                .map(st -> st.getClass().getName())
+                .map(StackTraceElement::toString)
                 .toList()
         );
     }
