@@ -25,15 +25,25 @@ public class TelegramProperties {
     private String url;
 
     @NotEmpty
+    @URL
+    private String scrapperUrl;
+
+    @NotEmpty
     private String token;
+
 
     @DurationUnit(ChronoUnit.MILLIS)
     private Duration updateListenerSleep = Duration.ofSeconds(1);
 
     private boolean debug;
 
+
     public String getUrl() {
         return this.url;
+    }
+
+    public String getScrapperUrl() {
+        return this.scrapperUrl;
     }
 
     public String getToken() {

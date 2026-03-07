@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -24,28 +25,28 @@ public class SourceController {
     }
 
     @PostMapping("/tg-chat/{id}")
-    ResponseEntity<@NotNull String> addChat(@RequestHeader Long id) {
+    ResponseEntity<@NotNull String> addChat(@PathVariable Long id) {
         manager.addChat(id);
         return ResponseEntity.ok("Чат зарегистрирован");
     }
 
     @DeleteMapping("/tg-chat/{id}")
-    ResponseEntity<@NotNull String> deleteChat(@RequestHeader Long id) {
+    ResponseEntity<@NotNull String> deleteChat(@PathVariable Long id) {
         manager.removeChat(id);
         return ResponseEntity.ok("Чат успешно удалён");
     }
 
-    @GetMapping("/links/{tgChatId}")
+    @GetMapping("/links")
     ResponseEntity<@NotNull ListSourcesResponse> getLinks(@RequestHeader Long tgChatId) {
         return ResponseEntity.ok(manager.getLinks(tgChatId));
     }
 
-    @PostMapping("/links/{tgChatId}")
+    @PostMapping("/links")
     ResponseEntity<@NotNull TrackedSource> addLink(@RequestHeader Long tgChatId, @RequestBody AddSourceRequest req) {
         return ResponseEntity.ok(manager.addLink(tgChatId, req));
     }
 
-    @DeleteMapping("/links/{tgChatId}")
+    @DeleteMapping("/links")
     ResponseEntity<@NotNull String> deleteLink(@RequestHeader Long tgChatId, @RequestBody RemoveSourceRequest req) {
         manager.removeLink(tgChatId, req);
         return ResponseEntity.ok("Ссылка успешно убрана");
