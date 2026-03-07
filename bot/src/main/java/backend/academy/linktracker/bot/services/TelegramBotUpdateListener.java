@@ -3,6 +3,7 @@ package backend.academy.linktracker.bot.services;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,15 +43,18 @@ public class TelegramBotUpdateListener implements UpdatesListener {
         Long chatId = update.message().chat().id();
         LoggingEventBuilder logUpdate = logger.atDebug().addKeyValue("chatId", chatId);
 
-        String message;
-        var cmd = commandService.getCommand(text.toLowerCase());
+        String response;
+        var parsedLine = Arrays.stream(text.split(" ")).toList();
+        var cmd = commandService.getCommand(parsedLine.getFirst().toLowerCase());
+        var arguments = parsedLine.subList(1, parsedLine.size());
+
         if (cmd == null) {
-            message = "Неизвестная команда. Воспользуйтесь /help, чтобы посмотреть список доступных команд.";
+            response = "Неизвестная команда. Воспользуйтесь /help, чтобы посмотреть список доступных команд.";
         } else {
-            message = cmd.execute(bot, update.message().from(), update.message().chat(), null);
+            response = cmd.execute(bot, update.message().from(), update.message().chat(), arguments);
         }
 
-        utils.sendMessage(chatId, message);
-        logUpdate.log(String.format("Response message - %s", message));
+        utils.sendMessage(chatId, response);
+        logUpdate.log(String.format("Response message - %s", response));
     }
 }
