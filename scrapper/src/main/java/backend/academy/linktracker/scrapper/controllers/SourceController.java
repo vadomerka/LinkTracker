@@ -24,15 +24,15 @@ public class SourceController {
     }
 
     @PostMapping("/tg-chat/{id}")
-    ResponseEntity<@NotNull Void> addChat(@RequestHeader Long id) {
+    ResponseEntity<@NotNull String> addChat(@RequestHeader Long id) {
         manager.addChat(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Чат зарегистрирован");
     }
 
     @DeleteMapping("/tg-chat/{id}")
-    ResponseEntity<@NotNull Void> deleteChat(@RequestHeader Long id) {
+    ResponseEntity<@NotNull String> deleteChat(@RequestHeader Long id) {
         manager.removeChat(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Чат успешно удалён");
     }
 
     @GetMapping("/links/{tgChatId}")
@@ -46,8 +46,8 @@ public class SourceController {
     }
 
     @DeleteMapping("/links/{tgChatId}")
-    ResponseEntity<@NotNull Void> deleteLink(@RequestHeader Long tgChatId, @RequestBody RemoveSourceRequest req) {
+    ResponseEntity<@NotNull String> deleteLink(@RequestHeader Long tgChatId, @RequestBody RemoveSourceRequest req) {
         manager.removeLink(tgChatId, req);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Ссылка успешно убрана");
     }
 }
