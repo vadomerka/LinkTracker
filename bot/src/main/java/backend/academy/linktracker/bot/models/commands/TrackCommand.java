@@ -28,12 +28,12 @@ public class TrackCommand extends BotCommandExec {
         } else {
             var url = messages.getFirst();
             var tags = messages.subList(1, messages.size());
-            var result = requestsSender.addTrackingUrl(url, tags);
-            if (Objects.equals(result, "OK")) {
-                response = String.format("url %s был успешно добавлен в список отслеживания.", url);
-            } else {
-                response = String.format("При добавлении url %s произошла ошибка.", url);
-            }
+
+            var result = requestsSender.addTrackingUrl(url, tags, null);
+            System.out.println(result.getStatusCode());
+            System.out.println(result.getHeaders());
+            System.out.println(result.getBody());
+            response = "Ссылка была успешно добавлена.";
         }
         return response;
     }

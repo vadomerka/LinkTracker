@@ -8,6 +8,8 @@ spring:
 app:
   telegram:
     url: https://api.telegram.org/bot
+    scrapperUrl: ${SCRAPPER_URL}
     token: ${MEGA_TELEGRAM_TOKEN} # Use env variable. DO NOT KEEP TOKEN HERE
     update-listener-sleep: 1s
     debug: false
+
