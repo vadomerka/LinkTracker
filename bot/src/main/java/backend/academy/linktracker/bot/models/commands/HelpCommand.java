@@ -7,6 +7,7 @@ import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import java.util.List;
 
 @Component
 public class HelpCommand extends BotCommandExec {
@@ -22,7 +23,7 @@ public class HelpCommand extends BotCommandExec {
     }
 
     @Override
-    public String execute(TelegramBot telegramClient, User user, Chat chat, String[] message) {
+    public String execute(TelegramBot telegramClient, User user, Chat chat, List<String> messages) {
         return commandService.commandsToString();
     }
 }

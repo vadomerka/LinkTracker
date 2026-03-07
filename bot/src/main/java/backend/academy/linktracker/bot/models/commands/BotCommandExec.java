@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
 import org.springframework.stereotype.Component;
+import java.util.List;
 
 @Component
 public abstract class BotCommandExec {
@@ -26,5 +27,5 @@ public abstract class BotCommandExec {
         return description;
     }
 
-    public abstract String execute(TelegramBot bot, User user, Chat chat, String[] message);
+    public abstract String execute(TelegramBot bot, User user, Chat chat, List<String> message);
 }

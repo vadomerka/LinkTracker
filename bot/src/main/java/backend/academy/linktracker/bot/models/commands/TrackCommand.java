@@ -1,0 +1,40 @@
+package backend.academy.linktracker.bot.models.commands;
+
+import backend.academy.linktracker.bot.services.BotUtils;
+import backend.academy.linktracker.bot.services.TrackRequestsSender;
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.model.Chat;
+import com.pengrad.telegrambot.model.User;
+import org.springframework.stereotype.Component;
+import java.util.List;
+import java.util.Objects;
+
+@Component
+public class TrackCommand extends BotCommandExec {
+    private TrackRequestsSender requestsSender;
+
+    public TrackCommand(BotUtils utils, TrackRequestsSender requestsSender) {
+        super("/track", "command to start tracking a link", utils);
+        this.requestsSender = requestsSender;
+    }
+
+    @Override
+    public String execute(TelegramBot telegramClient, User user, Chat chat, List<String> messages) {
+        String response;
+        if (messages == null || messages.isEmpty()) {
+            response = "Формат команды: /track <url> [tag1] [tag2] [tag3] ...\n" +
+                "    <url> - Ссылка для отслеживания." +
+                "    [tag] - Опциональные теги.";
+        } else {
+            var url = messages.getFirst();
+            var tags = messages.subList(1, messages.size());
+            var result = requestsSender.addTrackingUrl(url, tags);
+            if (Objects.equals(result, "OK")) {
+                response = String.format("url %s был успешно добавлен в список отслеживания.", url);
+            } else {
+                response = String.format("При добавлении url %s произошла ошибка.", url);
+            }
+        }
+        return response;
+    }
+}
