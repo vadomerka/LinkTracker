@@ -10,7 +10,7 @@ public class TrackedSourceFactory {
 
     public TrackedSourceFactory() {}
 
-    public TrackedSource create(String url, List<String> tags) {
-        return new TrackedSource(++globalId, url, tags);
+    public TrackedSource create(String url, List<String> tags, List<String> filters) {
+        return new TrackedSource(++globalId, url, tags, filters);
     }
 }

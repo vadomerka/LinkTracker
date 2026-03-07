@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Component
 public class TrackCommand extends BotCommandExec {
-    private TrackRequestsSender requestsSender;
+    private final TrackRequestsSender requestsSender;
 
     public TrackCommand(BotUtils utils, TrackRequestsSender requestsSender) {
         super("/track", "command to start tracking a link", utils);
