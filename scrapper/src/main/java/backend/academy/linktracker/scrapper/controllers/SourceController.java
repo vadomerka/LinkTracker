@@ -36,8 +36,8 @@ public class SourceController {
     }
 
     @GetMapping("/links")
-    ResponseEntity<@NotNull ListSourcesResponse> getLinks(@RequestHeader Long tgChatId) {
-        return ResponseEntity.ok(manager.getLinks(tgChatId));
+    ResponseEntity<@NotNull ListSourcesResponse> getLinks(@RequestHeader Long tgChatId, @RequestHeader String tag) {
+        return ResponseEntity.ok(manager.getLinks(tgChatId, tag));
     }
 
     @PostMapping("/links")

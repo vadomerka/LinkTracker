@@ -27,7 +27,7 @@ public class StopCommand extends BotCommandExec {
         } catch (ScrapperRequestException e) {
             response = e.getMessage();
         } catch (Exception e) {
-            response = "Произошла ошибка при регистрации чата.";
+            response = "Произошла ошибка при удалении чата.";
         }
         return response;
     }

@@ -30,8 +30,13 @@ public class TrackedSourceManager {
         repository.removeChat(chatId);
     }
 
-    public ListSourcesResponse getLinks(Long chatId) {
+    public ListSourcesResponse getLinks(Long chatId, String tag) {
         var arr = repository.getChatLinks(chatId);
+        if (!Objects.equals(tag, "")) {
+            arr = arr.stream()
+                .filter(ts -> ts.tags().contains(tag))
+                .toList();
+        }
         return new ListSourcesResponse(arr, arr.size());
     }
 
