@@ -1,6 +1,6 @@
 package backend.academy.linktracker.scrapper.repositories;
 
-import backend.academy.linktracker.scrapper.models.TrackedSource;
+import backend.academy.linktracker.models.TrackedSource;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
 import org.springframework.stereotype.Repository;

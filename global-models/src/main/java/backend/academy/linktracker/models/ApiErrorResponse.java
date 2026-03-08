@@ -1,4 +1,4 @@
-package backend.academy.linktracker.scrapper.models.requests;
+package backend.academy.linktracker.models;
 
 import java.util.Arrays;
 import java.util.List;

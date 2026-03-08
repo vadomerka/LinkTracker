@@ -1,6 +1,6 @@
 package backend.academy.linktracker.scrapper.controllers;
 
-import backend.academy.linktracker.scrapper.models.requests.ApiErrorResponse;
+import backend.academy.linktracker.models.ApiErrorResponse;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceNotFoundException;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import java.util.Arrays;
 
 @RestControllerAdvice
 public class SourceControllerAdvice {
