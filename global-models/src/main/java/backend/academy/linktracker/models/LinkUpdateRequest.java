@@ -1,4 +1,4 @@
-package backend.academy.linktracker.scrapper.models;
+package backend.academy.linktracker.models;
 
 import java.util.List;
 
