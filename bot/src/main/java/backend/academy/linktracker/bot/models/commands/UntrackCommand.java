@@ -28,7 +28,7 @@ public class UntrackCommand extends BotCommandExec {
         } catch (ScrapperRequestException e) {
             response = e.getMessage();
         } catch (Exception e) {
-            response = "Произошла ошибка при добавлении ссылки";
+            response = "Произошла ошибка при удалении ссылки";
         }
         return response;
     }

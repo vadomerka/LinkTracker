@@ -2,10 +2,12 @@ package backend.academy.linktracker.bot.services.requests;
 
 import backend.academy.linktracker.bot.properties.TelegramProperties;
 import backend.academy.linktracker.models.AddSourceRequest;
+import backend.academy.linktracker.models.ListSourcesResponse;
 import backend.academy.linktracker.models.RemoveSourceRequest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import java.util.List;
@@ -18,6 +20,17 @@ public class TrackedRequestsSender {
     public TrackedRequestsSender(TelegramProperties properties, RequestsUtils utils) {
         this.restClient = RestClient.create(properties.getScrapperUrl());
         this.utils = utils;
+    }
+
+    public ResponseEntity<ListSourcesResponse> getTrackingUrls(Long chatId, String tag) {
+        return restClient.method(HttpMethod.GET)
+            .uri("/links")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("tgChatId", String.valueOf(chatId))
+            .header("tag", tag)
+            .retrieve()
+            .onStatus(HttpStatusCode::isError, utils::onScrapperErrors)
+            .toEntity(ListSourcesResponse.class);
     }
 
     public void addTrackingUrl(Long chatId, String url, List<String> tags, List<String> filters) {
