@@ -7,15 +7,15 @@ import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
-import org.springframework.stereotype.Component;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
-public class StartCommand extends BotCommandExec {
+public class StopCommand extends BotCommandExec {
     private final ChatRequestsSender requestsSender;
 
-    public StartCommand(BotUtils utils, ChatRequestsSender requestsSender) {
-        super("/start", "command to start the bot", utils);
+    public StopCommand(BotUtils utils, ChatRequestsSender requestsSender) {
+        super("/stop", "command to stop the bot", utils);
         this.requestsSender = requestsSender;
     }
 
@@ -23,7 +23,7 @@ public class StartCommand extends BotCommandExec {
     public String execute(TelegramBot telegramClient, User user, Chat chat, List<String> messages) {
         String response;
         try {
-            response = requestsSender.addChat(chat.id()).getBody();
+            response = requestsSender.removeChat(chat.id()).getBody();
         } catch (ScrapperRequestException e) {
             response = e.getMessage();
         } catch (Exception e) {
