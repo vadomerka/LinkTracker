@@ -4,6 +4,7 @@ import backend.academy.linktracker.bot.properties.TelegramProperties;
 import backend.academy.linktracker.models.AddSourceRequest;
 import backend.academy.linktracker.models.ListSourcesResponse;
 import backend.academy.linktracker.models.RemoveSourceRequest;
+import backend.academy.linktracker.services.RequestsUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -29,7 +30,7 @@ public class TrackedRequestsSender {
             .header("tgChatId", String.valueOf(chatId))
             .header("tag", tag)
             .retrieve()
-            .onStatus(HttpStatusCode::isError, utils::onScrapperErrors)
+            .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
             .toEntity(ListSourcesResponse.class);
     }
 
@@ -40,7 +41,7 @@ public class TrackedRequestsSender {
             .header("tgChatId", String.valueOf(chatId))
             .body(new AddSourceRequest(url, tags, filters))
             .retrieve()
-            .onStatus(HttpStatusCode::isError, utils::onScrapperErrors)
+            .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
             .toEntity(String.class);
     }
 
@@ -51,7 +52,7 @@ public class TrackedRequestsSender {
             .header("tgChatId", String.valueOf(chatId))
             .body(new RemoveSourceRequest(url))
             .retrieve()
-            .onStatus(HttpStatusCode::isError, utils::onScrapperErrors)
+            .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
             .toEntity(String.class);
     }
 }

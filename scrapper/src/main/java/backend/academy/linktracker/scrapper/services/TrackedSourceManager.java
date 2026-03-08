@@ -8,6 +8,7 @@ import backend.academy.linktracker.models.TrackedSource;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceNotFoundException;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceIsAlreadyTrackedException;
 import backend.academy.linktracker.scrapper.repositories.TrackedSourceRepository;
+import backend.academy.linktracker.scrapper.services.requests.GitHubRequestSender;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +31,7 @@ public class TrackedSourceManager {
         repository.removeChat(chatId);
     }
 
-    public ListSourcesResponse getLinks(Long chatId, String tag) {
+    public ListSourcesResponse getChatLinks(Long chatId, String tag) {
         var arr = repository.getChatLinks(chatId);
         if (!Objects.equals(tag, "")) {
             arr = arr.stream()
@@ -38,6 +39,14 @@ public class TrackedSourceManager {
                 .toList();
         }
         return new ListSourcesResponse(arr, arr.size());
+    }
+
+    public List<TrackedSource> getUniqueLinks() {
+        return repository.getLinks();
+    }
+
+    public List<Long> getLinkChats(String url) {
+        return repository.getLinkChats(url);
     }
 
     public boolean contains(List<TrackedSource> array, String url) {

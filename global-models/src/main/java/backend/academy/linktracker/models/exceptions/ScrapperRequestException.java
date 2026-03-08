@@ -1,4 +1,4 @@
-package backend.academy.linktracker.bot.models.exceptions;
+package backend.academy.linktracker.models.exceptions;
 
 public class ScrapperRequestException extends RuntimeException {
     public ScrapperRequestException(String message) {
