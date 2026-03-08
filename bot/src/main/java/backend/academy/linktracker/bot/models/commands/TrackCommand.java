@@ -2,7 +2,7 @@ package backend.academy.linktracker.bot.models.commands;
 
 import backend.academy.linktracker.bot.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.bot.services.BotUtils;
-import backend.academy.linktracker.bot.services.TrackRequestsSender;
+import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
@@ -11,9 +11,9 @@ import java.util.List;
 
 @Component
 public class TrackCommand extends BotCommandExec {
-    private final TrackRequestsSender requestsSender;
+    private final TrackedRequestsSender requestsSender;
 
-    public TrackCommand(BotUtils utils, TrackRequestsSender requestsSender) {
+    public TrackCommand(BotUtils utils, TrackedRequestsSender requestsSender) {
         super("/track", "command to start tracking a link", utils);
         this.requestsSender = requestsSender;
     }

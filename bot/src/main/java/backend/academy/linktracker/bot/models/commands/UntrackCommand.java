@@ -2,20 +2,19 @@ package backend.academy.linktracker.bot.models.commands;
 
 import backend.academy.linktracker.bot.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.bot.services.BotUtils;
-import backend.academy.linktracker.bot.services.requests.ChatRequestsSender;
 import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
-import org.springframework.stereotype.Component;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
-public class StartCommand extends BotCommandExec {
-    private final ChatRequestsSender requestsSender;
+public class UntrackCommand extends BotCommandExec {
+    private final TrackedRequestsSender requestsSender;
 
-    public StartCommand(BotUtils utils, ChatRequestsSender requestsSender) {
-        super("/start", "command to start the bot", utils);
+    public UntrackCommand(BotUtils utils, TrackedRequestsSender requestsSender) {
+        super("/untrack", "command to stop tracking a link", utils);
         this.requestsSender = requestsSender;
     }
 
@@ -23,11 +22,13 @@ public class StartCommand extends BotCommandExec {
     public String execute(TelegramBot telegramClient, User user, Chat chat, List<String> messages) {
         String response;
         try {
-            response = requestsSender.addChat(chat.id()).getBody();
+            var url = messages.getFirst();
+            requestsSender.removeTrackingUrl(chat.id(), url);
+            response = "Ссылка была успешно удалена";
         } catch (ScrapperRequestException e) {
             response = e.getMessage();
         } catch (Exception e) {
-            response = "Произошла ошибка при регистрации чата.";
+            response = "Произошла ошибка при добавлении ссылки";
         }
         return response;
     }
