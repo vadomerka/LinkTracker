@@ -1,9 +1,8 @@
 package backend.academy.linktracker.bot.models.commands;
 
-import backend.academy.linktracker.bot.models.exceptions.ScrapperRequestException;
+import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.bot.services.BotUtils;
 import backend.academy.linktracker.bot.services.requests.ChatRequestsSender;
-import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;

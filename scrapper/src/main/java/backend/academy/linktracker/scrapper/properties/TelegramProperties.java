@@ -1,23 +1,30 @@
 package backend.academy.linktracker.scrapper.properties;
 
 import jakarta.validation.constraints.NotEmpty;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.convert.DurationUnit;
 import org.springframework.validation.annotation.Validated;
 
-@ConfigurationProperties(prefix = "app.github")
+@ConfigurationProperties(prefix = "app.telegram")
 @Validated
 @Getter
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-public class GithubProperties {
+public class TelegramProperties {
 
     @NotEmpty
-    private String token;
+    @URL
+    private String tgUrl;
 
-    public String getToken() { return token; }
+    public String getTgUrl() {
+        return this.tgUrl;
+    }
 }
