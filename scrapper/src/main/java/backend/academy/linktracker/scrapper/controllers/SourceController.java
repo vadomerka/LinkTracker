@@ -1,9 +1,9 @@
 package backend.academy.linktracker.scrapper.controllers;
 
-import backend.academy.linktracker.scrapper.models.requests.ListSourcesResponse;
-import backend.academy.linktracker.scrapper.models.requests.RemoveSourceRequest;
-import backend.academy.linktracker.scrapper.models.TrackedSource;
-import backend.academy.linktracker.scrapper.models.requests.AddSourceRequest;
+import backend.academy.linktracker.models.TrackedSource;
+import backend.academy.linktracker.models.ListSourcesResponse;
+import backend.academy.linktracker.models.RemoveSourceRequest;
+import backend.academy.linktracker.models.AddSourceRequest;
 import backend.academy.linktracker.scrapper.services.TrackedSourceManager;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
 
 @RestController
 public class SourceController {

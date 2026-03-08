@@ -1,10 +1,10 @@
 package backend.academy.linktracker.scrapper.services;
 
 import backend.academy.linktracker.scrapper.factories.TrackedSourceFactory;
-import backend.academy.linktracker.scrapper.models.requests.AddSourceRequest;
-import backend.academy.linktracker.scrapper.models.requests.ListSourcesResponse;
-import backend.academy.linktracker.scrapper.models.requests.RemoveSourceRequest;
-import backend.academy.linktracker.scrapper.models.TrackedSource;
+import backend.academy.linktracker.models.AddSourceRequest;
+import backend.academy.linktracker.models.ListSourcesResponse;
+import backend.academy.linktracker.models.RemoveSourceRequest;
+import backend.academy.linktracker.models.TrackedSource;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceNotFoundException;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceIsAlreadyTrackedException;
 import backend.academy.linktracker.scrapper.repositories.TrackedSourceRepository;
