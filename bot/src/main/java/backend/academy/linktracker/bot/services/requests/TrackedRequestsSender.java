@@ -16,11 +16,9 @@ import java.util.List;
 @Service
 public class TrackedRequestsSender {
     private final RestClient restClient;
-    private final RequestsUtils utils;
 
-    public TrackedRequestsSender(TelegramProperties properties, RequestsUtils utils) {
+    public TrackedRequestsSender(TelegramProperties properties) {
         this.restClient = RestClient.create(properties.getScrapperUrl());
-        this.utils = utils;
     }
 
     public ResponseEntity<ListSourcesResponse> getTrackingUrls(Long chatId, String tag) {
