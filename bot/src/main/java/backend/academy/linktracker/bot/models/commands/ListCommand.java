@@ -14,7 +14,7 @@ public class ListCommand extends BotCommandExec {
     private final TrackedRequestsSender requestsSender;
 
     public ListCommand(BotUtils utils, TrackedRequestsSender requestsSender) {
-        super("/untrack", "command to stop tracking a link", utils);
+        super("/list", "command to stop tracking a link", utils);
         this.requestsSender = requestsSender;
     }
 
