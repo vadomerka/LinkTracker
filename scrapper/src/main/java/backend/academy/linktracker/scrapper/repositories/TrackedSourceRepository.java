@@ -3,7 +3,6 @@ package backend.academy.linktracker.scrapper.repositories;
 import backend.academy.linktracker.models.TrackedSource;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
-import backend.academy.linktracker.scrapper.models.exceptions.LinkNotFoundException;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.HashMap;
