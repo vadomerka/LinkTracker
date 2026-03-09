@@ -12,7 +12,7 @@ public class BotChatManager {
     }
 
     public void processUpdate(Long chatId, LinkUpdateRequest req) {
-        var sb = new StringBuilder("upd!\n");
+        var sb = new StringBuilder("Произошло обновление по следующим ссылкам:\n");
         for (var url: req.links()) {
             sb.append("\t");
             sb.append(url);

@@ -6,7 +6,6 @@ import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundExcept
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,10 @@ public class TrackedSourceRepository {
         linkChats = new HashMap<>();
     }
 
+    public List<Long> getChatIds() {
+        return chatLinks.keySet().stream().toList();
+    }
+
     public List<TrackedSource> getLinks() {
         return linkChats.keySet().stream().toList();
     }
@@ -28,18 +31,6 @@ public class TrackedSourceRepository {
         var arr = chatLinks.get(chatId);
         if (arr == null) throw new ChatNotFoundException("Чат не был найден.");
         return arr;
-    }
-
-    public List<Long> getLinkChats(String link) {
-        var ans = new HashSet<Long>();
-        for (var k: chatLinks.keySet()) {
-            if (chatLinks.get(k).stream()
-                .map(ts -> ts.url().toLowerCase()).toList()
-                .contains(link)) {
-                ans.add(k);
-            }
-        }
-        return ans.stream().toList();
     }
 
     public void addChat(Long chatId) {
@@ -57,8 +48,7 @@ public class TrackedSourceRepository {
     }
 
     public void addLink(Long chatId, TrackedSource link) {
-        var arr = getChatLinks(chatId);
-        arr.add(link);
+        chatLinks.get(chatId).add(link);
 
         var lChats = linkChats.get(link);
         if (lChats == null) lChats = new ArrayList<>();
@@ -67,8 +57,7 @@ public class TrackedSourceRepository {
     }
 
     public void removeLink(Long chatId, TrackedSource link) {
-        var arr = getChatLinks(chatId);
-        arr.remove(link);
+        getChatLinks(chatId).remove(link);
 
         var lChats = linkChats.get(link);
         lChats.remove(chatId);

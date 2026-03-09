@@ -40,12 +40,12 @@ public class TrackedSourceManager {
         return new ListSourcesResponse(arr, arr.size());
     }
 
-    public List<TrackedSource> getUniqueLinks() {
-        return repository.getLinks();
+    public List<Long> getUniqueChats() {
+        return repository.getChatIds();
     }
 
-    public List<Long> getLinkChats(String url) {
-        return repository.getLinkChats(url);
+    public List<TrackedSource> getUniqueLinks() {
+        return repository.getLinks();
     }
 
     public boolean contains(List<TrackedSource> array, String url) {
@@ -54,20 +54,26 @@ public class TrackedSourceManager {
             .toList().isEmpty();
     }
 
+    public List<String> filterChatLinks(Long chatId, List<String> filters) {
+        var arr = repository.getChatLinks(chatId);
+        return arr.stream().map(TrackedSource::url).filter(filters::contains).toList();
+    }
+
     public TrackedSource addLink(Long chatId, AddSourceRequest req) {
         var links = repository.getChatLinks(chatId);
         if (contains(links, req.url()))
             throw new SourceIsAlreadyTrackedException("Ссылка уже отслеживается");
 
         var newSource = factory.create(req.url(), req.tags(), req.filters());
-        links.add(newSource);
+        repository.addLink(chatId, newSource);
         return newSource;
     }
 
     public void removeLink(Long chatId, RemoveSourceRequest req) {
         var links = repository.getChatLinks(chatId);
 
-        var wasRemoved = links.removeIf(ts -> Objects.equals(ts.url(), req.url()));
-        if (!wasRemoved) throw new SourceNotFoundException("Cсылка не найдена");
+        var filtered = links.stream().filter(ts -> Objects.equals(ts.url(), req.url())).toList();
+        if (filtered.isEmpty()) throw new SourceNotFoundException("Cсылка не найдена");
+        repository.removeLink(chatId, filtered.getFirst());
     }
 }
