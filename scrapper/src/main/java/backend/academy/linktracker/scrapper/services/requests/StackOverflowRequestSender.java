@@ -2,15 +2,12 @@ package backend.academy.linktracker.scrapper.services.requests;
 
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.models.exceptions.UrlFormatException;
-import backend.academy.linktracker.models.http.external.GithubUpdateResponse;
 import backend.academy.linktracker.models.http.external.StackOverflowUpdateResponse;
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
 import backend.academy.linktracker.services.RequestsUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import java.time.Instant;
 
@@ -45,7 +42,7 @@ public class StackOverflowRequestSender implements UpdateRequestSender {
     }
 
     private Instant getUpdated(StackOverflowUpdateResponse res) {
-        var millis = res.items().getFirst().lastActivityDate();
-        return Instant.ofEpochMilli(millis);
+        var seconds = res.items().getFirst().lastActivityDate();
+        return Instant.ofEpochSecond(seconds);
     }
 }
