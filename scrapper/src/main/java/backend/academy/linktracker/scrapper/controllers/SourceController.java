@@ -1,9 +1,9 @@
 package backend.academy.linktracker.scrapper.controllers;
 
 import backend.academy.linktracker.models.TrackedSource;
-import backend.academy.linktracker.models.ListSourcesResponse;
-import backend.academy.linktracker.models.RemoveSourceRequest;
-import backend.academy.linktracker.models.AddSourceRequest;
+import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
+import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
+import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.scrapper.services.TrackedSourceManager;
 import backend.academy.linktracker.scrapper.services.updates.LinkUpdateService;
 import org.jetbrains.annotations.NotNull;

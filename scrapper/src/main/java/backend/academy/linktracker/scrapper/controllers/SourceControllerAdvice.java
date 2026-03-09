@@ -1,6 +1,6 @@
 package backend.academy.linktracker.scrapper.controllers;
 
-import backend.academy.linktracker.models.ApiErrorResponse;
+import backend.academy.linktracker.models.http.internal.ApiErrorResponse;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceNotFoundException;

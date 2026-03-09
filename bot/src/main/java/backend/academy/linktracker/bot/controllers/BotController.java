@@ -1,7 +1,7 @@
 package backend.academy.linktracker.bot.controllers;
 
 import backend.academy.linktracker.bot.services.BotChatManager;
-import backend.academy.linktracker.models.LinkUpdateRequest;
+import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
