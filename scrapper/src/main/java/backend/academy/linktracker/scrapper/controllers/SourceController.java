@@ -5,6 +5,7 @@ import backend.academy.linktracker.models.ListSourcesResponse;
 import backend.academy.linktracker.models.RemoveSourceRequest;
 import backend.academy.linktracker.models.AddSourceRequest;
 import backend.academy.linktracker.scrapper.services.TrackedSourceManager;
+import backend.academy.linktracker.scrapper.services.updates.LinkUpdateService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SourceController {
     private final TrackedSourceManager manager;
+    private final LinkUpdateService service;
 
-    public SourceController(TrackedSourceManager manager) {
+    public SourceController(TrackedSourceManager manager, LinkUpdateService service) {
         this.manager = manager;
+        this.service = service;
     }
 
     @PostMapping("/tg-chat/{id}")
@@ -48,6 +51,12 @@ public class SourceController {
     @DeleteMapping("/links")
     ResponseEntity<@NotNull String> deleteLink(@RequestHeader Long tgChatId, @RequestBody RemoveSourceRequest req) {
         manager.removeLink(tgChatId, req);
+        return ResponseEntity.ok("Ссылка успешно убрана");
+    }
+
+    @PostMapping("/update")
+    ResponseEntity<@NotNull String> updateLinks() {
+        service.updateLinks();
         return ResponseEntity.ok("Ссылка успешно убрана");
     }
 }

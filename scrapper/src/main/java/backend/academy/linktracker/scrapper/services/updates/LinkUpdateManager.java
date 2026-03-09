@@ -1,4 +1,4 @@
-package backend.academy.linktracker.scrapper.services;
+package backend.academy.linktracker.scrapper.services.updates;
 
 import backend.academy.linktracker.scrapper.repositories.LinkUpdateRepository;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,7 @@ import java.time.Instant;
 
 @Service
 public class LinkUpdateManager {
-    private LinkUpdateRepository repository;
+    private final LinkUpdateRepository repository;
 
     public LinkUpdateManager(LinkUpdateRepository repository) {
         this.repository = repository;
