@@ -1,6 +1,6 @@
 package backend.academy.linktracker.bot.services;
 
-import backend.academy.linktracker.models.LinkUpdateRequest;
+import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -3,36 +3,38 @@ package backend.academy.linktracker.scrapper.services.requests;
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.models.exceptions.UrlFormatException;
 import backend.academy.linktracker.models.http.external.GithubUpdateResponse;
+import backend.academy.linktracker.models.http.external.StackOverflowUpdateResponse;
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
+import backend.academy.linktracker.services.RequestsUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
-import backend.academy.linktracker.services.RequestsUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import java.time.Instant;
 
 @Component
-public class GitHubRequestSender implements UpdateRequestSender {
+public class StackOverflowRequestSender implements UpdateRequestSender {
     private final String token;
-    private static final String root = "api.github.com";
+    private static final String root = "api.stackexchange.com";
 
     public String getRoot() { return root; }
 
-    public GitHubRequestSender(GithubProperties properties) {
+    public StackOverflowRequestSender(GithubProperties properties) {
         token = properties.getToken();
     }
 
-    // var uri = "https://api.github.com/repos/vadomerka/MindMines";
+    // var uri = "https://api.stackexchange.com/";
     public Instant getResponse(String url) {
         var restClient = RestClient.create();
         try {
             var response = restClient.method(HttpMethod.GET)
                 .uri(url)
-                .header("Authorization", "token " + token)
-                .header("Accept", "application/vnd.github.v3+json")
+                .header("Accept", "application/json")
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
-                .toEntity(GithubUpdateResponse.class);
+                .toEntity(StackOverflowUpdateResponse.class);
             if (response.getBody() == null) { throw new NullPointerException(); }
             return getUpdated(response.getBody());
         } catch (ScrapperRequestException ex) {
@@ -42,7 +44,8 @@ public class GitHubRequestSender implements UpdateRequestSender {
         }
     }
 
-    private Instant getUpdated(GithubUpdateResponse res) {
-        return Instant.parse(res.updatedAt());
+    private Instant getUpdated(StackOverflowUpdateResponse res) {
+        var millis = res.items().getFirst().lastActivityDate();
+        return Instant.ofEpochMilli(millis);
     }
 }

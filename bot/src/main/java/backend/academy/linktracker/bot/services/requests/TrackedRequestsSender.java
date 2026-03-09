@@ -1,9 +1,9 @@
 package backend.academy.linktracker.bot.services.requests;
 
 import backend.academy.linktracker.bot.properties.TelegramProperties;
-import backend.academy.linktracker.models.AddSourceRequest;
-import backend.academy.linktracker.models.ListSourcesResponse;
-import backend.academy.linktracker.models.RemoveSourceRequest;
+import backend.academy.linktracker.models.http.internal.AddSourceRequest;
+import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
+import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.services.RequestsUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;

@@ -1,4 +1,4 @@
-package backend.academy.linktracker.models;
+package backend.academy.linktracker.models.http.internal;
 
 import java.util.List;
 

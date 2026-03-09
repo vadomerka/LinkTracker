@@ -1,6 +1,6 @@
 package backend.academy.linktracker.scrapper.services.requests;
 
-import backend.academy.linktracker.models.LinkUpdateRequest;
+import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import backend.academy.linktracker.scrapper.properties.TelegramProperties;
 import backend.academy.linktracker.services.RequestsUtils;
 import org.slf4j.Logger;
