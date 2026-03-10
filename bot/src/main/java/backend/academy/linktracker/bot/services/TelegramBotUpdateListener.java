@@ -51,7 +51,8 @@ public class TelegramBotUpdateListener implements UpdatesListener {
         if (cmd == null) {
             response = "Неизвестная команда. Воспользуйтесь /help, чтобы посмотреть список доступных команд.";
         } else {
-            response = cmd.execute(bot, update.message().from(), update.message().chat(), arguments);
+            response =
+                    cmd.execute(bot, update.message().from(), update.message().chat(), arguments);
         }
 
         utils.sendMessage(chatId, response);

@@ -1,8 +1,8 @@
 package backend.academy.linktracker.bot.models.commands;
 
-import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.bot.services.BotUtils;
 import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
+import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
@@ -48,7 +48,7 @@ public class ListCommand extends BotCommandExec {
     @NotNull
     private static String makeResponse(ListSourcesResponse res) {
         var sb = new StringBuilder("Список ссылок:\n");
-        for (var ts: res.links()) {
+        for (var ts : res.links()) {
             sb.append(String.format("\turl: %s;", ts.url()));
             if (ts.tags() != null) {
                 sb.append("\n\ttags: ");

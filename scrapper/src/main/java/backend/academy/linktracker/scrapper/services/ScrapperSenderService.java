@@ -1,9 +1,9 @@
 package backend.academy.linktracker.scrapper.services;
 
-import java.time.Instant;
-import java.util.List;
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.scrapper.services.requests.UpdateRequestSender;
+import java.time.Instant;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class ScrapperSenderService {
     }
 
     public UpdateRequestSender getSenderType(String url) {
-        for (var s: senders) {
+        for (var s : senders) {
             if (url.contains(s.getRoot())) {
                 return s;
             }

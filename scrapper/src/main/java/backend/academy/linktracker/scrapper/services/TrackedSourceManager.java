@@ -1,16 +1,16 @@
 package backend.academy.linktracker.scrapper.services;
 
-import backend.academy.linktracker.scrapper.factories.TrackedSourceFactory;
+import backend.academy.linktracker.models.TrackedSource;
 import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
-import backend.academy.linktracker.models.TrackedSource;
-import backend.academy.linktracker.scrapper.models.exceptions.SourceNotFoundException;
+import backend.academy.linktracker.scrapper.factories.TrackedSourceFactory;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceIsAlreadyTrackedException;
+import backend.academy.linktracker.scrapper.models.exceptions.SourceNotFoundException;
 import backend.academy.linktracker.scrapper.repositories.TrackedSourceRepository;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TrackedSourceManager {
@@ -33,9 +33,7 @@ public class TrackedSourceManager {
     public ListSourcesResponse getChatLinks(Long chatId, String tag) {
         var arr = repository.getChatLinks(chatId);
         if (!Objects.equals(tag, "")) {
-            arr = arr.stream()
-                .filter(ts -> ts.tags().contains(tag))
-                .toList();
+            arr = arr.stream().filter(ts -> ts.tags().contains(tag)).toList();
         }
         return new ListSourcesResponse(arr, arr.size());
     }
@@ -50,8 +48,9 @@ public class TrackedSourceManager {
 
     public boolean contains(List<TrackedSource> array, String url) {
         return !array.stream()
-            .filter(ts -> ts.url().equalsIgnoreCase(url))
-            .toList().isEmpty();
+                .filter(ts -> ts.url().equalsIgnoreCase(url))
+                .toList()
+                .isEmpty();
     }
 
     public List<String> filterChatLinks(Long chatId, List<String> filters) {
@@ -61,8 +60,7 @@ public class TrackedSourceManager {
 
     public TrackedSource addLink(Long chatId, AddSourceRequest req) {
         var links = repository.getChatLinks(chatId);
-        if (contains(links, req.url()))
-            throw new SourceIsAlreadyTrackedException("Ссылка уже отслеживается");
+        if (contains(links, req.url())) throw new SourceIsAlreadyTrackedException("Ссылка уже отслеживается");
 
         var newSource = factory.create(req.url(), req.tags(), req.filters());
         repository.addLink(chatId, newSource);
@@ -72,7 +70,8 @@ public class TrackedSourceManager {
     public void removeLink(Long chatId, RemoveSourceRequest req) {
         var links = repository.getChatLinks(chatId);
 
-        var filtered = links.stream().filter(ts -> Objects.equals(ts.url(), req.url())).toList();
+        var filtered =
+                links.stream().filter(ts -> Objects.equals(ts.url(), req.url())).toList();
         if (filtered.isEmpty()) throw new SourceNotFoundException("Cсылка не найдена");
         repository.removeLink(chatId, filtered.getFirst());
     }

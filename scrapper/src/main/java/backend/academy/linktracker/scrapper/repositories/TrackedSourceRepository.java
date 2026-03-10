@@ -3,11 +3,11 @@ package backend.academy.linktracker.scrapper.repositories;
 import backend.academy.linktracker.models.TrackedSource;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
-import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class TrackedSourceRepository {
@@ -41,7 +41,7 @@ public class TrackedSourceRepository {
 
     public void removeChat(Long chatId) {
         var links = getChatLinks(chatId);
-        for (var l: links) {
+        for (var l : links) {
             linkChats.get(l).remove(chatId);
         }
         chatLinks.remove(chatId);

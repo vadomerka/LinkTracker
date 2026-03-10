@@ -1,8 +1,8 @@
 package backend.academy.linktracker.scrapper.services.updates;
 
 import backend.academy.linktracker.scrapper.repositories.LinkUpdateRepository;
-import org.springframework.stereotype.Service;
 import java.time.Instant;
+import org.springframework.stereotype.Service;
 
 @Service
 public class LinkUpdateManager {

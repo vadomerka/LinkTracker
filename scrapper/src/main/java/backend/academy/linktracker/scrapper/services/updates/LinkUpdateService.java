@@ -1,27 +1,29 @@
 package backend.academy.linktracker.scrapper.services.updates;
 
-import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import backend.academy.linktracker.models.TrackedSource;
+import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import backend.academy.linktracker.scrapper.services.ScrapperSenderService;
 import backend.academy.linktracker.scrapper.services.TrackedSourceManager;
 import backend.academy.linktracker.scrapper.services.requests.BotRequestsSender;
+import java.util.HashSet;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 public class LinkUpdateService {
-    private static final Logger logger = LoggerFactory.getLogger(LinkUpdateService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LinkUpdateService.class);
     private final TrackedSourceManager tsManager;
     private final LinkUpdateManager luManager;
     private final BotRequestsSender botSender;
     private final ScrapperSenderService senderService;
 
-    public LinkUpdateService(BotRequestsSender botSender,
-                             TrackedSourceManager tsManager, LinkUpdateManager luManager,
-                             ScrapperSenderService senderService) {
+    public LinkUpdateService(
+            BotRequestsSender botSender,
+            TrackedSourceManager tsManager,
+            LinkUpdateManager luManager,
+            ScrapperSenderService senderService) {
         this.botSender = botSender;
         this.tsManager = tsManager;
         this.luManager = luManager;
@@ -33,11 +35,11 @@ public class LinkUpdateService {
         var updLinks = getUpdLinks(activeLinks);
 
         if (updLinks == null || updLinks.isEmpty()) {
-            logger.info("Обновлений не обнаружено");
+            LOGGER.info("Обновлений не обнаружено");
             return;
         }
 
-        for (var chatId: tsManager.getUniqueChats()) {
+        for (var chatId : tsManager.getUniqueChats()) {
             var updChatLinks = tsManager.filterChatLinks(chatId, updLinks);
             if (updChatLinks.isEmpty()) continue;
             botSender.sendUpdates(chatId, new LinkUpdateRequest(updLinks));
@@ -46,15 +48,15 @@ public class LinkUpdateService {
 
     private List<String> getUpdLinks(List<TrackedSource> activeLinks) {
         if (activeLinks.isEmpty()) {
-            logger.info("Список ссылок пуст");
+            LOGGER.info("Список ссылок пуст");
             return null;
         }
         var updLinks = new HashSet<String>();
-        logger.info(String.valueOf(activeLinks.size()));
-        for (var al: activeLinks) {
+        LOGGER.info(String.valueOf(activeLinks.size()));
+        for (var al : activeLinks) {
             var time = senderService.getUrlUpdate(al.url());
             if (time == null) continue;
-            logger.info("url - {}; time - {}", al.url(), time);
+            LOGGER.info("url - {}; time - {}", al.url(), time);
             if (luManager.isUpdated(al.url(), time)) {
                 updLinks.add(al.url());
             }

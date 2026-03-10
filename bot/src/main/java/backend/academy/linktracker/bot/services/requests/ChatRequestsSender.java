@@ -18,20 +18,22 @@ public class ChatRequestsSender {
     }
 
     public ResponseEntity<String> addChat(Long chatId) {
-        return restClient.post()
-            .uri(String.format("/tg-chat/%d", chatId))
-            .contentType(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
-            .toEntity(String.class);
+        return restClient
+                .post()
+                .uri(String.format("/tg-chat/%d", chatId))
+                .contentType(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
+                .toEntity(String.class);
     }
 
     public ResponseEntity<String> removeChat(Long chatId) {
-        return restClient.method(HttpMethod.DELETE)
-            .uri(String.format("/tg-chat/%d", chatId))
-            .contentType(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
-            .toEntity(String.class);
+        return restClient
+                .method(HttpMethod.DELETE)
+                .uri(String.format("/tg-chat/%d", chatId))
+                .contentType(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
+                .toEntity(String.class);
     }
 }

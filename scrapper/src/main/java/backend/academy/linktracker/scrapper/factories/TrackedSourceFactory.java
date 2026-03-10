@@ -1,12 +1,12 @@
 package backend.academy.linktracker.scrapper.factories;
 
 import backend.academy.linktracker.models.TrackedSource;
-import org.springframework.stereotype.Service;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TrackedSourceFactory {
-    private static Integer globalId = 0;
+    private Integer globalId = 0;
 
     public TrackedSourceFactory() {}
 
