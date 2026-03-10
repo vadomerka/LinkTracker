@@ -13,7 +13,7 @@ import org.springframework.web.client.RestClient;
 
 @Service
 public class BotRequestsSender {
-    private static final Logger logger = LoggerFactory.getLogger(BotRequestsSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BotRequestsSender.class);
     private final RestClient restClient;
 
     public BotRequestsSender(TelegramProperties properties) {
@@ -21,13 +21,14 @@ public class BotRequestsSender {
     }
 
     public void sendUpdates(Long chatId, LinkUpdateRequest request) {
-        var res = restClient.method(HttpMethod.POST)
-            .uri(String.format("/tg-chat/%d", chatId))
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(request)
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
-            .toEntity(String.class);
-        logger.info(res.toString());
+        var res = restClient
+                .method(HttpMethod.POST)
+                .uri(String.format("/tg-chat/%d", chatId))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
+                .toEntity(String.class);
+        LOGGER.info("{}", res);
     }
 }

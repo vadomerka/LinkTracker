@@ -19,5 +19,7 @@ public class GithubProperties {
     @NotEmpty
     private String token;
 
-    public String getToken() { return token; }
+    public String getToken() {
+        return token;
+    }
 }

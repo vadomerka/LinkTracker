@@ -31,12 +31,10 @@ public class TelegramProperties {
     @NotEmpty
     private String token;
 
-
     @DurationUnit(ChronoUnit.MILLIS)
     private Duration updateListenerSleep = Duration.ofSeconds(1);
 
     private boolean debug;
-
 
     public String getUrl() {
         return this.url;
