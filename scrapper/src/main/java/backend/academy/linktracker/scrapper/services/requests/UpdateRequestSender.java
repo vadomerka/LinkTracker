@@ -3,7 +3,7 @@ package backend.academy.linktracker.scrapper.services.requests;
 import java.time.Instant;
 
 public interface UpdateRequestSender {
-    public String getRoot();
+    String getRoot();
 
-    public Instant getResponse(String url);
+    Instant getResponse(String url);
 }

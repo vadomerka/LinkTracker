@@ -52,7 +52,7 @@ public class LinkUpdateService {
             return null;
         }
         var updLinks = new HashSet<String>();
-        LOGGER.info(String.valueOf(activeLinks.size()));
+        LOGGER.info("activeLinks size: {}", activeLinks.size());
         for (var al : activeLinks) {
             var time = senderService.getUrlUpdate(al.url());
             if (time == null) continue;
