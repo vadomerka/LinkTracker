@@ -3,6 +3,7 @@ package backend.academy.linktracker.bot.services;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
@@ -16,11 +17,14 @@ public class TelegramBotUpdateListener implements UpdatesListener {
     private final TelegramBot bot;
     private final BotUtils utils;
     private final BotCommandService commandService;
+    private final ChatStatusManager csm;
 
-    public TelegramBotUpdateListener(TelegramBot bot, BotUtils utils, BotCommandService commandService) {
+    public TelegramBotUpdateListener(TelegramBot bot, BotUtils utils, BotCommandService commandService,
+                                     ChatStatusManager csm) {
         this.bot = bot;
         this.utils = utils;
         this.commandService = commandService;
+        this.csm = csm;
         bot.setUpdatesListener(this);
         logger.info("setUpdatesListener");
     }
@@ -44,15 +48,20 @@ public class TelegramBotUpdateListener implements UpdatesListener {
         LoggingEventBuilder logUpdate = logger.atDebug().addKeyValue("chatId", chatId);
 
         String response;
+
         var parsedLine = Arrays.stream(text.split(" ")).toList();
-        var cmd = commandService.getCommand(parsedLine.getFirst().toLowerCase());
-        var arguments = parsedLine.subList(1, parsedLine.size());
+        String cmdName;
+        if (csm.isDefault(chatId)) {
+            cmdName = parsedLine.getFirst().toLowerCase();
+        } else {
+            cmdName = csm.getCommandStatus(chatId).getCmdName();
+        }
+        var cmd = commandService.getCommand(cmdName);
 
         if (cmd == null) {
             response = "Неизвестная команда. Воспользуйтесь /help, чтобы посмотреть список доступных команд.";
         } else {
-            response =
-                    cmd.execute(bot, update.message().from(), update.message().chat(), arguments);
+            response = cmd.execute(bot, update.message().from(), update.message().chat(), parsedLine);
         }
 
         utils.sendMessage(chatId, response);
