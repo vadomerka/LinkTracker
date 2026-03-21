@@ -12,12 +12,11 @@ import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UnknownFormatFlagsException;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TrackCommand extends BotCommandExec {
-    private final String STOP_TAGS_COMMAND = "/send";
+    private static final String STOP_TAGS_COMMAND = "/send";
     private final List<String> YES_TAGS_MESSAGES = new ArrayList<>(List.of("yes", "y", "да", "д"));
     private final TrackedRequestsSender requestsSender;
     private final ChatStatusManager csm;
@@ -48,10 +47,6 @@ public class TrackCommand extends BotCommandExec {
                 case "sendTracked" -> sendTrackedStage(chat.id());
                 default -> throw new UnknownChatCommandStage("Неизвестная стадия диалога команды.");
             };
-
-//            var url = messages.getFirst();
-//            var tags = messages.subList(1, messages.size());
-
         } catch (ScrapperRequestException e) {
             response = e.getMessage();
         } catch (Exception e) {
@@ -65,11 +60,9 @@ public class TrackCommand extends BotCommandExec {
             throw new IllegalArgumentException("Неверный формат сообщения.");
         }
         var url = messages.getFirst();
-        csm.setStage(chatId, "getTags");
+        csm.setStage(chatId, "addTags");
         csm.addData(chatId, url);
-        return String.format("Получена ссылка %s%n" +
-                "Добавить теги к ссылке? y/n",
-            url);
+        return String.format("Получена ссылка %s%n" + "Добавить теги к ссылке? y/n", url);
     }
 
     private String addTagsStage(Long chatId, List<String> messages) {
@@ -78,10 +71,11 @@ public class TrackCommand extends BotCommandExec {
         }
         if (YES_TAGS_MESSAGES.contains(messages.getFirst().toLowerCase())) {
             csm.setStage(chatId, "getTags");
-            return "Введите теги, которые хотите добавить к ссылке.";
+            return "Введите теги, которые хотите добавить к ссылке. "
+                    + String.format("Чтобы сохранить ссылку отправьте %s", STOP_TAGS_COMMAND);
         }
         csm.setStage(chatId, "sendTracked");
-        return sendTrackedStage(chatId);
+        return "Теги не будут добавлены.\n" + sendTrackedStage(chatId);
     }
 
     private String getTagsStage(Long chatId, List<String> tags) {
@@ -93,7 +87,7 @@ public class TrackCommand extends BotCommandExec {
             return sendTrackedStage(chatId);
         }
         csm.addAllData(chatId, tags);
-        return String.format("Теги добавлены. Чтобы сохранить ссылку отправьте %s", STOP_TAGS_COMMAND);
+        return "Теги добавлены.";
     }
 
     private String sendTrackedStage(Long chatId) {
