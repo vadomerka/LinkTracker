@@ -36,4 +36,8 @@ public class BotCommandService {
         }
         return hmb.toString();
     }
+
+    public boolean isCancel(String cmdName) {
+        return cmdName.equalsIgnoreCase("/cancel");
+    }
 }

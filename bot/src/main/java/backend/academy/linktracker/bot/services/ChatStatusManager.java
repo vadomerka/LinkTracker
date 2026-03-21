@@ -1,18 +1,17 @@
 package backend.academy.linktracker.bot.services;
 
 import backend.academy.linktracker.bot.models.ChatStatus;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ChatStatusManager {
     private static final ChatStatus DEFAULT_STATUS = new ChatStatus("default", null, null);
     private final Map<Long, ChatStatus> states = new ConcurrentHashMap<>();
 
-    public ChatStatusManager() {
-    }
+    public ChatStatusManager() {}
 
     public boolean isDefault(Long chatId) {
         states.putIfAbsent(chatId, DEFAULT_STATUS);
