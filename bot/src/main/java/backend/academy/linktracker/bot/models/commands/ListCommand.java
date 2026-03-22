@@ -1,7 +1,6 @@
 package backend.academy.linktracker.bot.models.commands;
 
 import backend.academy.linktracker.bot.models.ChatStatus;
-import backend.academy.linktracker.bot.services.BotUtils;
 import backend.academy.linktracker.bot.services.ChatStatusManager;
 import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
 import backend.academy.linktracker.models.exceptions.IllegalChatStatusCommand;
@@ -22,8 +21,8 @@ public class ListCommand extends BotCommandExec {
     private final TrackedRequestsSender requestsSender;
     private final ChatStatusManager csm;
 
-    public ListCommand(BotUtils utils, TrackedRequestsSender requestsSender, ChatStatusManager csm) {
-        super("/list", "command to stop tracking a link", utils);
+    public ListCommand(TrackedRequestsSender requestsSender, ChatStatusManager csm) {
+        super("/list", "command to stop tracking a link");
         this.requestsSender = requestsSender;
         this.csm = csm;
     }
