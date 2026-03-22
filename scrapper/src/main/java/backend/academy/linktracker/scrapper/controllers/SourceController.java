@@ -1,10 +1,10 @@
 package backend.academy.linktracker.scrapper.controllers;
 
-import backend.academy.linktracker.models.TrackedSource;
+import backend.academy.linktracker.scrapper.models.TrackedSource;
 import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
-import backend.academy.linktracker.scrapper.services.TrackedSourceManager;
+import backend.academy.linktracker.scrapper.services.managers.cache.CacheTrackedSourceManager;
 import backend.academy.linktracker.scrapper.services.updates.LinkUpdateService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SourceController {
-    private final TrackedSourceManager manager;
+    private final CacheTrackedSourceManager manager;
     private final LinkUpdateService service;
 
-    public SourceController(TrackedSourceManager manager, LinkUpdateService service) {
+    public SourceController(CacheTrackedSourceManager manager, LinkUpdateService service) {
         this.manager = manager;
         this.service = service;
     }

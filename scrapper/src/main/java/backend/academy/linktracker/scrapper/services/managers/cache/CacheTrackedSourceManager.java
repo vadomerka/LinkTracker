@@ -1,6 +1,7 @@
-package backend.academy.linktracker.scrapper.services;
+package backend.academy.linktracker.scrapper.services.managers.cache;
 
-import backend.academy.linktracker.models.TrackedSource;
+import backend.academy.linktracker.models.LinkDto;
+import backend.academy.linktracker.scrapper.models.TrackedSource;
 import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
@@ -13,11 +14,11 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TrackedSourceManager {
+public class CacheTrackedSourceManager {
     private final CacheChatLinkRepository repository;
     private final TrackedSourceFactory factory;
 
-    public TrackedSourceManager(CacheChatLinkRepository repository, TrackedSourceFactory factory) {
+    public CacheTrackedSourceManager(CacheChatLinkRepository repository, TrackedSourceFactory factory) {
         this.repository = repository;
         this.factory = factory;
     }
@@ -31,11 +32,12 @@ public class TrackedSourceManager {
     }
 
     public ListSourcesResponse getChatLinks(Long chatId, String tag) {
-        var arr = repository.getChatLinks(chatId);
+        var arr = repository.getChatLinks(chatId).stream();
         if (!Objects.equals(tag, "")) {
-            arr = arr.stream().filter(ts -> ts.tags().contains(tag)).toList();
+            arr = arr.filter(ts -> ts.tags().contains(tag));
         }
-        return new ListSourcesResponse(arr, arr.size());
+        var res = arr.map(ts -> new LinkDto(ts.url(), ts.tags())).toList();
+        return new ListSourcesResponse(res, res.size());
     }
 
     public List<Long> getUniqueChats() {

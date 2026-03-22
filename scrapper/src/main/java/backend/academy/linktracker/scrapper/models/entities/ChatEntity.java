@@ -8,6 +8,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class ChatEntity {
     @Column(name = "chat_id", nullable = false, unique = true)
     private Long chatId;
 
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private Instant createdAt;
+
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatLinkTag> chatLinkTags = new ArrayList<>();
 
@@ -28,5 +32,9 @@ public class ChatEntity {
             .map(ChatLinkTag::getLink)
             .distinct()
             .toList();
+    }
+
+    public ChatEntity(Long chatId) {
+        this.chatId = chatId;
     }
 }

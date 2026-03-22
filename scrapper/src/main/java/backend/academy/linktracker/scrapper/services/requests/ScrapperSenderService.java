@@ -1,7 +1,6 @@
-package backend.academy.linktracker.scrapper.services;
+package backend.academy.linktracker.scrapper.services.requests;
 
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
-import backend.academy.linktracker.scrapper.services.requests.UpdateRequestSender;
 import java.time.Instant;
 import java.util.List;
 import org.slf4j.Logger;

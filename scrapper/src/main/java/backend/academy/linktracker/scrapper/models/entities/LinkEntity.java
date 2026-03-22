@@ -24,6 +24,28 @@ public class LinkEntity {
     @Column(name = "last_update")
     private Instant lastUpdate;
 
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private Instant createdAt;
+
     @OneToMany(mappedBy = "link", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatLinkTag> chatLinkTags = new ArrayList<>();
+
+    public List<ChatEntity> getChats() {
+        return chatLinkTags.stream()
+            .map(ChatLinkTag::getChat)
+            .distinct()
+            .toList();
+    }
+
+    public List<String> getTagNames() {
+        return chatLinkTags.stream()
+            .map(ChatLinkTag::getTag)
+            .map(TagEntity::getName)
+            .distinct()
+            .toList();
+    }
+
+    public LinkEntity(String url) {
+        this.url = url;
+    }
 }

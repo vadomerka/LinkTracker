@@ -1,6 +1,6 @@
 package backend.academy.linktracker.scrapper.repositories;
 
-import backend.academy.linktracker.models.TrackedSource;
+import backend.academy.linktracker.scrapper.models.TrackedSource;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
 import java.time.Instant;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public class CacheChatLinkRepository implements ChatLinkRepository {
     private final Map<Long, List<TrackedSource>> chatLinks;
     private final Map<TrackedSource, List<Long>> linkChats;
-    private Map<String, Instant> linksUpdated;
+    private final Map<String, Instant> linksUpdated;
 
     public CacheChatLinkRepository() {
         chatLinks = new HashMap<>();
