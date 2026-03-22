@@ -4,9 +4,9 @@ import backend.academy.linktracker.scrapper.models.entities.ChatEntity;
 import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import backend.academy.linktracker.scrapper.repositories.ChatRepository;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ORMChatManager implements ChatManager {

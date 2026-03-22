@@ -6,11 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -28,10 +28,7 @@ public class ChatEntity {
     private List<ChatLinkTag> chatLinkTags = new ArrayList<>();
 
     public List<LinkEntity> getLinks() {
-        return chatLinkTags.stream()
-            .map(ChatLinkTag::getLink)
-            .distinct()
-            .toList();
+        return chatLinkTags.stream().map(ChatLinkTag::getLink).distinct().toList();
     }
 
     public ChatEntity(Long chatId) {

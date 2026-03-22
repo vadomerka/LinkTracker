@@ -27,4 +27,3 @@ public class ChatLinkTag {
     @JoinColumn(name = "tag_name")
     private TagEntity tag;
 }
-

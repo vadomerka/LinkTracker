@@ -1,11 +1,11 @@
 package backend.academy.linktracker.scrapper.services.managers.orm;
 
 import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
+import backend.academy.linktracker.scrapper.repositories.LinkRepository;
+import backend.academy.linktracker.scrapper.services.managers.LinkManager;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import backend.academy.linktracker.scrapper.repositories.LinkRepository;
-import backend.academy.linktracker.scrapper.services.managers.LinkManager;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,10 +1,9 @@
 package backend.academy.linktracker.scrapper.services.managers;
 
-import backend.academy.linktracker.scrapper.models.entities.ChatEntity;
+import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import org.springframework.stereotype.Service;
 
 @Service

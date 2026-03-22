@@ -1,15 +1,13 @@
 package backend.academy.linktracker.scrapper.services.updates;
 
-import backend.academy.linktracker.scrapper.models.TrackedSource;
 import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
 import backend.academy.linktracker.scrapper.services.managers.LinkManager;
 import backend.academy.linktracker.scrapper.services.managers.orm.ORMChatManager;
 import backend.academy.linktracker.scrapper.services.managers.orm.ORMLinkManager;
-import backend.academy.linktracker.scrapper.services.requests.ScrapperSenderService;
-import backend.academy.linktracker.scrapper.services.managers.cache.CacheTrackedSourceManager;
 import backend.academy.linktracker.scrapper.services.requests.BotRequestsSender;
+import backend.academy.linktracker.scrapper.services.requests.ScrapperSenderService;
 import java.util.HashSet;
 import java.util.List;
 import org.slf4j.Logger;
@@ -47,8 +45,10 @@ public class LinkUpdateService {
         for (var chat : chManager.getAllChats()) {
             var updChatLinks = chManager.getContained(chat.getChatId(), updLinks);
             if (updChatLinks.isEmpty()) continue;
-            botSender.sendUpdates(chat.getChatId(),
-                new LinkUpdateRequest(updLinks.stream().map(LinkEntity::getUrl).toList()));
+            botSender.sendUpdates(
+                    chat.getChatId(),
+                    new LinkUpdateRequest(
+                            updLinks.stream().map(LinkEntity::getUrl).toList()));
         }
     }
 
