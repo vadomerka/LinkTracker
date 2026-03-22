@@ -20,23 +20,12 @@ CREATE TABLE IF NOT EXISTS tag (
 );
 
 -- changeset author:001-4
-CREATE TABLE IF NOT EXISTS chat_link (
+CREATE TABLE IF NOT EXISTS chat_link_tag (
     chat_id BIGINT NOT NULL,
     link_url TEXT NOT NULL,
-    PRIMARY KEY (chat_id, link_url),
-    FOREIGN KEY (chat_id) REFERENCES chat(chat_id) ON DELETE CASCADE,
-    FOREIGN KEY (link_url) REFERENCES link(url) ON DELETE CASCADE
-);
-
--- changeset author:001-5
-CREATE TABLE IF NOT EXISTS link_tag (
-    link_url TEXT NOT NULL,
     tag_name TEXT NOT NULL,
-    PRIMARY KEY (link_url, tag_name),
+    PRIMARY KEY (chat_id, link_url, tag_name),
+    FOREIGN KEY (chat_id) REFERENCES chat(chat_id) ON DELETE CASCADE,
     FOREIGN KEY (link_url) REFERENCES link(url) ON DELETE CASCADE,
     FOREIGN KEY (tag_name) REFERENCES tag(name) ON DELETE CASCADE
 );
-
--- changeset author:001-6
---CREATE INDEX IF NOT EXISTS idx_chat_link_link_id ON chat_link(link_id);
---CREATE INDEX IF NOT EXISTS idx_link_tag_tag_id ON link_tag(tag_id);

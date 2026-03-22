@@ -4,16 +4,6 @@ server:
 spring:
   application:
     name: scrapper
-
-app:
-  stackoverflow:
-    key: ${STACKOVERFLOW_KEY} # Use env variable. DO NOT KEEP TOKEN HERE
-    access-token: ${STACKOVERFLOW_ACCESS_KEY} # Use env variable. DO NOT KEEP TOKEN HERE
-  github:
-    token: ${GITHUB_TOKEN} # Use env variable. DO NOT KEEP TOKEN HERE
-  telegram:
-    tgUrl: ${TELEGRAM_BOT_URL}
-
   datasource:
     url: jdbc:postgresql://localhost:5432/scrapper
     username: postgres
@@ -28,3 +18,14 @@ app:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+app:
+  stackoverflow:
+    key: ${STACKOVERFLOW_KEY}
+    access-token: ${STACKOVERFLOW_ACCESS_KEY}
+  github:
+    token: ${GITHUB_TOKEN}
+  telegram:
+    tgUrl: ${TELEGRAM_BOT_URL}
+
+

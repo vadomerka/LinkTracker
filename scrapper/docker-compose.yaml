@@ -31,7 +31,7 @@ services:
       - --password=postgres
       - update
     volumes:
-      - ./migrations:/changesets
+      - ./src/main/resources/db:/changesets
     networks:
       - backend
 networks:

@@ -20,8 +20,4 @@ public class TelegramProperties {
     @NotEmpty
     @URL
     private String tgUrl;
-
-    public String getTgUrl() {
-        return this.tgUrl;
-    }
 }

@@ -3,6 +3,7 @@ package backend.academy.linktracker.scrapper.repositories;
 import backend.academy.linktracker.models.TrackedSource;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,13 +11,15 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TrackedSourceRepository {
+public class CacheChatLinkRepository implements ChatLinkRepository {
     private final Map<Long, List<TrackedSource>> chatLinks;
     private final Map<TrackedSource, List<Long>> linkChats;
+    private Map<String, Instant> linksUpdated;
 
-    public TrackedSourceRepository() {
+    public CacheChatLinkRepository() {
         chatLinks = new HashMap<>();
         linkChats = new HashMap<>();
+        linksUpdated = new HashMap<>();
     }
 
     public List<Long> getChatIds() {
@@ -62,5 +65,13 @@ public class TrackedSourceRepository {
         var lChats = linkChats.get(link);
         lChats.remove(chatId);
         if (lChats.isEmpty()) linkChats.remove(link);
+    }
+
+    public Instant getLastUpdated(String url) {
+        return linksUpdated.get(url);
+    }
+
+    public void updateLink(String url, Instant time) {
+        linksUpdated.put(url, time);
     }
 }

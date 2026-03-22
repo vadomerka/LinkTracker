@@ -7,17 +7,17 @@ import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.scrapper.factories.TrackedSourceFactory;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceIsAlreadyTrackedException;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceNotFoundException;
-import backend.academy.linktracker.scrapper.repositories.TrackedSourceRepository;
+import backend.academy.linktracker.scrapper.repositories.CacheChatLinkRepository;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TrackedSourceManager {
-    private final TrackedSourceRepository repository;
+    private final CacheChatLinkRepository repository;
     private final TrackedSourceFactory factory;
 
-    public TrackedSourceManager(TrackedSourceRepository repository, TrackedSourceFactory factory) {
+    public TrackedSourceManager(CacheChatLinkRepository repository, TrackedSourceFactory factory) {
         this.repository = repository;
         this.factory = factory;
     }
