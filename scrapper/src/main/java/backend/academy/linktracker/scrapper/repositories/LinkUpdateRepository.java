@@ -3,10 +3,8 @@ package backend.academy.linktracker.scrapper.repositories;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public class LinkUpdateRepository {
+public class LinkUpdateRepository {  // implements Repository<T, ID>
     private Map<String, Instant> links;
 
     public LinkUpdateRepository() {

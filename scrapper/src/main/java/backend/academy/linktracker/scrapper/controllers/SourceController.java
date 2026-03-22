@@ -26,6 +26,14 @@ public class SourceController {
         this.service = service;
     }
 
+    @GetMapping("/db-test")
+    ResponseEntity<@NotNull String> testDb(@PathVariable Long id) {
+//        manager.addChat(id);
+
+
+        return ResponseEntity.ok("Test finished");
+    }
+
     @PostMapping("/tg-chat/{id}")
     ResponseEntity<@NotNull String> addChat(@PathVariable Long id) {
         manager.addChat(id);
