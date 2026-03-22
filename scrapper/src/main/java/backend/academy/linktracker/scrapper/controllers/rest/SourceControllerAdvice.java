@@ -1,4 +1,4 @@
-package backend.academy.linktracker.scrapper.controllers;
+package backend.academy.linktracker.scrapper.controllers.rest;
 
 import backend.academy.linktracker.models.http.internal.ApiErrorResponse;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
