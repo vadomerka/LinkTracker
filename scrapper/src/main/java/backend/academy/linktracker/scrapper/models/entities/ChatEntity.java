@@ -25,10 +25,10 @@ public class ChatEntity {
     private Instant createdAt;
 
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChatLinkTag> chatLinkTags = new ArrayList<>();
+    private List<ChatLink> chatLinks = new ArrayList<>();
 
     public List<LinkEntity> getLinks() {
-        return chatLinkTags.stream().map(ChatLinkTag::getLink).distinct().toList();
+        return chatLinks.stream().map(ChatLink::getLink).distinct().toList();
     }
 
     public ChatEntity(Long chatId) {

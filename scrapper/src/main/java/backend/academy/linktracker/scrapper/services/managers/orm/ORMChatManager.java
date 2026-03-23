@@ -1,16 +1,13 @@
 package backend.academy.linktracker.scrapper.services.managers.orm;
 
-import backend.academy.linktracker.models.LinkDto;
 import backend.academy.linktracker.scrapper.models.entities.ChatEntity;
 import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
-import backend.academy.linktracker.scrapper.repositories.ChatLinkTagRepository;
 import backend.academy.linktracker.scrapper.repositories.ChatRepository;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,7 +41,9 @@ public class ORMChatManager implements ChatManager {
     }
 
     public List<LinkEntity> getContained(Long chatId, List<LinkEntity> links) {
-        return getChat(chatId).get().getLinks().stream().filter(links::contains).toList();
+        var chat = getChat(chatId);
+        if (chat.isEmpty()) throw new ChatNotFoundException("Чат не найден.");
+        return chat.get().getLinks().stream().filter(links::contains).toList();
     }
 
     public List<LinkEntity> getTaggedLinks(Long chatId, String tag) {
@@ -57,6 +56,4 @@ public class ORMChatManager implements ChatManager {
         }
         return ans;
     }
-
-
 }

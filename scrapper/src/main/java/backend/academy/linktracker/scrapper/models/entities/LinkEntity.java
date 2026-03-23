@@ -28,19 +28,19 @@ public class LinkEntity {
     private Instant createdAt;
 
     @OneToMany(mappedBy = "link", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChatLinkTag> chatLinkTags = new ArrayList<>();
+    private List<ChatLink> chatLinks = new ArrayList<>();
 
     public List<ChatEntity> getChats() {
-        return chatLinkTags.stream().map(ChatLinkTag::getChat).distinct().toList();
+        return chatLinks.stream().map(ChatLink::getChat).distinct().toList();
     }
 
-    public List<String> getTagNames() {
-        return chatLinkTags.stream()
-                .map(ChatLinkTag::getTag)
-                .map(TagEntity::getName)
-                .distinct()
-                .toList();
-    }
+//    public List<String> getTagNames() {
+//        return chatLinks.stream()
+//                .map(ChatLink::getTag)
+//                .map(TagEntity::getName)
+//                .distinct()
+//                .toList();
+//    }
 
     public LinkEntity(String url) {
         this.url = url;

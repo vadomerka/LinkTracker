@@ -37,8 +37,8 @@ public class ORMDataController implements DataController {
     public @NotNull LinkDto addLink(Long chatId, AddSourceRequest req) {
         var chat = chatManager.getChat(chatId);
         if (chat.isEmpty()) throw new ChatNotFoundException("Чат не найден.");
-        var res = clManager.addLink(chatId, req.url());
-        if (res == null) throw new SourceIsAlreadyTrackedException("Ссылка уже добавлена.");
+        var cl = clManager.addLinkToChat(chatId, req.url());
+        if (cl == null) throw new SourceIsAlreadyTrackedException("Ссылка уже добавлена.");
         return new LinkDto(res.getUrl(), res.getTagNames());
     }
 

@@ -1,5 +1,6 @@
 package backend.academy.linktracker.scrapper.repositories;
 
+import backend.academy.linktracker.scrapper.models.entities.ChatLink;
 import backend.academy.linktracker.scrapper.models.entities.ChatLinkTag;
 import backend.academy.linktracker.scrapper.models.entities.ChatLinkTagId;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ChatLinkTagRepository extends JpaRepository<ChatLinkTag, ChatLinkTagId> {
-    List<ChatLinkTag> findAllByIdChatIdAndIdLinkUrl(Long chatId, String linkUrl);
+    List<ChatLink> findAllByIdChatIdAndIdLinkUrl(Long chatId, String linkUrl);
 
     void deleteByIdChatIdAndIdLinkUrl(Long chatId, String linkUrl);
 
