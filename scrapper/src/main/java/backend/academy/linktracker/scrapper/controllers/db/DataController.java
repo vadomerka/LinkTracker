@@ -12,9 +12,11 @@ public interface DataController {
 
     void removeChat(Long id);
 
-    @NotNull ListSourcesResponse getChatLinks(Long tgChatId, String tag);
+    @NotNull
+    ListSourcesResponse getChatLinks(Long tgChatId, String tag);
 
-    @NotNull LinkDto addLink(Long tgChatId, AddSourceRequest req);
+    @NotNull
+    LinkDto addLink(Long tgChatId, AddSourceRequest req);
 
     void removeLink(Long tgChatId, RemoveSourceRequest req);
 }

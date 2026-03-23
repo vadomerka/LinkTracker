@@ -1,11 +1,9 @@
 package backend.academy.linktracker.scrapper.services.managers;
 
-import backend.academy.linktracker.models.LinkDto;
 import backend.academy.linktracker.scrapper.models.entities.ChatEntity;
 import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import java.util.List;
 import java.util.Optional;
-import backend.academy.linktracker.scrapper.models.entities.TagEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,5 +20,5 @@ public interface ChatManager {
 
     List<LinkEntity> getContained(Long chatId, List<LinkEntity> links);
 
-    List<LinkEntity> getTaggedLinks(Long chatId, String tag);
+    //    List<LinkEntity> getTaggedLinks(Long chatId, String tag);
 }

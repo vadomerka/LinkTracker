@@ -2,9 +2,9 @@ package backend.academy.linktracker.scrapper.services.managers.orm;
 
 import backend.academy.linktracker.scrapper.models.entities.TagEntity;
 import backend.academy.linktracker.scrapper.repositories.TagRepository;
+import backend.academy.linktracker.scrapper.services.managers.TagManager;
 import java.util.List;
 import java.util.Optional;
-import backend.academy.linktracker.scrapper.services.managers.TagManager;
 import org.springframework.stereotype.Service;
 
 @Service

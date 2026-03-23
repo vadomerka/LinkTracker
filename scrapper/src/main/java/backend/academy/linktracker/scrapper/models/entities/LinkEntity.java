@@ -34,14 +34,6 @@ public class LinkEntity {
         return chatLinks.stream().map(ChatLink::getChat).distinct().toList();
     }
 
-//    public List<String> getTagNames() {
-//        return chatLinks.stream()
-//                .map(ChatLink::getTag)
-//                .map(TagEntity::getName)
-//                .distinct()
-//                .toList();
-//    }
-
     public LinkEntity(String url) {
         this.url = url;
     }
