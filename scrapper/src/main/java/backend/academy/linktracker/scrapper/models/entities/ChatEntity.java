@@ -31,6 +31,8 @@ public class ChatEntity {
         return chatLinks.stream().map(ChatLink::getLink).distinct().toList();
     }
 
+    public ChatEntity() {}
+
     public ChatEntity(Long chatId) {
         this.chatId = chatId;
     }

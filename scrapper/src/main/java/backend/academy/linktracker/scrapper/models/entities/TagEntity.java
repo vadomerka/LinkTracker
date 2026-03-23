@@ -27,6 +27,8 @@ public class TagEntity {
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatLinkTag> chatLinkTags = new ArrayList<>();
 
+    public TagEntity() {}
+
     public TagEntity(String name) {
         this.name = name;
     }

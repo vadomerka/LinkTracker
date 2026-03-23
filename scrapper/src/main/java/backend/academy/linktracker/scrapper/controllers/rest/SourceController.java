@@ -63,6 +63,6 @@ public class SourceController {
     @PostMapping("/update")
     ResponseEntity<@NotNull String> updateLinks() {
         service.updateLinks();
-        return ResponseEntity.ok("Ссылка успешно убрана");
+        return ResponseEntity.ok("Обновление выполнено");
     }
 }

@@ -24,12 +24,14 @@ public class ChatLink {
     @JoinColumn(name = "link_url", insertable = false, updatable = false)
     private LinkEntity link;
 
-    @OneToMany(mappedBy = "chat_link", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "chatLink", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatLinkTag> chatLinkTags = new ArrayList<>();
 
     public List<TagEntity> getTags() {
         return chatLinkTags.stream().map(ChatLinkTag::getTag).distinct().toList();
     }
+
+    public ChatLink() {}
 
     public ChatLink(ChatEntity chat, LinkEntity link) {
         this.id = new ChatLinkId(chat.getChatId(), link.getUrl());

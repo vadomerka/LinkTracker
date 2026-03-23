@@ -30,6 +30,8 @@ public class ChatLinkTag {
     @JoinColumn(name = "tag_name", insertable = false, updatable = false)
     private TagEntity tag;
 
+    public ChatLinkTag() {}
+
     public ChatLinkTag(ChatLink chatLink, TagEntity tag) {
         this.id =
                 new ChatLinkTagId(chatLink.getId().getChatId(), chatLink.getId().getLinkUrl(), tag.getName());
