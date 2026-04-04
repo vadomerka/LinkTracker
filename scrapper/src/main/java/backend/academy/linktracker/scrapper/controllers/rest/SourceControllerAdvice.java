@@ -3,6 +3,7 @@ package backend.academy.linktracker.scrapper.controllers.rest;
 import backend.academy.linktracker.models.http.internal.ApiErrorResponse;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
+import backend.academy.linktracker.scrapper.models.exceptions.LinkAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceIsAlreadyTrackedException;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceNotFoundException;
 import org.apache.coyote.BadRequestException;
@@ -34,6 +35,13 @@ public class SourceControllerAdvice {
     ResponseEntity<@NotNull ApiErrorResponse> urlIsAlreadyTrackedHandler(SourceIsAlreadyTrackedException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(new ApiErrorResponse("Ссылка уже отслеживается", HttpStatus.CONFLICT.toString(), ex));
+    }
+
+    @ExceptionHandler(LinkAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    ResponseEntity<@NotNull ApiErrorResponse> urlAlreadyExistsHandler(LinkAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+            .body(new ApiErrorResponse("Ссылка уже добавлена", HttpStatus.CONFLICT.toString(), ex));
     }
 
     @ExceptionHandler(SourceNotFoundException.class)

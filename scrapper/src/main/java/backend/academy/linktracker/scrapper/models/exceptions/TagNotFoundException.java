@@ -4,8 +4,4 @@ public class TagNotFoundException extends RuntimeException {
     public TagNotFoundException() {
         super("Тег не найден.");
     }
-
-    public TagNotFoundException(String message) {
-        super(message);
-    }
 }
