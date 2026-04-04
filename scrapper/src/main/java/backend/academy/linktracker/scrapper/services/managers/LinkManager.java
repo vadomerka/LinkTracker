@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface LinkManager {
-    void createLink(String url);
+    LinkEntity createLink(String url);
 
     Optional<LinkEntity> getLink(String url);
 

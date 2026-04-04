@@ -26,12 +26,6 @@ public class SourceController {
         this.service = service;
     }
 
-    @GetMapping("/db-test")
-    ResponseEntity<@NotNull String> testDb(@PathVariable Long id) {
-        dataController.addChat(id);
-        return ResponseEntity.ok("Test finished");
-    }
-
     @PostMapping("/tg-chat/{id}")
     ResponseEntity<@NotNull String> addChat(@PathVariable Long id) {
         dataController.addChat(id);
@@ -41,6 +35,18 @@ public class SourceController {
     @DeleteMapping("/tg-chat/{id}")
     ResponseEntity<@NotNull String> deleteChat(@PathVariable Long id) {
         dataController.removeChat(id);
+        return ResponseEntity.ok("Чат успешно удалён");
+    }
+
+    @PostMapping("/db-link/{url}")
+    ResponseEntity<@NotNull String> addDbLink(@PathVariable String url) {
+        dataController.addLink(url);
+        return ResponseEntity.ok("Чат зарегистрирован");
+    }
+
+    @DeleteMapping("/db-link/{url}")
+    ResponseEntity<@NotNull String> deleteDbLink(@PathVariable String url) {
+        dataController.removeLink(url);
         return ResponseEntity.ok("Чат успешно удалён");
     }
 

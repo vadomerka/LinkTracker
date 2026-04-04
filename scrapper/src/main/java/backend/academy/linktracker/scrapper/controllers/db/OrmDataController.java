@@ -7,6 +7,8 @@ import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.scrapper.models.entities.TagEntity;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
+import backend.academy.linktracker.scrapper.models.exceptions.LinkAlreadyExistsException;
+import backend.academy.linktracker.scrapper.models.exceptions.LinkNotFoundException;
 import backend.academy.linktracker.scrapper.services.managers.ChatLinkManager;
 import backend.academy.linktracker.scrapper.services.managers.ChatLinkTagManager;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
@@ -44,10 +46,23 @@ public class OrmDataController implements DataController {
         chatManager.deleteChat(chatId);
     }
 
+    public void addLink(String url) {
+        if (linkManager.getLink(url).isPresent()) {
+            throw new LinkAlreadyExistsException();
+        }
+        linkManager.createLink(url);
+    }
+
+    public void removeLink(String url) {
+        if (linkManager.getLink(url).isEmpty()) {
+            throw new LinkNotFoundException();
+        }
+        linkManager.deleteLink(url);
+    }
+
     public @NotNull ListSourcesResponse getChatLinks(Long chatId, String tag) {
-        var chat = chatManager.getChat(chatId);
-        if (chat.isEmpty()) throw new ChatNotFoundException();
-        var links = chat.get().getLinks();
+        var chat = chatManager.getChat(chatId).orElseThrow(ChatNotFoundException::new);
+        var links = chat.getLinks();
         var res = new ArrayList<LinkDto>();
         for (var l : links) {
             var lTags = cltManager.getChatLinkTags(chatId, l.getUrl()).stream()
@@ -64,7 +79,6 @@ public class OrmDataController implements DataController {
         chatManager.getChat(chatId).orElseThrow(ChatNotFoundException::new);
         if (linkManager.getLink(req.url()).isEmpty()) {
             linkManager.createLink(req.url());
-
         }
 
         clManager.addLinkToChat(chatId, req.url());

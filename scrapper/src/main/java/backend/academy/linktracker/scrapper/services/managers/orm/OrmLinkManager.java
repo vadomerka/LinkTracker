@@ -17,9 +17,9 @@ public class OrmLinkManager implements LinkManager {
         this.repository = repository;
     }
 
-    public void createLink(String url) {
+    public LinkEntity createLink(String url) {
         LinkEntity link = new LinkEntity(url);
-        repository.save(link);
+        return repository.save(link);
     }
 
     public Optional<LinkEntity> getLink(String url) {
