@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 

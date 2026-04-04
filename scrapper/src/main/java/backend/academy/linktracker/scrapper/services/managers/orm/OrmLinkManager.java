@@ -9,11 +9,11 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ORMLinkManager implements LinkManager {
+public class OrmLinkManager implements LinkManager {
 
     private final LinkRepository repository;
 
-    public ORMLinkManager(LinkRepository repository) {
+    public OrmLinkManager(LinkRepository repository) {
         this.repository = repository;
     }
 

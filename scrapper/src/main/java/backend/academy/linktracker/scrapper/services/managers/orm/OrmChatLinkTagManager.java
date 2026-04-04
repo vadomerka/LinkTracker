@@ -16,14 +16,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ORMChatLinkTagManager implements ChatLinkTagManager {
+public class OrmChatLinkTagManager implements ChatLinkTagManager {
     private final ChatRepository chRepository;
     private final LinkRepository lRepository;
     private final TagRepository tRepository;
     private final ChatLinkRepository clRepository;
     private final ChatLinkTagRepository cltRepository;
 
-    public ORMChatLinkTagManager(
+    public OrmChatLinkTagManager(
             ChatRepository chRepository,
             LinkRepository lRepository,
             TagRepository tRepository,
@@ -46,26 +46,26 @@ public class ORMChatLinkTagManager implements ChatLinkTagManager {
     public ChatLinkTag findChatLinkTag(Long chatId, String url, String tagName) {
         clRepository
                 .findById(getChatLinkId(chatId, url))
-                .orElseThrow(() -> new ChatLinkNotFoundException("Ссылка не привязана к данному чату."));
+                .orElseThrow(ChatLinkNotFoundException::new);
         var id = new ChatLinkTagId(chatId, url, tagName);
         return cltRepository
                 .findById(id)
-                .orElseThrow(() -> new ChatLinkTagNotFoundException("У данной ссылки в чате нет данного тега"));
+                .orElseThrow(ChatLinkTagNotFoundException::new);
     }
 
     public List<TagEntity> getChatLinkTags(Long chatId, String url) {
         var cl = clRepository
                 .findById(getChatLinkId(chatId, url))
-                .orElseThrow(() -> new ChatLinkNotFoundException("Ссылка не привязана к данному чату."));
+                .orElseThrow(ChatLinkNotFoundException::new);
         return cl.getTags();
     }
 
     @Override
     public ChatLinkTag addTagToChatLink(Long chatId, String url, String tagName) {
-        var tag = tRepository.findById(tagName).orElseThrow(() -> new TagNotFoundException("Тег не найден."));
+        var tag = tRepository.findById(tagName).orElseThrow(TagNotFoundException::new);
         var cl = clRepository
                 .findById(getChatLinkId(chatId, url))
-                .orElseThrow(() -> new ChatLinkNotFoundException("Ссылка не привязана к данному чату."));
+                .orElseThrow(ChatLinkNotFoundException::new);
         var id = new ChatLinkTagId(chatId, url, tagName);
         return cltRepository.findById(id).orElseGet(() -> cltRepository.save(new ChatLinkTag(cl, tag)));
     }

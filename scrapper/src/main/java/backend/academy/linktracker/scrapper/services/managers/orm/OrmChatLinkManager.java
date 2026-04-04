@@ -14,19 +14,19 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ORMChatLinkManager implements ChatLinkManager {
+public class OrmChatLinkManager implements ChatLinkManager {
     private final ChatRepository chRepository;
     private final LinkRepository lRepository;
     private final ChatLinkRepository clRepository;
 
-    public ORMChatLinkManager(
+    public OrmChatLinkManager(
             ChatRepository chRepository, LinkRepository lRepository, ChatLinkRepository clRepository) {
         this.chRepository = chRepository;
         this.lRepository = lRepository;
         this.clRepository = clRepository;
     }
 
-    private ChatLinkId getChatLinkId(Long chatId, String url) {
+    private ChatLinkId generateChatLinkId(Long chatId, String url) {
         chRepository.findById(chatId).orElseThrow(ChatNotFoundException::new);
         var link = lRepository.findById(url).orElseThrow(LinkNotFoundException::new);
         return new ChatLinkId(chatId, link.getUrl());
@@ -34,10 +34,10 @@ public class ORMChatLinkManager implements ChatLinkManager {
 
     @Override
     public ChatLink findChatLink(Long chatId, String url) {
-        var id = getChatLinkId(chatId, url);
+        var id = generateChatLinkId(chatId, url);
         return clRepository
                 .findById(id)
-                .orElseThrow(() -> new ChatLinkNotFoundException("Ссылка не привязана к данному чату."));
+                .orElseThrow(ChatLinkNotFoundException::new);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ORMChatLinkManager implements ChatLinkManager {
         var chat = chRepository.findById(chatId).orElseThrow(ChatNotFoundException::new);
         var link = lRepository.findById(url).orElseThrow(LinkNotFoundException::new);
         var id = new ChatLinkId(chatId, link.getUrl());
-        if (clRepository.existsById(id)) throw new SourceIsAlreadyTrackedException();
+        if (clRepository.findById(id).isPresent()) throw new SourceIsAlreadyTrackedException();
         return clRepository.save(new ChatLink(chat, link));
     }
 

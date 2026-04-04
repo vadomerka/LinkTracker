@@ -8,11 +8,11 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ORMTagManager implements TagManager {
+public class OrmTagManager implements TagManager {
 
     private final TagRepository repository;
 
-    public ORMTagManager(TagRepository repository) {
+    public OrmTagManager(TagRepository repository) {
         this.repository = repository;
     }
 

@@ -4,8 +4,8 @@ import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
 import backend.academy.linktracker.scrapper.services.managers.LinkManager;
-import backend.academy.linktracker.scrapper.services.managers.orm.ORMChatManager;
-import backend.academy.linktracker.scrapper.services.managers.orm.ORMLinkManager;
+import backend.academy.linktracker.scrapper.services.managers.orm.OrmChatManager;
+import backend.academy.linktracker.scrapper.services.managers.orm.OrmLinkManager;
 import backend.academy.linktracker.scrapper.services.requests.BotRequestsSender;
 import backend.academy.linktracker.scrapper.services.requests.ScrapperSenderService;
 import java.util.HashSet;
@@ -24,8 +24,8 @@ public class LinkUpdateService {
 
     public LinkUpdateService(
             BotRequestsSender botSender,
-            ORMChatManager chManager,
-            ORMLinkManager lManager,
+            OrmChatManager chManager,
+            OrmLinkManager lManager,
             ScrapperSenderService senderService) {
         this.botSender = botSender;
         this.chManager = chManager;

@@ -4,15 +4,19 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Embeddable
 public class ChatLinkId implements Serializable {
     @Column(name = "chat_id")
-    private final Long chatId;
+    private Long chatId;
 
     @Column(name = "link_url")
-    private final String linkUrl;
+    private String linkUrl;
+
+    public ChatLinkId() {}
 
     public ChatLinkId(Long chatId, String linkUrl) {
         this.chatId = chatId;

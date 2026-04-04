@@ -5,31 +5,42 @@ import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.scrapper.models.entities.TagEntity;
+import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
 import backend.academy.linktracker.scrapper.services.managers.ChatLinkManager;
 import backend.academy.linktracker.scrapper.services.managers.ChatLinkTagManager;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
 import java.util.ArrayList;
+import backend.academy.linktracker.scrapper.services.managers.LinkManager;
+import backend.academy.linktracker.scrapper.services.managers.TagManager;
+import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ORMDataController implements DataController {
+@Transactional
+public class OrmDataController implements DataController {
     private final ChatManager chatManager;
+    private final LinkManager linkManager;
+    private final TagManager tagManager;
     private final ChatLinkManager clManager;
     private final ChatLinkTagManager cltManager;
 
-    public ORMDataController(ChatManager chatManager, ChatLinkManager clManager, ChatLinkTagManager cltManager) {
+    public OrmDataController(ChatManager chatManager, LinkManager linkManager, TagManager tagManager, ChatLinkManager clManager, ChatLinkTagManager cltManager) {
         this.chatManager = chatManager;
+        this.linkManager = linkManager;
+        this.tagManager = tagManager;
         this.clManager = clManager;
         this.cltManager = cltManager;
     }
 
     public void addChat(Long chatId) {
+        if (chatManager.getChat(chatId).isPresent()) { throw new ChatAlreadyExistsException(); }
         chatManager.createChat(chatId);
     }
 
     public void removeChat(Long chatId) {
+        if (chatManager.getChat(chatId).isEmpty()) { throw new ChatNotFoundException(); }
         chatManager.deleteChat(chatId);
     }
 
@@ -42,7 +53,7 @@ public class ORMDataController implements DataController {
             var lTags = cltManager.getChatLinkTags(chatId, l.getUrl()).stream()
                     .map(TagEntity::getName)
                     .toList();
-            if (lTags.contains(tag)) {
+            if (tag == null || lTags.contains(tag)) {
                 res.add(new LinkDto(l.getUrl(), lTags));
             }
         }
@@ -50,10 +61,17 @@ public class ORMDataController implements DataController {
     }
 
     public @NotNull LinkDto addLink(Long chatId, AddSourceRequest req) {
-        var chat = chatManager.getChat(chatId);
-        if (chat.isEmpty()) throw new ChatNotFoundException();
+        chatManager.getChat(chatId).orElseThrow(ChatNotFoundException::new);
+        if (linkManager.getLink(req.url()).isEmpty()) {
+            linkManager.createLink(req.url());
+
+        }
+
         clManager.addLinkToChat(chatId, req.url());
         for (var t : req.tags()) {
+            if (tagManager.getTag(t).isEmpty()) {
+                tagManager.createTag(t);
+            }
             cltManager.addTagToChatLink(chatId, req.url(), t);
         }
         return new LinkDto(req.url(), req.tags());

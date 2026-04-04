@@ -10,11 +10,11 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ORMChatManager implements ChatManager {
+public class OrmChatManager implements ChatManager {
 
     private final ChatRepository chatRepository;
 
-    public ORMChatManager(ChatRepository chatRepository) {
+    public OrmChatManager(ChatRepository chatRepository) {
         this.chatRepository = chatRepository;
     }
 

@@ -45,7 +45,7 @@ public class SourceController {
     }
 
     @GetMapping("/links")
-    ResponseEntity<@NotNull ListSourcesResponse> getLinks(@RequestHeader Long tgChatId, @RequestHeader String tag) {
+    ResponseEntity<@NotNull ListSourcesResponse> getLinks(@RequestHeader Long tgChatId, @RequestHeader(required = false) String tag) {
         return ResponseEntity.ok(dataController.getChatLinks(tgChatId, tag));
     }
 
