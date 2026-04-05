@@ -40,8 +40,7 @@ public class OrmChatManager implements ChatManager {
     }
 
     public List<LinkEntity> getContained(Long chatId, List<LinkEntity> links) {
-        var chat = getChat(chatId);
-        if (chat.isEmpty()) throw new ChatNotFoundException();
-        return chat.get().getLinks().stream().filter(links::contains).toList();
+        var chat = getChat(chatId).orElseThrow(ChatNotFoundException::new);
+        return chat.getLinks().stream().filter(links::contains).toList();
     }
 }

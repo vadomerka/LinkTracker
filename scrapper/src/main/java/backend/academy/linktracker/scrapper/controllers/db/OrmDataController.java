@@ -12,10 +12,10 @@ import backend.academy.linktracker.scrapper.models.exceptions.LinkNotFoundExcept
 import backend.academy.linktracker.scrapper.services.managers.ChatLinkManager;
 import backend.academy.linktracker.scrapper.services.managers.ChatLinkTagManager;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
-import java.util.ArrayList;
 import backend.academy.linktracker.scrapper.services.managers.LinkManager;
 import backend.academy.linktracker.scrapper.services.managers.TagManager;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,12 @@ public class OrmDataController implements DataController {
     private final ChatLinkManager clManager;
     private final ChatLinkTagManager cltManager;
 
-    public OrmDataController(ChatManager chatManager, LinkManager linkManager, TagManager tagManager, ChatLinkManager clManager, ChatLinkTagManager cltManager) {
+    public OrmDataController(
+            ChatManager chatManager,
+            LinkManager linkManager,
+            TagManager tagManager,
+            ChatLinkManager clManager,
+            ChatLinkTagManager cltManager) {
         this.chatManager = chatManager;
         this.linkManager = linkManager;
         this.tagManager = tagManager;
@@ -37,12 +42,16 @@ public class OrmDataController implements DataController {
     }
 
     public void addChat(Long chatId) {
-        if (chatManager.getChat(chatId).isPresent()) { throw new ChatAlreadyExistsException(); }
+        if (chatManager.getChat(chatId).isPresent()) {
+            throw new ChatAlreadyExistsException();
+        }
         chatManager.createChat(chatId);
     }
 
     public void removeChat(Long chatId) {
-        if (chatManager.getChat(chatId).isEmpty()) { throw new ChatNotFoundException(); }
+        if (chatManager.getChat(chatId).isEmpty()) {
+            throw new ChatNotFoundException();
+        }
         chatManager.deleteChat(chatId);
     }
 

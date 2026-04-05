@@ -44,28 +44,20 @@ public class OrmChatLinkTagManager implements ChatLinkTagManager {
 
     @Override
     public ChatLinkTag findChatLinkTag(Long chatId, String url, String tagName) {
-        clRepository
-                .findById(getChatLinkId(chatId, url))
-                .orElseThrow(ChatLinkNotFoundException::new);
+        clRepository.findById(getChatLinkId(chatId, url)).orElseThrow(ChatLinkNotFoundException::new);
         var id = new ChatLinkTagId(chatId, url, tagName);
-        return cltRepository
-                .findById(id)
-                .orElseThrow(ChatLinkTagNotFoundException::new);
+        return cltRepository.findById(id).orElseThrow(ChatLinkTagNotFoundException::new);
     }
 
     public List<TagEntity> getChatLinkTags(Long chatId, String url) {
-        var cl = clRepository
-                .findById(getChatLinkId(chatId, url))
-                .orElseThrow(ChatLinkNotFoundException::new);
+        var cl = clRepository.findById(getChatLinkId(chatId, url)).orElseThrow(ChatLinkNotFoundException::new);
         return cl.getTags();
     }
 
     @Override
     public ChatLinkTag addTagToChatLink(Long chatId, String url, String tagName) {
         var tag = tRepository.findById(tagName).orElseThrow(TagNotFoundException::new);
-        var cl = clRepository
-                .findById(getChatLinkId(chatId, url))
-                .orElseThrow(ChatLinkNotFoundException::new);
+        var cl = clRepository.findById(getChatLinkId(chatId, url)).orElseThrow(ChatLinkNotFoundException::new);
         var id = new ChatLinkTagId(chatId, url, tagName);
         return cltRepository.findById(id).orElseGet(() -> cltRepository.save(new ChatLinkTag(cl, tag)));
     }

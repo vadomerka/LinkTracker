@@ -4,10 +4,10 @@ import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import backend.academy.linktracker.scrapper.models.exceptions.LinkNotFoundException;
 import backend.academy.linktracker.scrapper.repositories.LinkRepository;
 import backend.academy.linktracker.scrapper.services.managers.LinkManager;
+import jakarta.transaction.Transactional;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service

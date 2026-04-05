@@ -35,9 +35,7 @@ public class OrmChatLinkManager implements ChatLinkManager {
     @Override
     public ChatLink findChatLink(Long chatId, String url) {
         var id = generateChatLinkId(chatId, url);
-        return clRepository
-                .findById(id)
-                .orElseThrow(ChatLinkNotFoundException::new);
+        return clRepository.findById(id).orElseThrow(ChatLinkNotFoundException::new);
     }
 
     @Override
@@ -52,10 +50,11 @@ public class OrmChatLinkManager implements ChatLinkManager {
     @Override
     @Transactional
     public boolean removeLink(Long chatId, String url) {
-        var chat = chRepository.findById(chatId);
-        var link = lRepository.findById(url);
-        if (chat.isEmpty() || link.isEmpty()) return false;
-        var id = new ChatLinkId(chatId, link.get().getUrl());
+        if (!chRepository.existsById(chatId) || !lRepository.existsById(url)) {
+            return false;
+        }
+
+        var id = new ChatLinkId(chatId, url);
         if (!clRepository.existsById(id)) return false;
         clRepository.deleteById(id);
         return true;

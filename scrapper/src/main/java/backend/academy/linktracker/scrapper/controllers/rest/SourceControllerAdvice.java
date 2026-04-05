@@ -41,7 +41,7 @@ public class SourceControllerAdvice {
     @ResponseStatus(HttpStatus.CONFLICT)
     ResponseEntity<@NotNull ApiErrorResponse> urlAlreadyExistsHandler(LinkAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-            .body(new ApiErrorResponse("Ссылка уже добавлена", HttpStatus.CONFLICT.toString(), ex));
+                .body(new ApiErrorResponse("Ссылка уже добавлена", HttpStatus.CONFLICT.toString(), ex));
     }
 
     @ExceptionHandler(SourceNotFoundException.class)
