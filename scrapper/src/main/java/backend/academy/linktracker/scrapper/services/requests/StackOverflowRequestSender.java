@@ -3,9 +3,9 @@ package backend.academy.linktracker.scrapper.services.requests;
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.models.exceptions.UrlFormatException;
 import backend.academy.linktracker.models.http.external.StackOverflowUpdateResponse;
+import backend.academy.linktracker.scrapper.models.updates.StackOverflowUpdateInfo;
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
 import backend.academy.linktracker.services.RequestsUtils;
-import java.time.Instant;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,7 @@ public class StackOverflowRequestSender implements UpdateRequestSender {
     }
 
     // var uri = "https://api.stackexchange.com/";
-    public Instant getResponse(String url) {
+    public StackOverflowUpdateInfo getResponse(String url) {
         var restClient = RestClient.create();
         try {
             var response = restClient
@@ -46,8 +46,9 @@ public class StackOverflowRequestSender implements UpdateRequestSender {
         }
     }
 
-    private Instant getUpdated(StackOverflowUpdateResponse res) {
+    private StackOverflowUpdateInfo getUpdated(StackOverflowUpdateResponse res) {
         var seconds = res.items().getFirst().lastActivityDate();
-        return Instant.ofEpochSecond(seconds);
+        // Instant.ofEpochSecond(seconds).
+        return new StackOverflowUpdateInfo();
     }
 }

@@ -2,9 +2,8 @@ package backend.academy.linktracker.models.http.external;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record GithubUpdateResponse(
+public record GithubPRUpdateResponse(
         Long id,
-        String name,
+        Integer number,
         @JsonProperty("updated_at") String updatedAt,
-        @JsonProperty("html_url") String htmlUrl,
-        @JsonProperty("pulls_url") String pullsUrl) {}
+        @JsonProperty("html_url") String htmlUrl) {}

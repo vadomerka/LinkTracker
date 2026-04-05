@@ -21,16 +21,19 @@ public class LinkUpdateService {
     private final LinkManager lManager;
     private final BotRequestsSender botSender;
     private final ScrapperSenderService senderService;
+    private final LinkUpdateInfoAnalyzeService analyzeService;
 
     public LinkUpdateService(
             BotRequestsSender botSender,
             OrmChatManager chManager,
             OrmLinkManager lManager,
-            ScrapperSenderService senderService) {
+            ScrapperSenderService senderService,
+            LinkUpdateInfoAnalyzeService analyzeService) {
         this.botSender = botSender;
         this.chManager = chManager;
         this.lManager = lManager;
         this.senderService = senderService;
+        this.analyzeService = analyzeService;
     }
 
     public void updateLinks() {
@@ -60,7 +63,8 @@ public class LinkUpdateService {
         var updLinks = new HashSet<LinkEntity>();
         LOGGER.info("activeLinks size: {}", activeLinks.size());
         for (var al : activeLinks) {
-            var time = senderService.getUrlUpdate(al.getUrl());
+            var updInfo = senderService.getUrlUpdate(al.getUrl());
+            var time = analyzeService.getUpdTime(updInfo);
             if (time == null) continue;
             LOGGER.info("url - {}; time - {}", al.getUrl(), time);
             if (lManager.isUpdated(al.getUrl(), time)) {

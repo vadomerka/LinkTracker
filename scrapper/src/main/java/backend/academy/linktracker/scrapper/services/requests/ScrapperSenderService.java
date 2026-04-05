@@ -1,7 +1,7 @@
 package backend.academy.linktracker.scrapper.services.requests;
 
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
-import java.time.Instant;
+import backend.academy.linktracker.scrapper.models.updates.UpdateInfo;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +16,8 @@ public class ScrapperSenderService {
         this.senders = senders;
     }
 
-    public Instant getUrlUpdate(String url) {
-        Instant ans = null;
+    public UpdateInfo getUrlUpdate(String url) {
+        UpdateInfo ans = null;
         var s = getSenderType(url);
         if (s == null) {
             logger.info("Ссылка не соответствует формату.");

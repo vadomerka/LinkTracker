@@ -5,11 +5,13 @@ import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
 import backend.academy.linktracker.scrapper.repositories.ChatRepository;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class OrmChatManager implements ChatManager {
 
     private final ChatRepository chatRepository;
