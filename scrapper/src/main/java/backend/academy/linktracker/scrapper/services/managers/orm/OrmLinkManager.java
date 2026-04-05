@@ -1,14 +1,17 @@
 package backend.academy.linktracker.scrapper.services.managers.orm;
 
 import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
+import backend.academy.linktracker.scrapper.models.exceptions.LinkNotFoundException;
 import backend.academy.linktracker.scrapper.repositories.LinkRepository;
 import backend.academy.linktracker.scrapper.services.managers.LinkManager;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class OrmLinkManager implements LinkManager {
 
     private final LinkRepository repository;
@@ -39,7 +42,7 @@ public class OrmLinkManager implements LinkManager {
     }
 
     public boolean isUpdated(String url, Instant time) {
-        var link = repository.getReferenceById(url);
+        var link = repository.findById(url).orElseThrow(LinkNotFoundException::new);
         var lu = link.getLastUpdate();
         link.setLastUpdate(time);
         return lu == null || lu.isAfter(time);

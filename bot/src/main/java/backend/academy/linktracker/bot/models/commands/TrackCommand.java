@@ -94,9 +94,10 @@ public class TrackCommand extends BotCommandExec {
         var url = data.getFirst();
         var tags = data.subList(1, data.size());
 
+        // Перед отправкой запроса нужно отменить команду, тк в его обработчике ошибок этого нет.
+        csm.cancelStatus(chatId);
         requestsSender.addTrackingUrl(chatId, url, tags, null);
 
-        csm.cancelStatus(chatId);
         return "Ссылка добавлена в отслеживаемые.";
     }
 }

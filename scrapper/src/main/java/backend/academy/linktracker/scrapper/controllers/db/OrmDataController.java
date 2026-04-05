@@ -68,7 +68,7 @@ public class OrmDataController implements DataController {
             var lTags = cltManager.getChatLinkTags(chatId, l.getUrl()).stream()
                     .map(TagEntity::getName)
                     .toList();
-            if (tag == null || lTags.contains(tag)) {
+            if (tag.isEmpty() || lTags.contains(tag)) {
                 res.add(new LinkDto(l.getUrl(), lTags));
             }
         }
@@ -83,7 +83,7 @@ public class OrmDataController implements DataController {
 
         clManager.addLinkToChat(chatId, req.url());
         for (var t : req.tags()) {
-            if (tagManager.getTag(t).isEmpty()) {
+            if (tagManager.getTag(t).isEmpty() && !t.isEmpty()) {
                 tagManager.createTag(t);
             }
             cltManager.addTagToChatLink(chatId, req.url(), t);

@@ -70,6 +70,8 @@ public class ListCommand extends BotCommandExec {
     private String getTrackedStage(Long chatId) {
         var data = csm.getCommandStatus(chatId).getChatData();
         var tag = data.isEmpty() ? null : data.getFirst();
+
+        csm.cancelStatus(chatId);
         var res = requestsSender.getTrackingUrls(chatId, tag).getBody();
         if (res == null) throw new ScrapperRequestException("Список ссылок не был получен");
 
@@ -84,7 +86,6 @@ public class ListCommand extends BotCommandExec {
             }
         }
 
-        csm.cancelStatus(chatId);
         return response;
     }
 
@@ -99,12 +100,12 @@ public class ListCommand extends BotCommandExec {
                     sb.append(String.format("%s; ", tsTag));
                 }
             }
-            if (ts.filters() != null) {
-                sb.append("\n\tfilters: ");
-                for (var tsF : ts.filters()) {
-                    sb.append(String.format("%s; ", tsF));
-                }
-            }
+//            if (ts.filters() != null) {
+//                sb.append("\n\tfilters: ");
+//                for (var tsF : ts.filters()) {
+//                    sb.append(String.format("%s; ", tsF));
+//                }
+//            }
             sb.append("\n");
         }
         return sb.toString();
