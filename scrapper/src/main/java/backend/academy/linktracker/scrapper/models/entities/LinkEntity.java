@@ -24,6 +24,9 @@ public class LinkEntity {
     @Column(name = "last_update")
     private Instant lastUpdate;
 
+    @Column(name = "update_body")
+    private String updateBody;
+
     @Column(name = "created_at", insertable = false, updatable = false)
     private Instant createdAt;
 

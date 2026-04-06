@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS tag (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- changeset author:001-4
 CREATE TABLE IF NOT EXISTS chat_link (
     chat_id BIGINT NOT NULL,
     link_url TEXT NOT NULL,
