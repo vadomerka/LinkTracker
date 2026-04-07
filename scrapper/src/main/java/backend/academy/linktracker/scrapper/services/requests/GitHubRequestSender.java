@@ -22,7 +22,7 @@ public class GitHubRequestSender implements UpdateRequestSender {
     private final String token;
     private static final String root = "api.github.com";
     private static final Pattern checkPattern = Pattern.compile("https://api\\.github\\.com/repos/[A-Za-z]+/[A-Za-z]+");
-    private RequestJsonMapper mapper;
+    private final RequestJsonMapper mapper;
     private RestClient restClient;
 
     public String getRoot() {
@@ -38,11 +38,7 @@ public class GitHubRequestSender implements UpdateRequestSender {
     public GitHubUpdateData getResponse(String url) {
         restClient = RestClient.create();
         try {
-            var res = getPRResponse(url);
-            return new GitHubUpdateData(
-                res,
-                getIssueResponse(url)
-            );
+            return new GitHubUpdateData(getPRResponse(url), getIssueResponse(url));
         } catch (ScrapperRequestException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -64,19 +60,23 @@ public class GitHubRequestSender implements UpdateRequestSender {
 
     private ResponseEntity<@NotNull List<JsonNode>> getApiResponse(String url) {
         var response = restClient
-            .method(HttpMethod.GET)
-            .uri(url)
-            .header("Authorization", "token " + token)
-            .header("Accept", "application/vnd.github.v3+json")
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
-            .toEntity(new ParameterizedTypeReference<@NotNull List<JsonNode>>() {});
-        if (response.getBody() == null) { throw new NullPointerException(); }
+                .method(HttpMethod.GET)
+                .uri(url)
+                .header("Authorization", "token " + token)
+                .header("Accept", "application/vnd.github.v3+json")
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
+                .toEntity(new ParameterizedTypeReference<@NotNull List<JsonNode>>() {});
+        if (response.getBody() == null) {
+            throw new NullPointerException();
+        }
         return response;
     }
 
     private String checkUrl(String url) {
-        if (!checkPattern.matcher(url).matches()) { throw new UrlFormatException(""); }
+        if (!checkPattern.matcher(url).matches()) {
+            throw new UrlFormatException("");
+        }
         return url;
     }
 }
