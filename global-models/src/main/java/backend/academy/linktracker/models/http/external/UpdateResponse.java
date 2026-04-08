@@ -2,9 +2,9 @@ package backend.academy.linktracker.models.http.external;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record StackOverflowUpdateResponse(
+public record UpdateResponse(
         String type,
         String title,
         String userName,
         @JsonProperty("created_at") String createdAt,
-        String body) {}
+        String description) {}

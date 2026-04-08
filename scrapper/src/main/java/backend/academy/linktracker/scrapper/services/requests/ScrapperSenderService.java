@@ -1,7 +1,8 @@
 package backend.academy.linktracker.scrapper.services.requests;
 
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
-import backend.academy.linktracker.scrapper.models.updates.UpdateInfo;
+import backend.academy.linktracker.models.exceptions.UrlFormatException;
+import backend.academy.linktracker.models.http.external.LinkUpdateData;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,17 +17,19 @@ public class ScrapperSenderService {
         this.senders = senders;
     }
 
-    public UpdateInfo getUrlUpdate(String url) {
-        UpdateInfo ans = null;
-        var s = getSenderType(url);
-        if (s == null) {
+    public LinkUpdateData getLinkUpdateData(String url) {
+        LinkUpdateData ans = null;
+        var dataRequestSender = getSenderType(url);
+        if (dataRequestSender == null) {
             logger.info("Ссылка не соответствует формату.");
             return null;
         }
         try {
-            ans = s.getResponse(url);
+            ans = dataRequestSender.getLinkResponse(url);
         } catch (ScrapperRequestException ex) {
             logger.info("Произошла ошибка при получении обновления по ссылке.");
+        } catch (UrlFormatException ex) {
+            logger.info("Ошибка. {}", ex.toString());
         } catch (Exception ex) {
             logger.info("Ссылка не соответствует формату. {}", ex.toString());
         }
@@ -35,7 +38,7 @@ public class ScrapperSenderService {
 
     public UpdateRequestSender getSenderType(String url) {
         for (var s : senders) {
-            if (url.contains(s.getRoot())) {
+            if (s.checkLink(url)) {
                 return s;
             }
         }

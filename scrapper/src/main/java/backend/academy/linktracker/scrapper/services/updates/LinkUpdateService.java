@@ -1,6 +1,7 @@
 package backend.academy.linktracker.scrapper.services.updates;
 
 import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
+import backend.academy.linktracker.models.http.internal.LinkUpdateRequestItem;
 import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
 import backend.academy.linktracker.scrapper.services.managers.LinkManager;
@@ -8,7 +9,7 @@ import backend.academy.linktracker.scrapper.services.managers.orm.OrmChatManager
 import backend.academy.linktracker.scrapper.services.managers.orm.OrmLinkManager;
 import backend.academy.linktracker.scrapper.services.requests.BotRequestsSender;
 import backend.academy.linktracker.scrapper.services.requests.ScrapperSenderService;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,39 +39,49 @@ public class LinkUpdateService {
 
     public void updateLinks() {
         var activeLinks = lManager.getAllLinks();
-        var updLinks = getUpdLinks(activeLinks);
 
+        var updLinks = getUpdLinks(activeLinks);
         if (updLinks == null || updLinks.isEmpty()) {
             LOGGER.info("Обновлений не обнаружено");
             return;
         }
 
-        for (var chat : chManager.getAllChats()) {
-            var updChatLinks = chManager.getContained(chat.getChatId(), updLinks);
-            if (updChatLinks.isEmpty()) continue;
-            botSender.sendUpdates(
-                    chat.getChatId(),
-                    new LinkUpdateRequest(
-                            updLinks.stream().map(LinkEntity::getUrl).toList()));
-        }
+        sendUpdLinksToChats(updLinks);
     }
 
-    private List<LinkEntity> getUpdLinks(List<LinkEntity> activeLinks) {
+    private List<LinkUpdateRequestItem> getUpdLinks(List<LinkEntity> activeLinks) {
         if (activeLinks.isEmpty()) {
             LOGGER.info("Список ссылок пуст");
             return null;
         }
-        var updLinks = new HashSet<LinkEntity>();
         LOGGER.info("activeLinks size: {}", activeLinks.size());
+
+        var updLinks = new ArrayList<LinkUpdateRequestItem>();
         for (var al : activeLinks) {
-            var updInfo = senderService.getUrlUpdate(al.getUrl());
-            var time = analyzeService.getUpdTime(updInfo);
-            if (time == null) continue;
-            LOGGER.info("url - {}; time - {}", al.getUrl(), time);
-            if (lManager.isUpdated(al.getUrl(), time)) {
-                updLinks.add(al);
+            var apiData = senderService.getLinkUpdateData(al.getUrl());
+            if (apiData == null) continue;
+
+            var updData = analyzeService.getUpdTime(al.getUrl(), al.getLastUpdate(), apiData);
+            if (updData == null) continue;
+
+            LOGGER.info("url - {}; time - {}", al.getUrl(), updData.lastUpdate());
+            if (lManager.isUpdated(al.getUrl(), updData.lastUpdate())) {
+                updLinks.add(updData);
             }
         }
-        return updLinks.stream().toList();
+        return updLinks;
+    }
+
+    public void sendUpdLinksToChats(List<LinkUpdateRequestItem> updLinks) {
+        for (var chat : chManager.getAllChats()) {
+            var chatUrls = chManager.getLinks(chat.getChatId()).stream()
+                    .map(LinkEntity::getUrl)
+                    .toList();
+            var chatUpdLinks =
+                    updLinks.stream().filter(ul -> chatUrls.contains(ul.url())).toList();
+            if (chatUpdLinks.isEmpty()) continue;
+
+            botSender.sendUpdates(chat.getChatId(), new LinkUpdateRequest(chatUpdLinks));
+        }
     }
 }

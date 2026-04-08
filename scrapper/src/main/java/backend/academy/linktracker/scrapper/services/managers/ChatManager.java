@@ -20,5 +20,5 @@ public interface ChatManager {
 
     List<LinkEntity> getContained(Long chatId, List<LinkEntity> links);
 
-    //    List<LinkEntity> getTaggedLinks(Long chatId, String tag);
+    List<LinkEntity> getLinks(Long chatId);
 }

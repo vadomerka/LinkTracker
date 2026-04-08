@@ -1,9 +1,9 @@
 package backend.academy.linktracker.scrapper.services.requests;
 
-import backend.academy.linktracker.scrapper.models.updates.UpdateInfo;
+import backend.academy.linktracker.models.http.external.LinkUpdateData;
 
 public interface UpdateRequestSender {
-    String getRoot();
+    boolean checkLink(String url);
 
-    UpdateInfo getResponse(String url);
+    LinkUpdateData getLinkResponse(String url);
 }

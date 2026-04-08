@@ -2,10 +2,13 @@ package backend.academy.linktracker.scrapper.services.requests;
 
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.models.exceptions.UrlFormatException;
-import backend.academy.linktracker.models.http.external.GithubUpdateResponse;
-import backend.academy.linktracker.scrapper.models.updates.GitHubUpdateData;
+import backend.academy.linktracker.models.http.external.LinkUpdateData;
+import backend.academy.linktracker.models.http.external.UpdateResponse;
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
 import backend.academy.linktracker.services.RequestsUtils;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
@@ -20,14 +23,9 @@ import tools.jackson.databind.JsonNode;
 @Component
 public class GitHubRequestSender implements UpdateRequestSender {
     private final String token;
-    private static final String root = "api.github.com";
     private static final Pattern checkPattern = Pattern.compile("https://api\\.github\\.com/repos/[A-Za-z]+/[A-Za-z]+");
     private final RequestJsonMapper mapper;
     private RestClient restClient;
-
-    public String getRoot() {
-        return root;
-    }
 
     public GitHubRequestSender(GithubProperties properties, RequestJsonMapper mapper) {
         token = properties.getToken();
@@ -35,10 +33,11 @@ public class GitHubRequestSender implements UpdateRequestSender {
     }
 
     // var uri = "https://api.github.com/repos/vadomerka/MindMines";
-    public GitHubUpdateData getResponse(String url) {
+    public LinkUpdateData getLinkResponse(String url) {
         restClient = RestClient.create();
         try {
-            return new GitHubUpdateData(getPRResponse(url), getIssueResponse(url));
+            if (!checkLink(url)) throw new UrlFormatException();
+            return makeUpdData(url);
         } catch (ScrapperRequestException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -46,14 +45,24 @@ public class GitHubRequestSender implements UpdateRequestSender {
         }
     }
 
-    private List<GithubUpdateResponse> getPRResponse(String url) {
-        var reqUrl = checkUrl(url) + "/pulls";
+    private LinkUpdateData makeUpdData(String url) {
+        var data = new ArrayList<UpdateResponse>();
+        var ans = getPRResponse(url);
+        var com = getIssueResponse(url);
+        data.addAll(ans);
+        data.addAll(com);
+        data.sort(Comparator.comparing(sr -> Instant.parse(sr.createdAt())));
+        return new LinkUpdateData(data);
+    }
+
+    private List<UpdateResponse> getPRResponse(String url) {
+        var reqUrl = url + "/pulls";
         var response = getApiResponse(reqUrl);
         return mapper.mapGitPRResponse(response);
     }
 
-    private List<GithubUpdateResponse> getIssueResponse(String url) {
-        var reqUrl = checkUrl(url) + "/issues/events";
+    private List<UpdateResponse> getIssueResponse(String url) {
+        var reqUrl = url + "/issues/events";
         var response = getApiResponse(reqUrl);
         return mapper.mapGitIssueResponse(response);
     }
@@ -73,10 +82,7 @@ public class GitHubRequestSender implements UpdateRequestSender {
         return response;
     }
 
-    private String checkUrl(String url) {
-        if (!checkPattern.matcher(url).matches()) {
-            throw new UrlFormatException("");
-        }
-        return url;
+    public boolean checkLink(String url) {
+        return checkPattern.matcher(url).matches();
     }
 }
