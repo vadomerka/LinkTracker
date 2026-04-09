@@ -27,7 +27,7 @@ public class ScrapperSenderService {
         try {
             ans = dataRequestSender.getLinkResponse(url);
         } catch (ScrapperRequestException ex) {
-            logger.info("Произошла ошибка при получении обновления по ссылке.");
+            logger.info("Произошла ошибка при получении обновления по ссылке. {}", ex.toString());
         } catch (UrlFormatException ex) {
             logger.info("Ошибка. {}", ex.toString());
         } catch (Exception ex) {

@@ -1,6 +1,5 @@
 package backend.academy.linktracker.services;
 
-import backend.academy.linktracker.models.exceptions.GitHubRequestException;
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.models.http.internal.ApiErrorResponse;
 import java.io.IOException;
@@ -14,11 +13,5 @@ public class RequestsUtils {
         String body = new String(res.getBody().readAllBytes(), StandardCharsets.UTF_8);
         ApiErrorResponse errorBody = new ObjectMapper().readValue(body, ApiErrorResponse.class);
         throw new ScrapperRequestException(errorBody.description());
-    }
-
-    public static void onGitHubErrors(HttpRequest req, ClientHttpResponse res) throws IOException {
-        String body = new String(res.getBody().readAllBytes(), StandardCharsets.UTF_8);
-        ApiErrorResponse errorBody = new ObjectMapper().readValue(body, ApiErrorResponse.class);
-        throw new GitHubRequestException(errorBody.description());
     }
 }

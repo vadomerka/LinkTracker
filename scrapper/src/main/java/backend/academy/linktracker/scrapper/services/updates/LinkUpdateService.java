@@ -38,7 +38,9 @@ public class LinkUpdateService {
     }
 
     public void updateLinks() {
-        var activeLinks = lManager.getAllLinks();
+        var activeLinks = lManager.getAllLinks().stream()
+                .filter(le -> lManager.isActive(le.getUrl()))
+                .toList();
 
         var updLinks = getUpdLinks(activeLinks);
         if (updLinks == null || updLinks.isEmpty()) {

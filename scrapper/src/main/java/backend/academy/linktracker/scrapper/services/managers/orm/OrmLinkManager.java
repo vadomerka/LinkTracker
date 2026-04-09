@@ -41,10 +41,15 @@ public class OrmLinkManager implements LinkManager {
         return repository.existsById(url);
     }
 
+    public boolean isActive(String url) {
+        var link = repository.findById(url);
+        return link.filter(linkEntity -> !linkEntity.getChatLinks().isEmpty()).isPresent();
+    }
+
     public boolean isUpdated(String url, Instant time) {
         var link = repository.findById(url).orElseThrow(LinkNotFoundException::new);
         var lu = link.getLastUpdate();
         link.setLastUpdate(time);
-        return lu == null || lu.isAfter(time);
+        return lu == null || lu.isBefore(time);
     }
 }

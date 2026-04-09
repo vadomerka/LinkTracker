@@ -9,6 +9,7 @@ import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsE
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
 import backend.academy.linktracker.scrapper.models.exceptions.LinkAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.LinkNotFoundException;
+import backend.academy.linktracker.scrapper.models.exceptions.LinkRemovalException;
 import backend.academy.linktracker.scrapper.services.managers.ChatLinkManager;
 import backend.academy.linktracker.scrapper.services.managers.ChatLinkTagManager;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
@@ -103,6 +104,10 @@ public class OrmDataController implements DataController {
     public void removeLink(Long chatId, RemoveSourceRequest req) {
         var chat = chatManager.getChat(chatId);
         if (chat.isEmpty()) throw new ChatNotFoundException();
-        clManager.removeLink(chatId, req.url());
+        var link = linkManager.getLink(req.url());
+        if (link.isEmpty()) throw new LinkNotFoundException();
+        if (!clManager.removeLink(chatId, req.url())) {
+            throw new LinkRemovalException();
+        }
     }
 }

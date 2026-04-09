@@ -18,5 +18,7 @@ public interface LinkManager {
 
     boolean linkExists(String url);
 
+    boolean isActive(String url);
+
     boolean isUpdated(String url, Instant time);
 }

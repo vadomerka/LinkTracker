@@ -39,6 +39,7 @@ public class StackOverflowRequestSender implements UpdateRequestSender {
     // https://api.stackexchange.com/2.3/questions/6268679?site=stackoverflow
     public LinkUpdateData getLinkResponse(String url) {
         try {
+            if (!checkLink(url)) throw new UrlFormatException();
             return makeUpdData(url);
         } catch (ScrapperRequestException ex) {
             throw ex;
