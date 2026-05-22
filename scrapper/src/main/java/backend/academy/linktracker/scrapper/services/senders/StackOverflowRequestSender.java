@@ -1,10 +1,11 @@
-package backend.academy.linktracker.scrapper.services.requests;
+package backend.academy.linktracker.scrapper.services.senders;
 
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.models.exceptions.UrlFormatException;
 import backend.academy.linktracker.models.http.external.LinkUpdateData;
 import backend.academy.linktracker.models.http.external.UpdateResponse;
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
+import backend.academy.linktracker.scrapper.services.requests.RequestJsonMapper;
 import backend.academy.linktracker.services.RequestsUtils;
 import java.time.Instant;
 import java.util.ArrayList;

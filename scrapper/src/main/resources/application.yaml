@@ -18,6 +18,16 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 app:
   stackoverflow:
@@ -27,5 +37,11 @@ app:
     token: ${GITHUB_TOKEN}
   telegram:
     tgUrl: ${TELEGRAM_BOT_URL}
+  requests:
+    type: kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+    topic: scrapper-bot
+    group: groupB
 
 

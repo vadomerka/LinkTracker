@@ -1,4 +1,4 @@
-package backend.academy.linktracker.scrapper.services.requests;
+package backend.academy.linktracker.scrapper.services.senders;
 
 import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import backend.academy.linktracker.scrapper.properties.TelegramProperties;
@@ -10,17 +10,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 @Service
-public class BotRequestsSender {
-    private final RestClient restClient;
+public class HttpBotRequestsSender implements BotRequestsSender {
+    protected final RestClient restClient;
 
-    public BotRequestsSender(TelegramProperties properties) {
+    public HttpBotRequestsSender(TelegramProperties properties) {
         this.restClient = RestClient.create(properties.getTgUrl());
     }
 
-    public void sendUpdates(Long chatId, LinkUpdateRequest request) {
+    public void sendUpdates(LinkUpdateRequest request) {
+        System.out.println("http send");
         restClient
                 .method(HttpMethod.POST)
-                .uri(String.format("/tg-chat/%d", chatId))
+                .uri(String.format("/tg-chat/%d", request.chatId()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(request)
                 .retrieve()

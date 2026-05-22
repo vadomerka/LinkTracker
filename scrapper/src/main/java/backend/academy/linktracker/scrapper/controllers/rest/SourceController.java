@@ -1,11 +1,14 @@
 package backend.academy.linktracker.scrapper.controllers.rest;
 
 import backend.academy.linktracker.models.LinkDto;
+import backend.academy.linktracker.models.http.external.LinkUpdateData;
 import backend.academy.linktracker.models.http.internal.AddSourceRequest;
+import backend.academy.linktracker.models.http.internal.LinkUpdateRequestItem;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.scrapper.controllers.db.DataController;
 import backend.academy.linktracker.scrapper.services.updates.LinkUpdateService;
+import java.time.Instant;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 @RestController
 public class SourceController {
@@ -70,6 +74,12 @@ public class SourceController {
     @PostMapping("/update")
     ResponseEntity<@NotNull String> updateLinks() {
         service.updateLinks();
+        return ResponseEntity.ok("Обновление выполнено");
+    }
+
+    @PostMapping("/kafka-send-test")
+    ResponseEntity<@NotNull String> kafkaSendTestLinks() {
+        service.testSend(List.of(new LinkUpdateRequestItem("url", Instant.now(), new LinkUpdateData(List.of()))));
         return ResponseEntity.ok("Обновление выполнено");
     }
 }

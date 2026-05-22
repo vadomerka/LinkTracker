@@ -7,8 +7,8 @@ import backend.academy.linktracker.scrapper.services.managers.ChatManager;
 import backend.academy.linktracker.scrapper.services.managers.LinkManager;
 import backend.academy.linktracker.scrapper.services.managers.orm.OrmChatManager;
 import backend.academy.linktracker.scrapper.services.managers.orm.OrmLinkManager;
-import backend.academy.linktracker.scrapper.services.requests.BotRequestsSender;
-import backend.academy.linktracker.scrapper.services.requests.ScrapperSenderService;
+import backend.academy.linktracker.scrapper.services.senders.BotRequestsSender;
+import backend.academy.linktracker.scrapper.services.senders.ScrapperSenderService;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -20,17 +20,17 @@ public class LinkUpdateService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LinkUpdateService.class);
     private final ChatManager chManager;
     private final LinkManager lManager;
-    private final BotRequestsSender botSender;
+    private final BotRequestsSender botRequestSender;
     private final ScrapperSenderService senderService;
     private final LinkUpdateInfoAnalyzeService analyzeService;
 
     public LinkUpdateService(
-            BotRequestsSender botSender,
+            BotRequestsSender botRequestSender,
             OrmChatManager chManager,
             OrmLinkManager lManager,
             ScrapperSenderService senderService,
             LinkUpdateInfoAnalyzeService analyzeService) {
-        this.botSender = botSender;
+        this.botRequestSender = botRequestSender;
         this.chManager = chManager;
         this.lManager = lManager;
         this.senderService = senderService;
@@ -83,7 +83,11 @@ public class LinkUpdateService {
                     updLinks.stream().filter(ul -> chatUrls.contains(ul.url())).toList();
             if (chatUpdLinks.isEmpty()) continue;
 
-            botSender.sendUpdates(chat.getChatId(), new LinkUpdateRequest(chatUpdLinks));
+            botRequestSender.sendUpdates(new LinkUpdateRequest(chat.getChatId(), chatUpdLinks));
         }
+    }
+
+    public void testSend(List<LinkUpdateRequestItem> updLinks) {
+        botRequestSender.sendUpdates(new LinkUpdateRequest(1L, updLinks));
     }
 }
