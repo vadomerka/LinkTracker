@@ -1,5 +1,6 @@
 package backend.academy.linktracker.bot.configuration;
 
+import backend.academy.linktracker.bot.properties.KafkaReceiverProperties;
 import backend.academy.linktracker.bot.properties.TelegramProperties;
 import com.pengrad.telegrambot.TelegramBot;
 import org.springframework.context.annotation.Bean;
@@ -19,5 +20,10 @@ public class TelegramConfiguration {
         }
 
         return builder.build();
+    }
+
+    @Bean
+    public KafkaReceiverProperties kafkaReceiverProperties() {
+        return new KafkaReceiverProperties();
     }
 }

@@ -12,4 +12,8 @@ app:
     token: ${MEGA_TELEGRAM_TOKEN} # Use env variable. DO NOT KEEP TOKEN HERE
     update-listener-sleep: 1s
     debug: false
+  kafka:
+    bootstrap-servers: localhost:9092
+    topic: scrapper-bot
+    group: groupB
 

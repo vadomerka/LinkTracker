@@ -11,6 +11,8 @@ import org.springframework.kafka.core.KafkaProducerException;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.ObjectMapper;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -29,9 +31,9 @@ public class KafkaBotRequestsSender implements BotRequestsSender {
         SendResult<String, String> result;
         String topic = properties.getTopic(); // String.valueOf(request.chatId());
         String key = properties.getGroup();
-        String message = request.toString();
+        String message = new ObjectMapper().writeValueAsString(request);
         try {
-            result = kafkaSender.sendMessage(topic, key,  message);
+            result = kafkaSender.sendMessage(topic, key, message);
         } catch (Exception e) {
             throw new KafkaSenderException(String.format("Ошибка при отправке сообщения в kafka topic=%s", topic), e);
         }

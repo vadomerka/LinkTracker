@@ -1,4 +1,4 @@
-package backend.academy.linktracker.scrapper.properties;
+package backend.academy.linktracker.bot.properties;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.EqualsAndHashCode;
@@ -14,9 +14,9 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-public class KafkaSenderProperties {
+public class KafkaReceiverProperties {
     @NotEmpty
     private String topic = "scrapper-to-bot";
     @NotEmpty
-    private String group = "groupB";
+    private String group = "groupC";
 }

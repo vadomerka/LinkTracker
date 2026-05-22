@@ -11,17 +11,17 @@ public class BotChatManager {
         this.utils = utils;
     }
 
-    public void processUpdate(Long chatId, LinkUpdateRequest req) {
+    public void processUpdate(LinkUpdateRequest req) {
         var sb = new StringBuilder("Произошло обновление по следующим ссылкам:\n");
-        utils.sendMessage(chatId, sb.toString());
+        utils.sendMessage(req.chatId(), sb.toString());
         for (var data : req.links()) {
-            utils.sendMessage(chatId, "\n\t" + data.url() + ":");
+            utils.sendMessage(req.chatId(), "\n\t" + data.url() + ":");
             for (var upd : data.data().data()) {
                 sb = new StringBuilder();
                 sb.append("\t\t");
                 sb.append(upd);
                 sb.append("\n");
-                utils.sendMessage(chatId, sb.toString());
+                utils.sendMessage(req.chatId(), sb.toString());
             }
             sb.append("\n");
         }
