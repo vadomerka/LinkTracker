@@ -1,6 +1,13 @@
 package backend.academy.linktracker.scrapper.models.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -27,15 +34,15 @@ public class ChatLink {
     @OneToMany(mappedBy = "chatLink", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatLinkTag> chatLinkTags = new ArrayList<>();
 
-    public List<TagEntity> getTags() {
-        return chatLinkTags.stream().map(ChatLinkTag::getTag).distinct().toList();
-    }
-
     public ChatLink() {}
 
     public ChatLink(ChatEntity chat, LinkEntity link) {
         this.id = new ChatLinkId(chat.getChatId(), link.getUrl());
         this.chat = chat;
         this.link = link;
+    }
+
+    public List<TagEntity> getTags() {
+        return chatLinkTags.stream().map(ChatLinkTag::getTag).distinct().toList();
     }
 }

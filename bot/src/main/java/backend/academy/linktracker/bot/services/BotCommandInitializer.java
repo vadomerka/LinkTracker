@@ -7,13 +7,13 @@ import com.pengrad.telegrambot.model.botcommandscope.BotCommandScopeAllChatAdmin
 import com.pengrad.telegrambot.model.botcommandscope.BotCommandScopeAllGroupChats;
 import com.pengrad.telegrambot.model.botcommandscope.BotCommandScopeAllPrivateChats;
 import com.pengrad.telegrambot.request.SetMyCommands;
-import java.util.ArrayList;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class BotCommandInitializer {

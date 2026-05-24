@@ -1,10 +1,10 @@
 package backend.academy.linktracker.bot.services;
 
 import backend.academy.linktracker.bot.models.ChatStatus;
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ChatStatusManager {

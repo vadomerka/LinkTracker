@@ -3,9 +3,9 @@ package backend.academy.linktracker.scrapper.services.updates;
 import backend.academy.linktracker.models.http.external.LinkUpdateData;
 import backend.academy.linktracker.models.http.external.UpdateResponse;
 import backend.academy.linktracker.models.http.internal.LinkUpdateRequestItem;
+import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
-import org.springframework.stereotype.Service;
 
 @Service
 public class LinkUpdateInfoAnalyzeService {

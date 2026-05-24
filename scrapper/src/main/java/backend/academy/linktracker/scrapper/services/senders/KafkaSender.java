@@ -25,11 +25,10 @@ public class KafkaSender {
             result = kafkaTemplate.send(topic, key, message).get(10, TimeUnit.SECONDS);
         }
         log.info(
-            "Sent message to topic={}, partition={}, offset={}",
-            topic,
-            result.getRecordMetadata().partition(),
-            result.getRecordMetadata().offset()
-        );
+                "Sent message to topic={}, partition={}, offset={}",
+                topic,
+                result.getRecordMetadata().partition(),
+                result.getRecordMetadata().offset());
         return result;
     }
 }

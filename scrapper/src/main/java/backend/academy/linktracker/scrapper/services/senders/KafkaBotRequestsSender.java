@@ -5,15 +5,9 @@ import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import backend.academy.linktracker.scrapper.properties.KafkaSenderProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaProducerException;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-import tools.jackson.core.JsonParser;
 import tools.jackson.databind.ObjectMapper;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class KafkaBotRequestsSender implements BotRequestsSender {

@@ -10,10 +10,10 @@ import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
-import java.util.ArrayList;
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ListCommand extends BotCommandExec {
@@ -25,6 +25,28 @@ public class ListCommand extends BotCommandExec {
         super("/list", "command to stop tracking a link");
         this.requestsSender = requestsSender;
         this.csm = csm;
+    }
+
+    @NotNull
+    private static String makeResponse(ListSourcesResponse res) {
+        var sb = new StringBuilder("Список ссылок:\n");
+        for (var ts : res.links()) {
+            sb.append(String.format("\turl: %s;", ts.url()));
+            if (ts.tags() != null) {
+                sb.append("\n\ttags: ");
+                for (var tsTag : ts.tags()) {
+                    sb.append(String.format("%s; ", tsTag));
+                }
+            }
+            //            if (ts.filters() != null) {
+            //                sb.append("\n\tfilters: ");
+            //                for (var tsF : ts.filters()) {
+            //                    sb.append(String.format("%s; ", tsF));
+            //                }
+            //            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     @Override
@@ -87,27 +109,5 @@ public class ListCommand extends BotCommandExec {
         }
 
         return response;
-    }
-
-    @NotNull
-    private static String makeResponse(ListSourcesResponse res) {
-        var sb = new StringBuilder("Список ссылок:\n");
-        for (var ts : res.links()) {
-            sb.append(String.format("\turl: %s;", ts.url()));
-            if (ts.tags() != null) {
-                sb.append("\n\ttags: ");
-                for (var tsTag : ts.tags()) {
-                    sb.append(String.format("%s; ", tsTag));
-                }
-            }
-            //            if (ts.filters() != null) {
-            //                sb.append("\n\tfilters: ");
-            //                for (var tsF : ts.filters()) {
-            //                    sb.append(String.format("%s; ", tsF));
-            //                }
-            //            }
-            sb.append("\n");
-        }
-        return sb.toString();
     }
 }

@@ -1,6 +1,5 @@
 package backend.academy.linktracker.scrapper.configuration;
 
-import backend.academy.linktracker.scrapper.properties.KafkaSenderProperties;
 import backend.academy.linktracker.scrapper.properties.RequestProperties;
 import backend.academy.linktracker.scrapper.services.senders.BotRequestsSender;
 import backend.academy.linktracker.scrapper.services.senders.HttpBotRequestsSender;

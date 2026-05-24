@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 public class KafkaReceiverProperties {
     @NotEmpty
     private String topic = "scrapper-to-bot";
+
     @NotEmpty
     private String group = "groupC";
 }

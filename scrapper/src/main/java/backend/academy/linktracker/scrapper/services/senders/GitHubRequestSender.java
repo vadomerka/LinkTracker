@@ -7,11 +7,6 @@ import backend.academy.linktracker.models.http.external.UpdateResponse;
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
 import backend.academy.linktracker.scrapper.services.requests.RequestJsonMapper;
 import backend.academy.linktracker.services.RequestsUtils;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -20,11 +15,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import tools.jackson.databind.JsonNode;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Pattern;
 
 @Component
 public class GitHubRequestSender implements UpdateRequestSender {
-    private final String token;
     private static final Pattern checkPattern = Pattern.compile("https://api\\.github\\.com/repos/[A-Za-z]+/[A-Za-z]+");
+    private final String token;
     private final RequestJsonMapper mapper;
     private RestClient restClient;
 
