@@ -5,7 +5,7 @@ spring:
   application:
     name: bot
   kafka:
-    bootstrap-servers: localhost:9092 # ,localhost:9093,localhost:9094
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094 # ,localhost:9093,localhost:9094
     consumer:
       group-id: groupB
 
@@ -17,7 +17,7 @@ app:
     update-listener-sleep: 1s
     debug: false
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
     topic: scrapper-bot
     group: groupB
 
