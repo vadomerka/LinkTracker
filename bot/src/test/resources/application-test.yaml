@@ -1,6 +1,24 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      enable-idempotence: true
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
 app:
   telegram:
     url: ${wiremock.server.baseUrl}/bot
     token: test-token
+    scrapperUrl: http://localhost:8081
     update-listener-sleep: 1s
     debug: true
+  kafka:
+    topic: integration-scrapper-bot
+    group: integration-test-group
