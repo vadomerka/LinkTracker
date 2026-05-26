@@ -1,7 +1,11 @@
 package backend.academy.linktracker.scrapper.controllers.rest;
 
 import backend.academy.linktracker.models.http.internal.ApiErrorResponse;
-import backend.academy.linktracker.scrapper.models.exceptions.*;
+import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
+import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
+import backend.academy.linktracker.scrapper.models.exceptions.LinkAlreadyExistsException;
+import backend.academy.linktracker.scrapper.models.exceptions.SourceIsAlreadyTrackedException;
+import backend.academy.linktracker.scrapper.models.exceptions.SourceNotFoundException;
 import org.apache.coyote.BadRequestException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;

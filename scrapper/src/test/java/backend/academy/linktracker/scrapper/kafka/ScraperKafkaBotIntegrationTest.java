@@ -54,22 +54,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 @ActiveProfiles("test")
 class ScraperKafkaBotIntegrationTest {
 
-    @TestConfiguration(proxyBeanMethods = false)
-    static class BotKafkaReceiverConfiguration {
-
-        @Bean(name = "kafkaReceiverProperties")
-        @ConfigurationProperties(prefix = "app.kafka")
-        KafkaReceiverProperties kafkaReceiverProperties() {
-            return new KafkaReceiverProperties();
-        }
-    }
-
     private static final long CHAT_ID = 100L;
     private static final String LINK_URL = "https://stackoverflow.com/questions/1";
-
     @MockitoBean
     private BotUtils botUtils;
-
     @Autowired
     private KafkaBotRequestsSender kafkaBotRequestsSender;
 
@@ -107,5 +95,15 @@ class ScraperKafkaBotIntegrationTest {
                                     eq(CHAT_ID),
                                     argThat(message -> message != null && message.contains("Answer")));
                 });
+    }
+
+    @TestConfiguration(proxyBeanMethods = false)
+    static class BotKafkaReceiverConfiguration {
+
+        @Bean(name = "kafkaReceiverProperties")
+        @ConfigurationProperties(prefix = "app.kafka")
+        KafkaReceiverProperties kafkaReceiverProperties() {
+            return new KafkaReceiverProperties();
+        }
     }
 }

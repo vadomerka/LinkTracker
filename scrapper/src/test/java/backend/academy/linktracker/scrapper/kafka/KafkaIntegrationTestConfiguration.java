@@ -10,10 +10,7 @@ import org.testcontainers.kafka.KafkaContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
-@Import({
-    ServiceConnectionAutoConfiguration.class,
-    KafkaAutoConfiguration.class
-})
+@Import({ServiceConnectionAutoConfiguration.class, KafkaAutoConfiguration.class})
 public class KafkaIntegrationTestConfiguration {
     @Bean
     @ServiceConnection

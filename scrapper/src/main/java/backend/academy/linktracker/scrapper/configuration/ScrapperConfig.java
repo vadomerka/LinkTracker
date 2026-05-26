@@ -14,9 +14,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class ScrapperConfig {
     @Bean
-    public BotRequestsSender botRequestSender(RequestProperties reqProperties,
-                                              KafkaBotRequestsSender kafkaBotRequestsSender,
-                                              HttpBotRequestsSender httpBotRequestsSender) {
+    public BotRequestsSender botRequestSender(
+            RequestProperties reqProperties,
+            KafkaBotRequestsSender kafkaBotRequestsSender,
+            HttpBotRequestsSender httpBotRequestsSender) {
         return switch (reqProperties.getType().toLowerCase()) {
             case "kafka" -> kafkaBotRequestsSender;
             case "http" -> httpBotRequestsSender;

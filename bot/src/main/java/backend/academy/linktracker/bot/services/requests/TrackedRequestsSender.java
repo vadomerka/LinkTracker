@@ -5,13 +5,13 @@ import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.services.RequestsUtils;
+import java.util.List;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import java.util.List;
 
 @Service
 public class TrackedRequestsSender {
