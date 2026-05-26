@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: scrapper
+  data:
+    redis:
+      repositories:
+        enabled: false
   datasource:
     url: jdbc:postgresql://localhost:5432/scrapper
     username: postgres
@@ -35,10 +39,20 @@ app:
   telegram:
     tgUrl: ${TELEGRAM_BOT_URL}
   requests:
-    type: kafka
+    type: http
   kafka:
     bootstrap-servers: localhost:9092,localhost:9093,localhost:9094 # ,localhost:9093,localhost:9094
     topic: scrapper-bot
     group: groupB
-
+  valkey:
+    enabled: true
+    password:
+    cluster:
+      nodes:
+        - localhost:7001
+        - localhost:7002
+        - localhost:7003
+    list-cache:
+      ttl: 10m
+      key-prefix: "list:"
 

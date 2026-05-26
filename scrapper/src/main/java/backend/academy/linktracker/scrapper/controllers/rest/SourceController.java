@@ -7,6 +7,7 @@ import backend.academy.linktracker.models.http.internal.LinkUpdateRequestItem;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.scrapper.controllers.db.DataController;
+import backend.academy.linktracker.scrapper.services.cache.CachedListSourcesService;
 import backend.academy.linktracker.scrapper.services.updates.LinkUpdateService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,13 @@ import java.util.List;
 @RestController
 public class SourceController {
     private final DataController dataController;
+    private final CachedListSourcesService cachedListSourcesService;
     private final LinkUpdateService service;
 
-    public SourceController(DataController dataController, LinkUpdateService service) {
+    public SourceController(
+            DataController dataController, CachedListSourcesService cachedListSourcesService, LinkUpdateService service) {
         this.dataController = dataController;
+        this.cachedListSourcesService = cachedListSourcesService;
         this.service = service;
     }
 
@@ -49,18 +53,17 @@ public class SourceController {
     }
 
     @GetMapping("/links")
-    ResponseEntity<@NotNull ListSourcesResponse> getLinks(
-            @RequestHeader Long tgChatId, @RequestHeader(required = false) String tag) {
-        return ResponseEntity.ok(dataController.getChatLinks(tgChatId, tag));
+    ResponseEntity<@NotNull ListSourcesResponse> getLinks(@RequestHeader(value = "Tg-Chat-Id", required = false) Long tgChatId, @RequestHeader(required = false) String tag) {
+        return ResponseEntity.ok(cachedListSourcesService.getChatLinks(tgChatId, tag));
     }
 
     @PostMapping("/links")
-    ResponseEntity<@NotNull LinkDto> addLink(@RequestHeader Long tgChatId, @RequestBody AddSourceRequest req) {
+    ResponseEntity<@NotNull LinkDto> addLink(@RequestHeader(value = "Tg-Chat-Id") Long tgChatId, @RequestBody AddSourceRequest req) {
         return ResponseEntity.ok(dataController.addLink(tgChatId, req));
     }
 
     @DeleteMapping("/links")
-    ResponseEntity<@NotNull String> deleteLink(@RequestHeader Long tgChatId, @RequestBody RemoveSourceRequest req) {
+    ResponseEntity<@NotNull String> deleteLink(@RequestHeader(value = "Tg-Chat-Id") Long tgChatId, @RequestBody RemoveSourceRequest req) {
         dataController.removeLink(tgChatId, req);
         return ResponseEntity.ok("Ссылка успешно убрана");
     }

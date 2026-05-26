@@ -6,6 +6,7 @@ import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.scrapper.models.entities.TagEntity;
 import backend.academy.linktracker.scrapper.models.exceptions.*;
+import backend.academy.linktracker.scrapper.services.cache.ListSourcesCacheService;
 import backend.academy.linktracker.scrapper.services.managers.*;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
@@ -20,18 +21,21 @@ public class OrmDataController implements DataController {
     private final TagManager tagManager;
     private final ChatLinkManager clManager;
     private final ChatLinkTagManager cltManager;
+    private final ListSourcesCacheService lscService;
 
     public OrmDataController(
             ChatManager chatManager,
             LinkManager linkManager,
             TagManager tagManager,
             ChatLinkManager clManager,
-            ChatLinkTagManager cltManager) {
+            ChatLinkTagManager cltManager,
+            ListSourcesCacheService lscService) {
         this.chatManager = chatManager;
         this.linkManager = linkManager;
         this.tagManager = tagManager;
         this.clManager = clManager;
         this.cltManager = cltManager;
+        this.lscService = lscService;
     }
 
     public void addChat(Long chatId) {
@@ -70,7 +74,7 @@ public class OrmDataController implements DataController {
             var lTags = cltManager.getChatLinkTags(chatId, l.getUrl()).stream()
                     .map(TagEntity::getName)
                     .toList();
-            if (tag.isEmpty() || lTags.contains(tag)) {
+            if (tag == null || tag.isEmpty() || lTags.contains(tag)) {
                 res.add(new LinkDto(l.getUrl(), lTags));
             }
         }
@@ -90,6 +94,7 @@ public class OrmDataController implements DataController {
             }
             cltManager.addTagToChatLink(chatId, req.url(), t);
         }
+        lscService.remove(chatId);
         return new LinkDto(req.url(), req.tags());
     }
 
@@ -101,5 +106,6 @@ public class OrmDataController implements DataController {
         if (!clManager.removeLink(chatId, req.url())) {
             throw new LinkRemovalException();
         }
+        lscService.remove(chatId);
     }
 }

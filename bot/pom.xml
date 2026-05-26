@@ -205,6 +205,12 @@
             <version>0.0.1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>backend.academy.link-tracker</groupId>
+            <artifactId>scrapper</artifactId>
+            <version>${revision}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
