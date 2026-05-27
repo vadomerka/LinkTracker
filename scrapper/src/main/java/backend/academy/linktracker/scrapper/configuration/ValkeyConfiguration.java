@@ -3,8 +3,6 @@ package backend.academy.linktracker.scrapper.configuration;
 import backend.academy.linktracker.scrapper.properties.ValkeyCacheProperties;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
-import java.time.Duration;
-import java.util.List;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +15,8 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import java.time.Duration;
+import java.util.List;
 
 @Configuration
 @EnableConfigurationProperties(ValkeyCacheProperties.class)

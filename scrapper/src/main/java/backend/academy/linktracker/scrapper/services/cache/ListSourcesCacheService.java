@@ -38,7 +38,10 @@ public class ListSourcesCacheService {
     public void put(Long tgChatId, ListSourcesResponse response) {
         redisTemplate
                 .opsForValue()
-                .set(cacheKey(tgChatId), objectMapper.writeValueAsString(response), properties.getListCache().getTtl());
+                .set(
+                        cacheKey(tgChatId),
+                        objectMapper.writeValueAsString(response),
+                        properties.getListCache().getTtl());
         log.info("Список ссылок сохранен Tg-Chat-Id={}", tgChatId);
     }
 

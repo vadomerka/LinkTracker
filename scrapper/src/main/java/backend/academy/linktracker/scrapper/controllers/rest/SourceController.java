@@ -28,7 +28,9 @@ public class SourceController {
     private final LinkUpdateService service;
 
     public SourceController(
-            DataController dataController, CachedListSourcesService cachedListSourcesService, LinkUpdateService service) {
+            DataController dataController,
+            CachedListSourcesService cachedListSourcesService,
+            LinkUpdateService service) {
         this.dataController = dataController;
         this.cachedListSourcesService = cachedListSourcesService;
         this.service = service;
@@ -59,17 +61,21 @@ public class SourceController {
     }
 
     @GetMapping("/links")
-    ResponseEntity<@NotNull ListSourcesResponse> getLinks(@RequestHeader(value = "Tg-Chat-Id", required = false) Long tgChatId, @RequestHeader(required = false) String tag) {
+    ResponseEntity<@NotNull ListSourcesResponse> getLinks(
+            @RequestHeader(value = "Tg-Chat-Id", required = false) Long tgChatId,
+            @RequestHeader(required = false) String tag) {
         return ResponseEntity.ok(cachedListSourcesService.getChatLinks(tgChatId, tag));
     }
 
     @PostMapping("/links")
-    ResponseEntity<@NotNull LinkDto> addLink(@RequestHeader(value = "Tg-Chat-Id") Long tgChatId, @RequestBody AddSourceRequest req) {
+    ResponseEntity<@NotNull LinkDto> addLink(
+            @RequestHeader(value = "Tg-Chat-Id") Long tgChatId, @RequestBody AddSourceRequest req) {
         return ResponseEntity.ok(dataController.addLink(tgChatId, req));
     }
 
     @DeleteMapping("/links")
-    ResponseEntity<@NotNull String> deleteLink(@RequestHeader(value = "Tg-Chat-Id") Long tgChatId, @RequestBody RemoveSourceRequest req) {
+    ResponseEntity<@NotNull String> deleteLink(
+            @RequestHeader(value = "Tg-Chat-Id") Long tgChatId, @RequestBody RemoveSourceRequest req) {
         dataController.removeLink(tgChatId, req);
         return ResponseEntity.ok("Ссылка успешно убрана");
     }

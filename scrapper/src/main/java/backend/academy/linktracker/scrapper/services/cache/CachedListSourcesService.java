@@ -18,13 +18,11 @@ public class CachedListSourcesService {
         if (tag != null && !tag.isBlank()) {
             return dataController.getChatLinks(tgChatId, tag);
         }
-        return cacheService
-                .get(tgChatId)
-                .orElseGet(() -> {
-                    ListSourcesResponse response = dataController.getChatLinks(tgChatId, tag);
-                    cacheService.put(tgChatId, response);
-                    return response;
-                });
+        return cacheService.get(tgChatId).orElseGet(() -> {
+            ListSourcesResponse response = dataController.getChatLinks(tgChatId, tag);
+            cacheService.put(tgChatId, response);
+            return response;
+        });
     }
 
     public void remove(Long tgChatId) {
