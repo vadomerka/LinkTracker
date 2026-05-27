@@ -1,0 +1,34 @@
+spring:
+  data:
+    redis:
+      repositories:
+        enabled: false
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      enable-idempotence: true
+
+app:
+  stackoverflow:
+    key: test-key
+    access-token: test-token
+  github:
+    token: test-token
+  telegram:
+    tgUrl: http://localhost:8080/bot
+  requests:
+    type: kafka
+  kafka:
+    topic: integration-scrapper-bot
+    group: integration-test-group
+  valkey:
+    enabled: true
+    standalone:
+      enabled: true
+      host: ${spring.data.redis.host:localhost}
+      port: ${spring.data.redis.port:6379}
+    list-cache:
+      ttl: 5m
+      key-prefix: "list:"

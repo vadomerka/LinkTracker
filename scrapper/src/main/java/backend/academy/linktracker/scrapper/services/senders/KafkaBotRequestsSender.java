@@ -13,7 +13,7 @@ import tools.jackson.databind.ObjectMapper;
 public class KafkaBotRequestsSender implements BotRequestsSender {
     private static final Logger log = LoggerFactory.getLogger(KafkaBotRequestsSender.class);
 
-    private final KafkaSenderProperties properties ;
+    private final KafkaSenderProperties properties;
     private final KafkaSender kafkaSender;
 
     public KafkaBotRequestsSender(KafkaSenderProperties properties, KafkaSender kafkaSender) {

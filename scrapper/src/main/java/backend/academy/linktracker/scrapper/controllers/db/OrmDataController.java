@@ -6,7 +6,6 @@ import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.scrapper.models.entities.TagEntity;
 import backend.academy.linktracker.scrapper.models.exceptions.*;
-import backend.academy.linktracker.scrapper.services.cache.ListSourcesCacheService;
 import backend.academy.linktracker.scrapper.services.managers.*;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
