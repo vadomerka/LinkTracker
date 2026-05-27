@@ -1,6 +1,8 @@
 spring:
   data:
     redis:
+      lettuce:
+        shutdown-timeout: 100ms
       repositories:
         enabled: false
   kafka:
@@ -32,3 +34,7 @@ app:
     list-cache:
       ttl: 5m
       key-prefix: "list:"
+
+logging:
+  level:
+    io.lettuce.core.protocol.ConnectionWatchdog: error
