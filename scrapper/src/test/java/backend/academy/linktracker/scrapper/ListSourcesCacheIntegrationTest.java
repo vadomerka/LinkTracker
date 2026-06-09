@@ -1,18 +1,10 @@
 package backend.academy.linktracker.scrapper;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.scrapper.services.cache.ListSourcesCacheService;
 import com.redis.testcontainers.RedisContainer;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +21,12 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import tools.jackson.databind.ObjectMapper;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = ScrapperApplication.class)
 @AutoConfigureMockMvc

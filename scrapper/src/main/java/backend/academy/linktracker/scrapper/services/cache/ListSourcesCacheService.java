@@ -2,13 +2,13 @@ package backend.academy.linktracker.scrapper.services.cache;
 
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.scrapper.properties.ValkeyCacheProperties;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
+import java.util.Optional;
 
 @Service
 @ConditionalOnProperty(prefix = "app.valkey", name = "enabled", havingValue = "true", matchIfMissing = true)

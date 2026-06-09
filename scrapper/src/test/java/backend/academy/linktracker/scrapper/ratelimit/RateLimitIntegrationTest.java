@@ -1,15 +1,12 @@
 package backend.academy.linktracker.scrapper.ratelimit;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import backend.academy.linktracker.scrapper.configuration.WebConfig;
+import backend.academy.linktracker.scrapper.controllers.db.DataController;
 import backend.academy.linktracker.scrapper.controllers.rest.SourceController;
 import backend.academy.linktracker.scrapper.controllers.rest.SourceControllerAdvice;
 import backend.academy.linktracker.scrapper.properties.RateLimitProperties;
 import backend.academy.linktracker.scrapper.services.cache.CachedListSourcesService;
 import backend.academy.linktracker.scrapper.services.updates.LinkUpdateService;
-import backend.academy.linktracker.scrapper.controllers.db.DataController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,6 +15,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {SourceController.class, SourceControllerAdvice.class})
 @Import({WebConfig.class, RateLimitInterceptor.class})

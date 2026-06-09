@@ -1,12 +1,12 @@
 package backend.academy.linktracker.scrapper.services.requests;
 
 import backend.academy.linktracker.models.http.external.UpdateResponse;
-import java.time.Instant;
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
+import java.time.Instant;
+import java.util.List;
 
 @Service
 public class RequestJsonMapper {

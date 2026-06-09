@@ -4,20 +4,12 @@ import backend.academy.linktracker.scrapper.models.entities.ChatLinkId;
 import backend.academy.linktracker.scrapper.models.entities.ChatLinkTag;
 import backend.academy.linktracker.scrapper.models.entities.ChatLinkTagId;
 import backend.academy.linktracker.scrapper.models.entities.TagEntity;
-import backend.academy.linktracker.scrapper.models.exceptions.ChatLinkNotFoundException;
-import backend.academy.linktracker.scrapper.models.exceptions.ChatLinkTagNotFoundException;
-import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
-import backend.academy.linktracker.scrapper.models.exceptions.LinkNotFoundException;
-import backend.academy.linktracker.scrapper.models.exceptions.TagNotFoundException;
-import backend.academy.linktracker.scrapper.repositories.ChatLinkRepository;
-import backend.academy.linktracker.scrapper.repositories.ChatLinkTagRepository;
-import backend.academy.linktracker.scrapper.repositories.ChatRepository;
-import backend.academy.linktracker.scrapper.repositories.LinkRepository;
-import backend.academy.linktracker.scrapper.repositories.TagRepository;
+import backend.academy.linktracker.scrapper.models.exceptions.*;
+import backend.academy.linktracker.scrapper.repositories.*;
 import backend.academy.linktracker.scrapper.services.managers.ChatLinkTagManager;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class OrmChatLinkTagManager implements ChatLinkTagManager {

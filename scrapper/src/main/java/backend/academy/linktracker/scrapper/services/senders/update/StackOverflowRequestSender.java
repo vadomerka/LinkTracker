@@ -95,12 +95,10 @@ public class StackOverflowRequestSender implements UpdateRequestSender {
                 .uri(url)
                 .header("Accept", "application/json")
                 .retrieve()
-                .onStatus(
-                        status -> retryableStatuses.contains(status.value()),
-                        (req, resp) -> {
-                            throw new RetryableException(
-                                    "Retryable HTTP error: " + resp.getStatusCode().value());
-                        })
+                .onStatus(status -> retryableStatuses.contains(status.value()), (req, resp) -> {
+                    throw new RetryableException(
+                            "Retryable HTTP error: " + resp.getStatusCode().value());
+                })
                 .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
                 .toEntity(new ParameterizedTypeReference<@NotNull JsonNode>() {});
         if (response.getBody() == null) {

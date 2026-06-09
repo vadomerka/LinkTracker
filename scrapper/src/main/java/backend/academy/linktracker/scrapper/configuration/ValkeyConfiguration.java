@@ -28,7 +28,8 @@ public class ValkeyConfiguration {
     RedisConnectionFactory valkeyConnectionFactory(ValkeyCacheProperties properties) {
         if (properties.getStandalone().isEnabled()) {
             RedisStandaloneConfiguration standaloneConfiguration = new RedisStandaloneConfiguration(
-                    properties.getStandalone().getHost(), properties.getStandalone().getPort());
+                    properties.getStandalone().getHost(),
+                    properties.getStandalone().getPort());
             if (properties.getPassword() != null && !properties.getPassword().isBlank()) {
                 standaloneConfiguration.setPassword(RedisPassword.of(properties.getPassword()));
             }
@@ -36,7 +37,8 @@ public class ValkeyConfiguration {
         }
         List<String> nodes = properties.getCluster().getNodes();
         if (nodes == null || nodes.isEmpty()) {
-            throw new IllegalStateException("app.valkey.cluster.nodes must be configured when standalone mode is disabled");
+            throw new IllegalStateException(
+                    "app.valkey.cluster.nodes must be configured when standalone mode is disabled");
         }
         RedisClusterConfiguration clusterConfiguration = new RedisClusterConfiguration(nodes);
         if (properties.getPassword() != null && !properties.getPassword().isBlank()) {
