@@ -10,6 +10,10 @@ spring:
       group-id: groupB
 
 app:
+  rate-limit:
+    capacity: 60
+    refill-tokens: 60
+    refill-period: 1m
   telegram:
     url: https://api.telegram.org/bot
     scrapperUrl: ${SCRAPPER_URL}

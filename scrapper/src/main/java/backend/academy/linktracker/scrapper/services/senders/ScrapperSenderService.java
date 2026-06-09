@@ -4,6 +4,8 @@ import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.models.exceptions.UrlFormatException;
 import backend.academy.linktracker.models.http.external.LinkUpdateData;
 import java.util.List;
+
+import backend.academy.linktracker.scrapper.services.senders.update.UpdateRequestSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

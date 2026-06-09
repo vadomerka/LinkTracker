@@ -55,4 +55,58 @@ app:
     list-cache:
       ttl: 10m
       key-prefix: "list:"
+  rate-limit:
+    capacity: 60
+    refill-tokens: 60
+    refill-period: 1m
+  http:
+    connect-timeout-ms: 3000
+    read-timeout-ms: 5000
+    retryable-statuses:
+      - 429
+      - 502
+      - 503
+      - 504
+
+resilience4j:
+  retry:
+    instances:
+      github:
+        max-attempts: 3
+        wait-duration: 1s
+        retry-exceptions:
+          - backend.academy.linktracker.scrapper.resilience.RetryableException
+      stackoverflow:
+        max-attempts: 3
+        wait-duration: 1s
+        retry-exceptions:
+          - backend.academy.linktracker.scrapper.resilience.RetryableException
+      bot-http:
+        max-attempts: 3
+        wait-duration: 1s
+        retry-exceptions:
+          - backend.academy.linktracker.scrapper.resilience.RetryableException
+  circuitbreaker:
+    instances:
+      github:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+      stackoverflow:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+      bot-http:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
 

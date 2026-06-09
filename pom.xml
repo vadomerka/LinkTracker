@@ -65,6 +65,7 @@
         <spring-ai.version>2.0.0-M2</spring-ai.version>
         <spring-cloud.version>2025.1.1</spring-cloud.version>
         <spring-grpc.version>1.0.2</spring-grpc.version>
+        <bucket4j.version>8.10.1</bucket4j.version>
         <springdoc.version>3.0.1</springdoc.version>
         <wiremock-grpc.version>0.11.0</wiremock-grpc.version>
         <wiremock-spring-boot.version>4.1.0</wiremock-spring-boot.version>
@@ -154,6 +155,11 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bucket4j</groupId>
+                <artifactId>bucket4j-core</artifactId>
+                <version>${bucket4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.pengrad</groupId>

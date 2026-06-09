@@ -1,25 +1,30 @@
-package backend.academy.linktracker.scrapper.services.senders;
+package backend.academy.linktracker.scrapper.services.senders.update;
 
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.models.exceptions.UrlFormatException;
 import backend.academy.linktracker.models.http.external.LinkUpdateData;
 import backend.academy.linktracker.models.http.external.UpdateResponse;
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
+import backend.academy.linktracker.scrapper.properties.HttpClientProperties;
+import backend.academy.linktracker.scrapper.resilience.RetryableException;
 import backend.academy.linktracker.scrapper.services.requests.RequestJsonMapper;
 import backend.academy.linktracker.services.RequestsUtils;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClient;
-import tools.jackson.databind.JsonNode;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClient;
+import tools.jackson.databind.JsonNode;
 
 @Component
 public class StackOverflowRequestSender implements UpdateRequestSender {
@@ -28,21 +33,27 @@ public class StackOverflowRequestSender implements UpdateRequestSender {
     private final String token;
     private final RequestJsonMapper mapper;
     private final RestClient restClient;
+    private final List<Integer> retryableStatuses;
 
-    public StackOverflowRequestSender(GithubProperties properties, RequestJsonMapper mapper) {
-        token = properties.getToken();
+    public StackOverflowRequestSender(
+            GithubProperties properties,
+            RequestJsonMapper mapper,
+            SimpleClientHttpRequestFactory factory,
+            HttpClientProperties httpClientProperties) {
+        this.token = properties.getToken();
         this.mapper = mapper;
-        this.restClient = RestClient.create();
+        this.retryableStatuses = httpClientProperties.getRetryableStatuses();
+        this.restClient = RestClient.builder().requestFactory(factory).build();
     }
 
-    // var uri = "https://api.stackexchange.com/";
-    // https://api.stackexchange.com/2.3/questions/6268679/answers?site=stackoverflow&filter=withbody
-    // https://api.stackexchange.com/2.3/questions/6268679?site=stackoverflow
+    @Override
+    @Retry(name = "stackoverflow")
+    @CircuitBreaker(name = "stackoverflow")
     public LinkUpdateData getLinkResponse(String url) {
         try {
             if (!checkLink(url)) throw new UrlFormatException();
             return makeUpdData(url);
-        } catch (ScrapperRequestException ex) {
+        } catch (ScrapperRequestException | RetryableException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new UrlFormatException(ex.getMessage());
@@ -84,6 +95,12 @@ public class StackOverflowRequestSender implements UpdateRequestSender {
                 .uri(url)
                 .header("Accept", "application/json")
                 .retrieve()
+                .onStatus(
+                        status -> retryableStatuses.contains(status.value()),
+                        (req, resp) -> {
+                            throw new RetryableException(
+                                    "Retryable HTTP error: " + resp.getStatusCode().value());
+                        })
                 .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
                 .toEntity(new ParameterizedTypeReference<@NotNull JsonNode>() {});
         if (response.getBody() == null) {
@@ -92,6 +109,7 @@ public class StackOverflowRequestSender implements UpdateRequestSender {
         return response;
     }
 
+    @Override
     public boolean checkLink(String url) {
         return checkPattern.matcher(url).matches();
     }

@@ -7,7 +7,7 @@ import backend.academy.linktracker.scrapper.services.managers.ChatManager;
 import backend.academy.linktracker.scrapper.services.managers.LinkManager;
 import backend.academy.linktracker.scrapper.services.managers.orm.OrmChatManager;
 import backend.academy.linktracker.scrapper.services.managers.orm.OrmLinkManager;
-import backend.academy.linktracker.scrapper.services.senders.BotRequestsSender;
+import backend.academy.linktracker.scrapper.services.senders.bot.BotRequestsSender;
 import backend.academy.linktracker.scrapper.services.senders.ScrapperSenderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

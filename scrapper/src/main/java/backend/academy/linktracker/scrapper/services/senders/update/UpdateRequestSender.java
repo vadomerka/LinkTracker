@@ -1,4 +1,4 @@
-package backend.academy.linktracker.scrapper.services.senders;
+package backend.academy.linktracker.scrapper.services.senders.update;
 
 import backend.academy.linktracker.models.http.external.LinkUpdateData;
 

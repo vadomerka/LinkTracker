@@ -8,12 +8,12 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
 @Service
-public class KafkaSender {
-    private static final Logger log = LoggerFactory.getLogger(KafkaSender.class);
+public class KafkaSenderService {
+    private static final Logger log = LoggerFactory.getLogger(KafkaSenderService.class);
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public KafkaSender(KafkaTemplate<String, String> kafkaTemplate) {
+    public KafkaSenderService(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 

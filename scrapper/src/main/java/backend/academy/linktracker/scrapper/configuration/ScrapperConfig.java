@@ -1,9 +1,9 @@
 package backend.academy.linktracker.scrapper.configuration;
 
 import backend.academy.linktracker.scrapper.properties.RequestProperties;
-import backend.academy.linktracker.scrapper.services.senders.BotRequestsSender;
-import backend.academy.linktracker.scrapper.services.senders.HttpBotRequestsSender;
-import backend.academy.linktracker.scrapper.services.senders.KafkaBotRequestsSender;
+import backend.academy.linktracker.scrapper.services.senders.bot.BotRequestsSender;
+import backend.academy.linktracker.scrapper.services.senders.bot.FallbackBotRequestsSender;
+import backend.academy.linktracker.scrapper.services.senders.bot.KafkaBotRequestsSender;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -17,10 +17,10 @@ public class ScrapperConfig {
     public BotRequestsSender botRequestSender(
             RequestProperties reqProperties,
             KafkaBotRequestsSender kafkaBotRequestsSender,
-            HttpBotRequestsSender httpBotRequestsSender) {
+            FallbackBotRequestsSender fallbackBotRequestsSender) {
         return switch (reqProperties.getType().toLowerCase()) {
             case "kafka" -> kafkaBotRequestsSender;
-            case "http" -> httpBotRequestsSender;
+            case "http" -> fallbackBotRequestsSender;
             default -> throw new IllegalArgumentException("Неподдерживаемый параметр app.request.type");
         };
     }
