@@ -42,6 +42,11 @@ public class SourceController {
         return ResponseEntity.ok("Чат успешно удалён");
     }
 
+    @GetMapping("/db-links")
+    ResponseEntity<@NotNull String> getDbLinks() {
+        return ResponseEntity.ok(dataController.getLinks().toString());
+    }
+
     @PostMapping("/db-link/{url}")
     ResponseEntity<@NotNull String> addDbLink(@PathVariable String url) {
         dataController.addLink(url);

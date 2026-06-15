@@ -5,12 +5,15 @@ import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import org.jetbrains.annotations.NotNull;
+import java.util.List;
 
 public interface DataController {
 
     void addChat(Long id);
 
     void removeChat(Long id);
+
+    List<String> getLinks();
 
     void addLink(String url);
 

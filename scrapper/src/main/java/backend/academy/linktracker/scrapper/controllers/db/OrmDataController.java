@@ -4,6 +4,7 @@ import backend.academy.linktracker.models.LinkDto;
 import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
+import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import backend.academy.linktracker.scrapper.models.entities.TagEntity;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatAlreadyExistsException;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
@@ -18,6 +19,7 @@ import backend.academy.linktracker.scrapper.services.managers.LinkManager;
 import backend.academy.linktracker.scrapper.services.managers.TagManager;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +60,10 @@ public class OrmDataController implements DataController {
             throw new ChatNotFoundException();
         }
         chatManager.deleteChat(chatId);
+    }
+
+    public List<String> getLinks() {
+        return linkManager.getAllLinks().stream().map(LinkEntity::getUrl).toList();
     }
 
     public void addLink(String url) {
