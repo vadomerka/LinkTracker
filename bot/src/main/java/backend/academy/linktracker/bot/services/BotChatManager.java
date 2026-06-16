@@ -23,7 +23,6 @@ public class BotChatManager {
                 sb.append("\n");
                 utils.sendMessage(req.chatId(), sb.toString());
             }
-            sb.append("\n");
         }
     }
 }

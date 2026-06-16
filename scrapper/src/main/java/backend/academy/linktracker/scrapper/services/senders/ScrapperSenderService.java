@@ -28,11 +28,11 @@ public class ScrapperSenderService {
         try {
             ans = dataRequestSender.getLinkResponse(url);
         } catch (ScrapperRequestException ex) {
-            logger.info("Произошла ошибка при получении обновления по ссылке. {}", ex.toString());
+            logger.error("Ошибка при получении обновления url={}: {}", url, ex.getMessage(), ex);
         } catch (UrlFormatException ex) {
-            logger.info("Ошибка. {}", ex.toString());
+            logger.warn("Ссылка не распознана url={}: {}", url, ex.getMessage());
         } catch (Exception ex) {
-            logger.info("Ссылка не соответствует формату. {}", ex.toString());
+            logger.error("Неожиданная ошибка url={}: {}", url, ex.getMessage(), ex);
         }
         return ans;
     }

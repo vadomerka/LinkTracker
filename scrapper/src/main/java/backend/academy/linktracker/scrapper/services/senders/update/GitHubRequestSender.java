@@ -28,8 +28,10 @@ import java.util.regex.Pattern;
 
 @Component
 public class GitHubRequestSender implements UpdateRequestSender {
+    private static final org.slf4j.Logger log =
+            org.slf4j.LoggerFactory.getLogger(GitHubRequestSender.class);
     private static final Pattern checkPattern =
-            Pattern.compile("https://api\\.github\\.com/repos/[A-Za-z]+/[A-Za-z]+");
+            Pattern.compile("https://api\\.github\\.com/repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+");
     private final String token;
     private final RequestJsonMapper mapper;
     private final RestClient restClient;
@@ -54,8 +56,10 @@ public class GitHubRequestSender implements UpdateRequestSender {
             if (!checkLink(url)) throw new UrlFormatException();
             return makeUpdData(url);
         } catch (ScrapperRequestException | RetryableException ex) {
+            log.error("GitHub API error for url={}: {}", url, ex.getMessage(), ex);
             throw ex;
         } catch (Exception ex) {
+            log.error("Unexpected error for url={}: {}", url, ex.getMessage(), ex);
             throw new UrlFormatException(ex.getMessage());
         }
     }
@@ -83,19 +87,20 @@ public class GitHubRequestSender implements UpdateRequestSender {
     }
 
     private ResponseEntity<@NotNull List<JsonNode>> getApiResponse(String url) {
-        var response = restClient
-                .method(HttpMethod.GET)
-                .uri(url)
-                .header("Authorization", "token " + token)
-                .header("Accept", "application/vnd.github.v3+json")
-                .retrieve()
-                .onStatus(
-                        status -> retryableStatuses.contains(status.value()),
-                        (req, resp) -> {
-                            throw new RetryableException(
-                                    "Retryable HTTP error: " + resp.getStatusCode().value());
-                        })
-                .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
+        var raw = restClient
+            .method(HttpMethod.GET)
+            .uri(url)
+            .header("Authorization", "token " + token)
+            .header("Accept", "application/vnd.github.v3+json")
+            .retrieve()
+            .onStatus(
+                status -> retryableStatuses.contains(status.value()),
+                (req, resp) -> {
+                    throw new RetryableException(
+                        "Retryable HTTP error: " + resp.getStatusCode().value());
+                })
+            .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors);
+        var response = raw
                 .toEntity(new ParameterizedTypeReference<@NotNull List<JsonNode>>() {});
         if (response.getBody() == null) {
             throw new NullPointerException();
