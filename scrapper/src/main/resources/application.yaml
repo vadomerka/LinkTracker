@@ -39,7 +39,7 @@ app:
   telegram:
     tgUrl: ${TELEGRAM_BOT_URL}
   requests:
-    type: http
+    type: kafka
   kafka:
     bootstrap-servers: localhost:9092,localhost:9093,localhost:9094 # ,localhost:9093,localhost:9094
     topic: link.raw-updates
