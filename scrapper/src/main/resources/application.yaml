@@ -42,7 +42,7 @@ app:
     type: http
   kafka:
     bootstrap-servers: localhost:9092,localhost:9093,localhost:9094 # ,localhost:9093,localhost:9094
-    topic: scrapper-bot
+    topic: link.raw-updates
     group: groupB
   valkey:
     enabled: true

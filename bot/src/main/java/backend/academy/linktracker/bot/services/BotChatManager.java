@@ -1,6 +1,7 @@
 package backend.academy.linktracker.bot.services;
 
 import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
+import backend.academy.linktracker.models.kafka.ProcessedUpdateMessage;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +24,13 @@ public class BotChatManager {
                 sb.append("\n");
                 utils.sendMessage(req.chatId(), sb.toString());
             }
+        }
+    }
+
+    public void processUpdate(ProcessedUpdateMessage msg) {
+        String text = "Произошло обновление:\n" + msg.description();
+        for (Long chatId : msg.tgChatIds()) {
+            utils.sendMessage(chatId, text);
         }
     }
 }

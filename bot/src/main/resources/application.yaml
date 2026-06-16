@@ -22,6 +22,6 @@ app:
     debug: false
   kafka:
     bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
-    topic: scrapper-bot
+    topic: link.processed-updates
     group: groupB
 

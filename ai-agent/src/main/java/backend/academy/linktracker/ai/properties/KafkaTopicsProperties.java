@@ -1,23 +1,24 @@
-package backend.academy.linktracker.bot.properties;
+package backend.academy.linktracker.ai.properties;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
+@Component
 @ConfigurationProperties(prefix = "app.kafka")
 @Validated
 @Getter
 @Setter
-@EqualsAndHashCode
-@NoArgsConstructor
-public class KafkaReceiverProperties {
+public class KafkaTopicsProperties {
     @NotEmpty
-    private String topic = "link.processed-updates";
+    private String inputTopic = "link.raw-updates";
 
     @NotEmpty
-    private String group = "groupC";
+    private String outputTopic = "link.processed-updates";
+
+    @NotEmpty
+    private String groupId = "ai-agent-group";
 }
