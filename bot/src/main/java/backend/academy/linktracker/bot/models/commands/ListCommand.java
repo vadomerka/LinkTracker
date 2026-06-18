@@ -69,7 +69,7 @@ public class ListCommand extends BotCommandExec {
 
     private String getTrackedStage(Long chatId) {
         var data = csm.getCommandStatus(chatId).getChatData();
-        var tag = data.isEmpty() ? null : data.getFirst();
+        var tag = data.isEmpty() ? "" : data.getFirst();
         var res = requestsSender.getTrackingUrls(chatId, tag).getBody();
         if (res == null) throw new ScrapperRequestException("Список ссылок не был получен");
 
@@ -77,7 +77,7 @@ public class ListCommand extends BotCommandExec {
         if (res.size() > 0) {
             response = makeResponse(res);
         } else {
-            if (tag == null) {
+            if (tag.isEmpty()) {
                 response = "Список ссылок пуст";
             } else {
                 response = "Ссылки с данными тегами не найдены";
