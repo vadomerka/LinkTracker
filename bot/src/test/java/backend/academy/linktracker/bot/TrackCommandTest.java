@@ -89,6 +89,19 @@ class TrackCommandTest {
     }
 
     @Test
+    void invalidUrl_returnsErrorMessage() {
+        var invalidUrl = "123://github.com/user/repo";
+        doThrow(new ScrapperRequestException("Некорректная ссылка"))
+                .when(requestsSender).addTrackingUrl(anyLong(), eq(invalidUrl), anyList(), any());
+
+        trackCommand.execute(bot, null, chat, List.of("/track"));
+        trackCommand.execute(bot, null, chat, List.of(invalidUrl));
+        var response = trackCommand.execute(bot, null, chat, List.of("n"));
+
+        assertThat(response).isNotBlank();
+    }
+
+    @Test
     void afterCompleted_statusResetToDefault() {
         trackCommand.execute(bot, null, chat, List.of("/track"));
         trackCommand.execute(bot, null, chat, List.of(VALID_URL));
