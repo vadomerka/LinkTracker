@@ -1,8 +1,9 @@
 package backend.academy.linktracker.scrapper.services.requests;
 
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
-import java.time.Instant;
 import java.util.List;
+import backend.academy.linktracker.models.exceptions.UrlFormatException;
+import backend.academy.linktracker.models.http.external.LinkUpdateData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,8 @@ public class ScrapperSenderService {
         this.senders = senders;
     }
 
-    public Instant getUrlUpdate(String url) {
-        Instant ans = null;
+    public LinkUpdateData getLinkUpdateData(String url) {
+        LinkUpdateData ans = null;
         var s = getSenderType(url);
         if (s == null) {
             logger.info("Ссылка не соответствует формату.");

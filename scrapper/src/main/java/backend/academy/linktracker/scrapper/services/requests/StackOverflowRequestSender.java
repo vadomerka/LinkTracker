@@ -28,6 +28,10 @@ public class StackOverflowRequestSender implements UpdateRequestSender {
     private final RequestJsonMapper mapper;
     private final RestClient restClient;
 
+    public String getRoot() {
+        return "stackexchange";
+    }
+
     public StackOverflowRequestSender(GithubProperties properties, RequestJsonMapper mapper) {
         token = properties.getToken();
         this.mapper = mapper;
@@ -37,7 +41,7 @@ public class StackOverflowRequestSender implements UpdateRequestSender {
     // var uri = "https://api.stackexchange.com/";
     // https://api.stackexchange.com/2.3/questions/6268679/answers?site=stackoverflow&filter=withbody
     // https://api.stackexchange.com/2.3/questions/6268679?site=stackoverflow
-    public LinkUpdateData getLinkResponse(String url) {
+    public LinkUpdateData getResponse(String url) {
         try {
             if (!checkLink(url)) throw new UrlFormatException();
             return makeUpdData(url);

@@ -32,8 +32,12 @@ public class GitHubRequestSender implements UpdateRequestSender {
         this.mapper = mapper;
     }
 
+    public String getRoot() {
+        return "github";
+    }
+
     // var uri = "https://api.github.com/repos/vadomerka/MindMines";
-    public LinkUpdateData getLinkResponse(String url) {
+    public LinkUpdateData getResponse(String url) {
         restClient = RestClient.create();
         try {
             if (!checkLink(url)) throw new UrlFormatException();

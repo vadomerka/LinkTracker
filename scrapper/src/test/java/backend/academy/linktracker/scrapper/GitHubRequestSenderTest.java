@@ -2,6 +2,7 @@ package backend.academy.linktracker.scrapper;
 
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
 import backend.academy.linktracker.scrapper.services.requests.GitHubRequestSender;
+import backend.academy.linktracker.scrapper.services.requests.RequestJsonMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class GitHubRequestSenderTest {
     void setUp() {
         var props = new GithubProperties();
         props.setToken("test-token");
-        sender = new GitHubRequestSender(props);
+        sender = new GitHubRequestSender(props, new RequestJsonMapper());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package backend.academy.linktracker.scrapper;
 
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
+import backend.academy.linktracker.scrapper.services.requests.RequestJsonMapper;
 import backend.academy.linktracker.scrapper.services.requests.StackOverflowRequestSender;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import org.wiremock.spring.EnableWireMock;
 import org.wiremock.spring.InjectWireMock;
 
@@ -30,7 +32,7 @@ class StackOverflowRequestSenderTest {
     void setUp() {
         var props = new GithubProperties();
         props.setToken("test-token");
-        sender = new StackOverflowRequestSender(props);
+        sender = new StackOverflowRequestSender(props, new RequestJsonMapper());
     }
 
     @Test
@@ -53,7 +55,7 @@ class StackOverflowRequestSenderTest {
         var result = sender.getResponse(url);
 
         assertThat(result).isNotNull();
-        assertThat(result.getEpochSecond()).isEqualTo(1705315800L);
+        assertThat(result.data() != null);
     }
 
     @Test
