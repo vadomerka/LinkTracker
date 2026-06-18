@@ -74,8 +74,7 @@ class StackOverflowRequestSenderTest {
 
         var url = wireMock.baseUrl() + "/questions/notfound";
 
-        assertThatCode(() -> sender.getResponse(url))
-                .isInstanceOf(Exception.class);
+        assertThatCode(() -> sender.getResponse(url)).isInstanceOf(Exception.class);
     }
 
     @Test
@@ -88,8 +87,7 @@ class StackOverflowRequestSenderTest {
 
         var url = wireMock.baseUrl() + "/questions/empty";
 
-        assertThatCode(() -> sender.getResponse(url))
-                .isInstanceOf(Exception.class);
+        assertThatCode(() -> sender.getResponse(url)).isInstanceOf(Exception.class);
     }
 
     @Test
@@ -102,7 +100,6 @@ class StackOverflowRequestSenderTest {
 
         var url = wireMock.baseUrl() + "/questions/wrong";
 
-        assertThatCode(() -> sender.getResponse(url))
-                .isInstanceOf(Exception.class);
+        assertThatCode(() -> sender.getResponse(url)).isInstanceOf(Exception.class);
     }
 }

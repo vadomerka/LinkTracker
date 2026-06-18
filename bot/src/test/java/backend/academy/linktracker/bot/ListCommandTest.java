@@ -2,7 +2,6 @@ package backend.academy.linktracker.bot;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
-
 import static org.mockito.Mockito.when;
 
 import backend.academy.linktracker.bot.models.commands.ListCommand;
@@ -23,15 +22,13 @@ import org.springframework.http.ResponseEntity;
 @ExtendWith(MockitoExtension.class)
 class ListCommandTest {
 
+    private static final long CHAT_ID = 42L;
+    private static final String VALID_URL = "https://github.com/user/repo";
     @Mock TrackedRequestsSender requestsSender;
     @Mock TelegramBot bot;
     @Mock Chat chat;
-
     ChatStatusManager csm;
     ListCommand listCommand;
-
-    private static final long CHAT_ID = 42L;
-    private static final String VALID_URL = "https://github.com/user/repo";
 
     @BeforeEach
     void setUp() {

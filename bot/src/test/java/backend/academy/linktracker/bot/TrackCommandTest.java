@@ -24,15 +24,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class TrackCommandTest {
 
+    private static final long CHAT_ID = 42L;
+    private static final String VALID_URL = "https://github.com/user/repo";
     @Mock TrackedRequestsSender requestsSender;
     @Mock TelegramBot bot;
     @Mock Chat chat;
-
     ChatStatusManager csm;
     TrackCommand trackCommand;
-
-    private static final long CHAT_ID = 42L;
-    private static final String VALID_URL = "https://github.com/user/repo";
 
     @BeforeEach
     void setUp() {

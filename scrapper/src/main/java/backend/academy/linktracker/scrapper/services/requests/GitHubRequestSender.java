@@ -5,23 +5,23 @@ import backend.academy.linktracker.models.exceptions.UrlFormatException;
 import backend.academy.linktracker.models.http.external.GithubUpdateResponse;
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
 import backend.academy.linktracker.services.RequestsUtils;
-import java.time.Instant;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import java.time.Instant;
 
 @Component
 public class GitHubRequestSender implements UpdateRequestSender {
-    private final String token;
     private static final String root = "api.github.com";
-
-    public String getRoot() {
-        return root;
-    }
+    private final String token;
 
     public GitHubRequestSender(GithubProperties properties) {
         token = properties.getToken();
+    }
+
+    public String getRoot() {
+        return root;
     }
 
     // var uri = "https://api.github.com/repos/vadomerka/MindMines";
