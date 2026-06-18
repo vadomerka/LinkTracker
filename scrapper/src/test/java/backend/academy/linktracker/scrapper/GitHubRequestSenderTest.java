@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
 import backend.academy.linktracker.scrapper.services.requests.GitHubRequestSender;
+import com.github.tomakehurst.wiremock.WireMockServer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.wiremock.spring.EnableWireMock;
 import org.wiremock.spring.InjectWireMock;
-import com.github.tomakehurst.wiremock.WireMockServer;
 
 @SpringBootTest
 @ActiveProfiles("test")

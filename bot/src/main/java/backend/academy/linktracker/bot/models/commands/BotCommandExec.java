@@ -3,9 +3,9 @@ package backend.academy.linktracker.bot.models.commands;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
-import java.util.List;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
+import java.util.List;
 
 @Getter
 @Component

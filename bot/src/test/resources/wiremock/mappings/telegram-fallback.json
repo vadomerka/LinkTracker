@@ -1,12 +1,14 @@
 {
-  "priority": 10,
-  "request": {
-    "method": "POST",
-    "urlPattern": "/bot.*"
-  },
-  "response": {
-    "status": 200,
-    "headers": { "Content-Type": "application/json" },
-    "body": "{\"ok\":true,\"result\":true}"
-  }
+    "priority": 10,
+    "request": {
+        "method": "POST",
+        "urlPattern": "/bot.*"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": "{\"ok\":true,\"result\":true}"
+    }
 }

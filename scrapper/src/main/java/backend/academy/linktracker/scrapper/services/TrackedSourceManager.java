@@ -8,9 +8,9 @@ import backend.academy.linktracker.scrapper.factories.TrackedSourceFactory;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceIsAlreadyTrackedException;
 import backend.academy.linktracker.scrapper.models.exceptions.SourceNotFoundException;
 import backend.academy.linktracker.scrapper.repositories.TrackedSourceRepository;
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.stereotype.Service;
 
 @Service
 public class TrackedSourceManager {

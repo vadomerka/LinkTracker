@@ -28,15 +28,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class LinkUpdateServiceTest {
 
-    @Mock BotRequestsSender botSender;
-    @Mock ScrapperSenderService senderService;
-
-    private LinkUpdateService linkUpdateService;
-    private TrackedSourceRepository repository;
-
     private static final String GITHUB_URL = "https://api.github.com/repos/user/repo";
     private static final TrackedSource SOURCE =
             new TrackedSource(1, GITHUB_URL, List.of(), List.of());
+    @Mock BotRequestsSender botSender;
+    @Mock ScrapperSenderService senderService;
+    private LinkUpdateService linkUpdateService;
+    private TrackedSourceRepository repository;
 
     @BeforeEach
     void setUp() {

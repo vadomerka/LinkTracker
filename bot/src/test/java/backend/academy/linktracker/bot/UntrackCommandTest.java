@@ -22,14 +22,12 @@ import org.mockito.quality.Strictness;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class UntrackCommandTest {
 
+    private static final long CHAT_ID = 42L;
+    private static final String VALID_URL = "https://github.com/user/repo";
     @Mock TrackedRequestsSender requestsSender;
     @Mock TelegramBot bot;
     @Mock Chat chat;
-
     UntrackCommand untrackCommand;
-
-    private static final long CHAT_ID = 42L;
-    private static final String VALID_URL = "https://github.com/user/repo";
 
     @BeforeEach
     void setUp() {

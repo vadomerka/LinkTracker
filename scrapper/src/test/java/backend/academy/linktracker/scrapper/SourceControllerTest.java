@@ -8,8 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,8 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class SourceControllerTest {
-
-    @Autowired MockMvc mockMvc;
 
     private static final String VALID_URL = "https://github.com/user/repo";
     private static final String ADD_LINK_BODY = """
@@ -36,6 +34,7 @@ class SourceControllerTest {
                 "url": "https://github.com/user/repo"
             }
             """;
+    @Autowired MockMvc mockMvc;
 
     @Test
     void addChat_returns200() throws Exception {
