@@ -11,8 +11,6 @@ import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class KafkaBotRequestsSender implements BotRequestsSender {
-    private static final Logger log = LoggerFactory.getLogger(KafkaBotRequestsSender.class);
-
     private final KafkaSenderProperties properties;
     private final KafkaSender kafkaSender;
 
