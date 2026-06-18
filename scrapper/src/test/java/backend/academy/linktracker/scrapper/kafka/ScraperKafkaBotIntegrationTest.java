@@ -6,10 +6,12 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
+import backend.academy.linktracker.bot.configuration.BotKafkaConsumerConfiguration;
 import backend.academy.linktracker.bot.controllers.KafkaBotController;
 import backend.academy.linktracker.bot.properties.KafkaReceiverProperties;
 import backend.academy.linktracker.bot.services.BotChatManager;
 import backend.academy.linktracker.bot.services.BotUtils;
+import backend.academy.linktracker.bot.services.LinkUpdateMessageProcessor;
 import backend.academy.linktracker.models.http.external.LinkUpdateData;
 import backend.academy.linktracker.models.http.external.UpdateResponse;
 import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
@@ -41,6 +43,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
             KafkaSender.class,
             KafkaBotRequestsSender.class,
             KafkaBotController.class,
+            LinkUpdateMessageProcessor.class,
+            BotKafkaConsumerConfiguration.class,
             BotChatManager.class
         },
         properties =
@@ -67,9 +71,21 @@ class ScraperKafkaBotIntegrationTest {
         String group = "integration-test-group-" + UUID.randomUUID();
         registry.add("app.kafka.topic", () -> topic);
         registry.add("app.kafka.group", () -> group);
+        registry.add("app.kafka.dlq-topic", () -> topic + "-dlq");
+        registry.add("app.kafka.retry.max-attempts", () -> "3");
+        registry.add("app.kafka.retry.backoff-ms", () -> "200");
+        registry.add("spring.kafka.bootstrap-servers", KafkaIntegrationTestConfiguration::bootstrapServers);
         registry.add("spring.kafka.consumer.auto-offset-reset", () -> "earliest");
         registry.add("spring.kafka.consumer.key-deserializer", StringDeserializer.class::getName);
-        registry.add("spring.kafka.consumer.value-deserializer", StringDeserializer.class::getName);
+        registry.add(
+                "spring.kafka.consumer.value-deserializer",
+                () -> "org.springframework.kafka.support.serializer.ErrorHandlingDeserializer");
+        registry.add(
+                "spring.kafka.consumer.properties.spring.deserializer.key.delegate.class",
+            StringDeserializer.class::getName);
+        registry.add(
+                "spring.kafka.consumer.properties.spring.deserializer.value.delegate.class",
+            StringDeserializer.class::getName);
     }
 
     @Test

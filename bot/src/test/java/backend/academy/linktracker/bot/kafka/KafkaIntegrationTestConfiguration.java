@@ -1,4 +1,4 @@
-package backend.academy.linktracker.scrapper.kafka;
+package backend.academy.linktracker.bot.kafka;
 
 import org.springframework.boot.kafka.autoconfigure.KafkaAutoConfiguration;
 import org.springframework.boot.test.context.TestConfiguration;
