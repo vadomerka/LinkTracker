@@ -1,25 +1,25 @@
-//package backend.academy.linktracker.bot;
+// package backend.academy.linktracker.bot;
 //
-//import backend.academy.linktracker.bot.models.commands.ListCommand;
-//import backend.academy.linktracker.bot.services.ChatStatusManager;
-//import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
-//import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
-//import com.pengrad.telegrambot.TelegramBot;
-//import com.pengrad.telegrambot.model.Chat;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//import org.springframework.http.ResponseEntity;
-//import java.util.List;
+// import backend.academy.linktracker.bot.models.commands.ListCommand;
+// import backend.academy.linktracker.bot.services.ChatStatusManager;
+// import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
+// import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
+// import com.pengrad.telegrambot.TelegramBot;
+// import com.pengrad.telegrambot.model.Chat;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.extension.ExtendWith;
+// import org.mockito.Mock;
+// import org.mockito.junit.jupiter.MockitoExtension;
+// import org.springframework.http.ResponseEntity;
+// import java.util.List;
 //
-//import static org.assertj.core.api.Assertions.assertThat;
-//import static org.mockito.ArgumentMatchers.eq;
-//import static org.mockito.Mockito.when;
+// import static org.assertj.core.api.Assertions.assertThat;
+// import static org.mockito.ArgumentMatchers.eq;
+// import static org.mockito.Mockito.when;
 //
-//@ExtendWith(MockitoExtension.class)
-//class ListCommandTest {
+// @ExtendWith(MockitoExtension.class)
+// class ListCommandTest {
 //
 //    private static final long CHAT_ID = 42L;
 //    private static final String VALID_URL = "https://github.com/user/repo";
@@ -94,4 +94,4 @@
 //
 //        assertThat(response).contains("не найдены");
 //    }
-//}
+// }

@@ -8,8 +8,8 @@ import backend.academy.linktracker.scrapper.models.exceptions.*;
 import backend.academy.linktracker.scrapper.repositories.*;
 import backend.academy.linktracker.scrapper.services.managers.ChatLinkTagManager;
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class OrmChatLinkTagManager implements ChatLinkTagManager {
