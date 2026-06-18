@@ -5,8 +5,8 @@ import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
 import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
-import org.jetbrains.annotations.NotNull;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public interface DataController {
 

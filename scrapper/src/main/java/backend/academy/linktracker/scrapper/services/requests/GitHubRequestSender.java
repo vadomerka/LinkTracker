@@ -5,11 +5,11 @@ import backend.academy.linktracker.models.exceptions.UrlFormatException;
 import backend.academy.linktracker.models.http.external.GithubUpdateResponse;
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
 import backend.academy.linktracker.services.RequestsUtils;
-import java.time.Instant;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import java.time.Instant;
 
 @Component
 public class GitHubRequestSender implements UpdateRequestSender {

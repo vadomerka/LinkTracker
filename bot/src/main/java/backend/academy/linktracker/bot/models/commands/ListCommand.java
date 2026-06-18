@@ -38,12 +38,12 @@ public class ListCommand extends BotCommandExec {
                     sb.append(String.format("%s; ", tsTag));
                 }
             }
-//            if (ts.filters() != null) {
-//                sb.append("\n\tfilters: ");
-//                for (var tsF : ts.filters()) {
-//                    sb.append(String.format("%s; ", tsF));
-//                }
-//            }
+            //            if (ts.filters() != null) {
+            //                sb.append("\n\tfilters: ");
+            //                for (var tsF : ts.filters()) {
+            //                    sb.append(String.format("%s; ", tsF));
+            //                }
+            //            }
             sb.append("\n");
         }
         return sb.toString();

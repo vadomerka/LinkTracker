@@ -1,13 +1,5 @@
 package backend.academy.linktracker.scrapper;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import backend.academy.linktracker.models.TrackedSource;
 import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import backend.academy.linktracker.scrapper.repositories.LinkUpdateRepository;
@@ -17,13 +9,16 @@ import backend.academy.linktracker.scrapper.services.TrackedSourceManager;
 import backend.academy.linktracker.scrapper.services.requests.BotRequestsSender;
 import backend.academy.linktracker.scrapper.services.updates.LinkUpdateManager;
 import backend.academy.linktracker.scrapper.services.updates.LinkUpdateService;
-import java.time.Instant;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.time.Instant;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class LinkUpdateServiceTest {

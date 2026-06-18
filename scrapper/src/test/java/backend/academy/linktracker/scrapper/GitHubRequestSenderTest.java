@@ -1,12 +1,5 @@
 package backend.academy.linktracker.scrapper;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
 import backend.academy.linktracker.scrapper.services.requests.GitHubRequestSender;
 import com.github.tomakehurst.wiremock.WireMockServer;
@@ -18,6 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.wiremock.spring.EnableWireMock;
 import org.wiremock.spring.InjectWireMock;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 @SpringBootTest
 @ActiveProfiles("test")

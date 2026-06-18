@@ -3,7 +3,6 @@ package backend.academy.linktracker.scrapper.services.managers.orm;
 import backend.academy.linktracker.scrapper.models.entities.ChatEntity;
 import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
 import backend.academy.linktracker.scrapper.models.exceptions.ChatNotFoundException;
-import backend.academy.linktracker.scrapper.repositories.ChatLinkRepository;
 import backend.academy.linktracker.scrapper.repositories.ChatRepository;
 import backend.academy.linktracker.scrapper.services.managers.ChatManager;
 import java.util.List;
@@ -14,11 +13,9 @@ import org.springframework.stereotype.Service;
 public class OrmChatManager implements ChatManager {
 
     private final ChatRepository chatRepository;
-    private final ChatLinkRepository chatLinkRepository;
 
-    public OrmChatManager(ChatRepository chatRepository, ChatLinkRepository chatLinkRepository) {
+    public OrmChatManager(ChatRepository chatRepository) {
         this.chatRepository = chatRepository;
-        this.chatLinkRepository = chatLinkRepository;
     }
 
     public void createChat(Long chatId) {
@@ -43,11 +40,7 @@ public class OrmChatManager implements ChatManager {
     }
 
     public List<LinkEntity> getContained(Long chatId, List<LinkEntity> links) {
-        if (links.isEmpty()) {
-            return List.of();
-        }
-        getChat(chatId).orElseThrow(ChatNotFoundException::new);
-        var urls = links.stream().map(LinkEntity::getUrl).toList();
-        return chatLinkRepository.findLinksByChatIdAndUrls(chatId, urls);
+        var chat = getChat(chatId).orElseThrow(ChatNotFoundException::new);
+        return chat.getLinks().stream().filter(links::contains).toList();
     }
 }

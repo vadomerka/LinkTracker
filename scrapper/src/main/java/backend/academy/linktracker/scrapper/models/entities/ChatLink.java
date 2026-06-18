@@ -1,10 +1,10 @@
 package backend.academy.linktracker.scrapper.models.entities;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,15 +27,15 @@ public class ChatLink {
     @OneToMany(mappedBy = "chatLink", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatLinkTag> chatLinkTags = new ArrayList<>();
 
-    public List<TagEntity> getTags() {
-        return chatLinkTags.stream().map(ChatLinkTag::getTag).distinct().toList();
-    }
-
     public ChatLink() {}
 
     public ChatLink(ChatEntity chat, LinkEntity link) {
         this.id = new ChatLinkId(chat.getChatId(), link.getUrl());
         this.chat = chat;
         this.link = link;
+    }
+
+    public List<TagEntity> getTags() {
+        return chatLinkTags.stream().map(ChatLinkTag::getTag).distinct().toList();
     }
 }
