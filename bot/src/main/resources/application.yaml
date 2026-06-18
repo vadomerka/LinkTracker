@@ -8,6 +8,12 @@ spring:
     bootstrap-servers: localhost:9092,localhost:9093,localhost:9094 # ,localhost:9093,localhost:9094
     consumer:
       group-id: groupB
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
 
 app:
   telegram:
@@ -20,4 +26,8 @@ app:
     bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
     topic: scrapper-bot
     group: groupB
+    dlq-topic: scrapper-bot-dlq
+    retry:
+      max-attempts: 3
+      backoff-ms: 1000
 

@@ -1,26 +1,27 @@
 package backend.academy.linktracker.bot.controllers;
 
-import backend.academy.linktracker.bot.properties.KafkaReceiverProperties;
-import backend.academy.linktracker.bot.services.BotChatManager;
-import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
+import backend.academy.linktracker.bot.services.LinkUpdateMessageProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import tools.jackson.databind.ObjectMapper;
 
 @Component
 public class KafkaBotController {
-    private final BotChatManager manager;
-    private KafkaReceiverProperties kafkaReceiverProperties;
+    private static final Logger log = LoggerFactory.getLogger(KafkaBotController.class);
 
-    public KafkaBotController(KafkaReceiverProperties kafkaReceiverProperties, BotChatManager manager) {
-        this.kafkaReceiverProperties = kafkaReceiverProperties;
-        this.manager = manager;
+    private final LinkUpdateMessageProcessor processor;
+
+    public KafkaBotController(LinkUpdateMessageProcessor processor) {
+        this.processor = processor;
     }
 
-    @KafkaListener(topics = "#{@kafkaReceiverProperties.topic}", groupId = "#{@kafkaReceiverProperties.group}")
-    public void consumerGroupA(String message) {
-        LinkUpdateRequest req = new ObjectMapper().readValue(message, LinkUpdateRequest.class);
-        System.out.println("Получено сообщение - " + message);
-        manager.processUpdate(req);
+    @KafkaListener(
+            topics = "#{@kafkaReceiverProperties.topic}",
+            groupId = "#{@kafkaReceiverProperties.group}",
+            containerFactory = "botKafkaListenerContainerFactory")
+    public void consume(String message) {
+        log.info("Получено сообщение Kafka: {}", message);
+        processor.process(message);
     }
 }
