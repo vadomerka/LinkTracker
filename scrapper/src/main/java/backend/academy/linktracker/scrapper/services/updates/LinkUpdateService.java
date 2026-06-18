@@ -12,6 +12,7 @@ import backend.academy.linktracker.scrapper.services.senders.ScrapperSenderServi
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class LinkUpdateService {
         this.analyzeService = analyzeService;
     }
 
+    @Transactional
     public void updateLinks() {
         var activeLinks = lManager.getAllLinks().stream()
                 .filter(le -> lManager.isActive(le.getUrl()))

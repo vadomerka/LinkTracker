@@ -9,5 +9,6 @@
 
     <include relativeToChangelogFile="true" file="000-initial-schema.sql"/>
     <include relativeToChangelogFile="true" file="001-link-added-update-body.sql"/>
+    <include relativeToChangelogFile="true" file="002-outbox-message.sql"/>
 
 </databaseChangeLog>

@@ -23,6 +23,8 @@ app:
   kafka:
     topic: integration-scrapper-bot
     group: integration-test-group
+    outbox:
+      enabled: false
   valkey:
     enabled: true
     standalone:
