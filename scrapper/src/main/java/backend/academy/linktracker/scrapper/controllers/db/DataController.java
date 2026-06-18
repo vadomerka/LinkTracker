@@ -4,6 +4,8 @@ import backend.academy.linktracker.models.LinkDto;
 import backend.academy.linktracker.models.http.internal.AddSourceRequest;
 import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import backend.academy.linktracker.models.http.internal.RemoveSourceRequest;
+import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public interface DataController {
@@ -11,6 +13,8 @@ public interface DataController {
     void addChat(Long id);
 
     void removeChat(Long id);
+
+    List<LinkEntity> getLinks();
 
     void addLink(String url);
 

@@ -57,6 +57,10 @@ public class OrmChatLinkManager implements ChatLinkManager {
         var id = new ChatLinkId(chatId, url);
         if (!clRepository.existsById(id)) return false;
         clRepository.deleteById(id);
+
+        if (clRepository.getByLink(lRepository.getReferenceById(url)).isEmpty()) {
+            lRepository.deleteById(url);
+        }
         return true;
     }
 }

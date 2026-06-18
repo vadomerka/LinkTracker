@@ -27,6 +27,28 @@ public class ListCommand extends BotCommandExec {
         this.csm = csm;
     }
 
+    @NotNull
+    private static String makeResponse(ListSourcesResponse res) {
+        var sb = new StringBuilder("Список ссылок:\n");
+        for (var ts : res.links()) {
+            sb.append(String.format("\turl: %s;", ts.url()));
+            if (ts.tags() != null) {
+                sb.append("\n\ttags: ");
+                for (var tsTag : ts.tags()) {
+                    sb.append(String.format("%s; ", tsTag));
+                }
+            }
+            //            if (ts.filters() != null) {
+            //                sb.append("\n\tfilters: ");
+            //                for (var tsF : ts.filters()) {
+            //                    sb.append(String.format("%s; ", tsF));
+            //                }
+            //            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     @Override
     public String execute(TelegramBot telegramClient, User user, Chat chat, List<String> messages) {
         String response;
@@ -79,35 +101,14 @@ public class ListCommand extends BotCommandExec {
         if (res.size() > 0) {
             response = makeResponse(res);
         } else {
-            if (tag == null) {
+            if (tag.isEmpty()) {
                 response = "Список ссылок пуст";
             } else {
                 response = "Ссылки с данными тегами не найдены";
             }
         }
 
+        csm.cancelStatus(chatId);
         return response;
-    }
-
-    @NotNull
-    private static String makeResponse(ListSourcesResponse res) {
-        var sb = new StringBuilder("Список ссылок:\n");
-        for (var ts : res.links()) {
-            sb.append(String.format("\turl: %s;", ts.url()));
-            if (ts.tags() != null) {
-                sb.append("\n\ttags: ");
-                for (var tsTag : ts.tags()) {
-                    sb.append(String.format("%s; ", tsTag));
-                }
-            }
-            //            if (ts.filters() != null) {
-            //                sb.append("\n\tfilters: ");
-            //                for (var tsF : ts.filters()) {
-            //                    sb.append(String.format("%s; ", tsF));
-            //                }
-            //            }
-            sb.append("\n");
-        }
-        return sb.toString();
     }
 }

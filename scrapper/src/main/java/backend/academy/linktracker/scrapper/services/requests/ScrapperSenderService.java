@@ -1,8 +1,7 @@
 package backend.academy.linktracker.scrapper.services.requests;
 
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
-import backend.academy.linktracker.models.exceptions.UrlFormatException;
-import backend.academy.linktracker.models.http.external.LinkUpdateData;
+import java.time.Instant;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,15 +16,15 @@ public class ScrapperSenderService {
         this.senders = senders;
     }
 
-    public LinkUpdateData getLinkUpdateData(String url) {
-        LinkUpdateData ans = null;
-        var dataRequestSender = getSenderType(url);
-        if (dataRequestSender == null) {
+    public Instant getUrlUpdate(String url) {
+        Instant ans = null;
+        var s = getSenderType(url);
+        if (s == null) {
             logger.info("Ссылка не соответствует формату.");
             return null;
         }
         try {
-            ans = dataRequestSender.getLinkResponse(url);
+            ans = s.getResponse(url);
         } catch (ScrapperRequestException ex) {
             logger.info("Произошла ошибка при получении обновления по ссылке. {}", ex.toString());
         } catch (UrlFormatException ex) {
@@ -38,7 +37,7 @@ public class ScrapperSenderService {
 
     public UpdateRequestSender getSenderType(String url) {
         for (var s : senders) {
-            if (s.checkLink(url)) {
+            if (url.contains(s.getRoot())) {
                 return s;
             }
         }
