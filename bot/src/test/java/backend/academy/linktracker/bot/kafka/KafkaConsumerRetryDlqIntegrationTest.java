@@ -92,8 +92,8 @@ class KafkaConsumerRetryDlqIntegrationTest {
                 .processUpdate(any());
 
         String payload = """
-                {"chatId":100,"links":[{"url":"https://stackoverflow.com/questions/1","lastUpdate":"2024-02-01T12:00:00Z","data":{"data":[]}}]}
-                """;
+            {"chatId":100,"links":[{"url":"https://stackoverflow.com/questions/1","lastUpdate":"2024-02-01T12:00:00Z","data":{"data":[]}}]}
+            """;
 
         kafkaTemplate.send(kafkaReceiverProperties.getTopic(), payload);
 

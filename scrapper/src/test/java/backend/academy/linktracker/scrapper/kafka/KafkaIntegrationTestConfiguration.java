@@ -21,12 +21,6 @@ public class KafkaIntegrationTestConfiguration {
         KAFKA.start();
     }
 
-    @Bean
-    @ServiceConnection
-    KafkaContainer kafkaContainer() {
-        return KAFKA;
-    }
-
     @DynamicPropertySource
     static void registerKafkaProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.kafka.bootstrap-servers", KAFKA::getBootstrapServers);
@@ -34,5 +28,11 @@ public class KafkaIntegrationTestConfiguration {
 
     static String bootstrapServers() {
         return KAFKA.getBootstrapServers();
+    }
+
+    @Bean
+    @ServiceConnection
+    KafkaContainer kafkaContainer() {
+        return KAFKA;
     }
 }
