@@ -37,8 +37,9 @@ public class BotKafkaConsumerConfiguration {
             KafkaTemplate<String, String> kafkaTemplate,
             @Qualifier("kafkaReceiverProperties") KafkaReceiverProperties properties) {
         DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(
-                kafkaTemplate, (ConsumerRecord<?, ?> record, Exception ex) -> new TopicPartition(
-                        properties.getDlqTopic(), record.partition()));
+                kafkaTemplate,
+                (ConsumerRecord<?, ?> record, Exception ex) ->
+                        new TopicPartition(properties.getDlqTopic(), record.partition()));
         recoverer.setAppendOriginalHeaders(true);
 
         long retries = Math.max(0, properties.getRetry().getMaxAttempts() - 1L);

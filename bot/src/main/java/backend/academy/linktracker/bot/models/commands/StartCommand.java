@@ -5,8 +5,8 @@ import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
-import org.springframework.stereotype.Component;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class StartCommand extends BotCommandExec {

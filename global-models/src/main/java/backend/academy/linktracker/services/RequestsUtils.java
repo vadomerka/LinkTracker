@@ -2,11 +2,11 @@ package backend.academy.linktracker.services;
 
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.models.http.internal.ApiErrorResponse;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
 import tools.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class RequestsUtils {
     public static void onScrapperErrors(HttpRequest req, ClientHttpResponse res) throws IOException {

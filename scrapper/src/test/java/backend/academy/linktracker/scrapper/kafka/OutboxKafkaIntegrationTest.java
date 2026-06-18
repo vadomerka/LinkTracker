@@ -62,12 +62,8 @@ class OutboxKafkaIntegrationTest {
         registry.add("app.kafka.outbox.enabled", () -> "true");
         registry.add("spring.kafka.bootstrap-servers", KafkaIntegrationTestConfiguration::bootstrapServers);
         registry.add("spring.kafka.consumer.auto-offset-reset", () -> "earliest");
-        registry.add(
-                "spring.kafka.consumer.key-deserializer",
-                () -> StringDeserializer.class.getName());
-        registry.add(
-                "spring.kafka.consumer.value-deserializer",
-                () -> StringDeserializer.class.getName());
+        registry.add("spring.kafka.consumer.key-deserializer", () -> StringDeserializer.class.getName());
+        registry.add("spring.kafka.consumer.value-deserializer", () -> StringDeserializer.class.getName());
     }
 
     @Test
@@ -78,29 +74,29 @@ class OutboxKafkaIntegrationTest {
                 List.of(new LinkUpdateRequestItem(
                         "https://github.com/user/repo",
                         Instant.parse("2024-02-01T12:00:00Z"),
-                        new LinkUpdateData(List.of(
-                                new UpdateResponse("Issue", "Issue title", "author", "2024-02-01", null))))));
+                        new LinkUpdateData(
+                                List.of(new UpdateResponse("Issue", "Issue title", "author", "2024-02-01", null))))));
 
         transactionTemplate.executeWithoutResult(status -> outboxKafkaBotRequestsSender.sendUpdates(request));
 
         var after = outboxMessageRepository.findAll();
         assertThat(after.size() - before.size());
-        assertThat(after)
-                .first()
-                .satisfies(msg -> {
-                    assertThat(msg.getPayload()).contains("github.com");
-                });
+        assertThat(after).first().satisfies(msg -> {
+            assertThat(msg.getPayload()).contains("github.com");
+        });
 
         outboxPublisher.publishPendingMessages();
 
-        assertThat(outboxMessageRepository.findAll())
-                .first()
-                .satisfies(msg -> assertThat(msg.getProcessedAt()).isNotNull());
+        assertThat(outboxMessageRepository.findAll()).first().satisfies(msg -> assertThat(msg.getProcessedAt())
+                .isNotNull());
 
         var consumerProps = new Properties();
         consumerProps.put(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                kafkaTemplate.getProducerFactory().getConfigurationProperties().get(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG));
+                kafkaTemplate
+                        .getProducerFactory()
+                        .getConfigurationProperties()
+                        .get(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG));
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
         consumerProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());

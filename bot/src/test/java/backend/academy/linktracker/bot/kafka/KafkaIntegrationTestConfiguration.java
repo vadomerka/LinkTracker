@@ -15,8 +15,7 @@ import org.testcontainers.utility.DockerImageName;
 @Import({ServiceConnectionAutoConfiguration.class, KafkaAutoConfiguration.class})
 public class KafkaIntegrationTestConfiguration {
 
-    private static final KafkaContainer KAFKA =
-            new KafkaContainer(DockerImageName.parse("apache/kafka-native:4.1.1"));
+    private static final KafkaContainer KAFKA = new KafkaContainer(DockerImageName.parse("apache/kafka-native:4.1.1"));
 
     static {
         KAFKA.start();

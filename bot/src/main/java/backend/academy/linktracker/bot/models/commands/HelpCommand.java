@@ -4,9 +4,9 @@ import backend.academy.linktracker.bot.services.BotCommandService;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
+import java.util.List;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import java.util.List;
 
 @Component
 public class HelpCommand extends BotCommandExec {

@@ -47,11 +47,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
             BotKafkaConsumerConfiguration.class,
             BotChatManager.class
         },
-        properties =
-                "spring.autoconfigure.exclude="
-                        + "org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration,"
-                        + "org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration,"
-                        + "org.springframework.boot.liquibase.autoconfigure.LiquibaseAutoConfiguration")
+        properties = "spring.autoconfigure.exclude="
+                + "org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration,"
+                + "org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration,"
+                + "org.springframework.boot.liquibase.autoconfigure.LiquibaseAutoConfiguration")
 @Import({KafkaIntegrationTestConfiguration.class, ScraperKafkaBotIntegrationTest.BotKafkaReceiverConfiguration.class})
 @EnableConfigurationProperties(KafkaSenderProperties.class)
 @EnableKafka
@@ -60,8 +59,10 @@ class ScraperKafkaBotIntegrationTest {
 
     private static final long CHAT_ID = 100L;
     private static final String LINK_URL = "https://stackoverflow.com/questions/1";
+
     @MockitoBean
     private BotUtils botUtils;
+
     @Autowired
     private KafkaBotRequestsSender kafkaBotRequestsSender;
 
@@ -82,20 +83,21 @@ class ScraperKafkaBotIntegrationTest {
                 () -> "org.springframework.kafka.support.serializer.ErrorHandlingDeserializer");
         registry.add(
                 "spring.kafka.consumer.properties.spring.deserializer.key.delegate.class",
-            StringDeserializer.class::getName);
+                StringDeserializer.class::getName);
         registry.add(
                 "spring.kafka.consumer.properties.spring.deserializer.value.delegate.class",
-            StringDeserializer.class::getName);
+                StringDeserializer.class::getName);
     }
 
     @Test
     void sendUpdates_scraperToKafkaToBot_processesUpdateInBotChatManager() {
-        var request = new LinkUpdateRequest(CHAT_ID,
+        var request = new LinkUpdateRequest(
+                CHAT_ID,
                 List.of(new LinkUpdateRequestItem(
                         LINK_URL,
                         Instant.now(),
-                        new LinkUpdateData(List.of(
-                                new UpdateResponse("Answer", "Answer title", "author", "2026-05-26", null))))));
+                        new LinkUpdateData(
+                                List.of(new UpdateResponse("Answer", "Answer title", "author", "2026-05-26", null))))));
 
         kafkaBotRequestsSender.sendUpdates(request);
 
@@ -108,8 +110,7 @@ class ScraperKafkaBotIntegrationTest {
                                     argThat(message -> message != null && message.contains("stackoverflow.com")));
                     verify(botUtils, atLeastOnce())
                             .sendMessage(
-                                    eq(CHAT_ID),
-                                    argThat(message -> message != null && message.contains("Answer")));
+                                    eq(CHAT_ID), argThat(message -> message != null && message.contains("Answer")));
                 });
     }
 

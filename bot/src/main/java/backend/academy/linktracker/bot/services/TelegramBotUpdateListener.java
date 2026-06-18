@@ -3,12 +3,12 @@ package backend.academy.linktracker.bot.services;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import java.util.Arrays;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LoggingEventBuilder;
 import org.springframework.stereotype.Service;
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class TelegramBotUpdateListener implements UpdatesListener {

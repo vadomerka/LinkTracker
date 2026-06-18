@@ -73,9 +73,7 @@ class KafkaConsumerRetryDlqIntegrationTest {
         registry.add("app.kafka.retry.backoff-ms", () -> "200");
         registry.add("spring.kafka.bootstrap-servers", KafkaIntegrationTestConfiguration::bootstrapServers);
         registry.add("spring.kafka.consumer.auto-offset-reset", () -> "earliest");
-        registry.add(
-                "spring.kafka.consumer.key-deserializer",
-                () -> StringDeserializer.class.getName());
+        registry.add("spring.kafka.consumer.key-deserializer", () -> StringDeserializer.class.getName());
         registry.add(
                 "spring.kafka.consumer.value-deserializer",
                 () -> "org.springframework.kafka.support.serializer.ErrorHandlingDeserializer");
@@ -89,10 +87,11 @@ class KafkaConsumerRetryDlqIntegrationTest {
 
     @Test
     void processingFailure_retriesAndSendsMessageToDlq() {
-        doThrow(new RuntimeException("telegram unavailable")).when(botChatManager).processUpdate(any());
+        doThrow(new RuntimeException("telegram unavailable"))
+                .when(botChatManager)
+                .processUpdate(any());
 
-        String payload =
-                """
+        String payload = """
                 {"chatId":100,"links":[{"url":"https://stackoverflow.com/questions/1","lastUpdate":"2024-02-01T12:00:00Z","data":{"data":[]}}]}
                 """;
 
@@ -156,7 +155,10 @@ class KafkaConsumerRetryDlqIntegrationTest {
         var consumerProps = new Properties();
         consumerProps.put(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                kafkaTemplate.getProducerFactory().getConfigurationProperties().get(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG));
+                kafkaTemplate
+                        .getProducerFactory()
+                        .getConfigurationProperties()
+                        .get(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG));
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
         consumerProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
@@ -168,7 +170,10 @@ class KafkaConsumerRetryDlqIntegrationTest {
         var producerProps = new Properties();
         producerProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                kafkaTemplate.getProducerFactory().getConfigurationProperties().get(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG));
+                kafkaTemplate
+                        .getProducerFactory()
+                        .getConfigurationProperties()
+                        .get(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG));
         producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class.getName());
         producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class.getName());
 

@@ -10,10 +10,10 @@ import backend.academy.linktracker.models.http.internal.ListSourcesResponse;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ListCommand extends BotCommandExec {

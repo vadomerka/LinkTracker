@@ -1,8 +1,8 @@
 package backend.academy.linktracker.scrapper.factories;
 
 import backend.academy.linktracker.scrapper.models.TrackedSource;
-import org.springframework.stereotype.Service;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TrackedSourceFactory {

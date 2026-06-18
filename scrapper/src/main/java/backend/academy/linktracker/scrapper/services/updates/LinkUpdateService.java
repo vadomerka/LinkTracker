@@ -9,12 +9,12 @@ import backend.academy.linktracker.scrapper.services.managers.orm.OrmChatManager
 import backend.academy.linktracker.scrapper.services.managers.orm.OrmLinkManager;
 import backend.academy.linktracker.scrapper.services.senders.BotRequestsSender;
 import backend.academy.linktracker.scrapper.services.senders.ScrapperSenderService;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class LinkUpdateService {

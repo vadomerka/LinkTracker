@@ -2,11 +2,11 @@ package backend.academy.linktracker.bot.services;
 
 import backend.academy.linktracker.bot.models.commands.BotCommandExec;
 import backend.academy.linktracker.bot.models.commands.HelpCommand;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BotCommandService {
