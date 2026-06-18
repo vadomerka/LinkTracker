@@ -21,7 +21,8 @@ public class UntrackCommand extends BotCommandExec {
     public String execute(TelegramBot telegramClient, User user, Chat chat, List<String> messages) {
         String response;
         try {
-            var url = messages.getFirst();
+            if (messages.size() < 2) throw new IllegalArgumentException("Не указана ссылка");
+            var url = messages.get(1);
             requestsSender.removeTrackingUrl(chat.id(), url);
             response = "Ссылка была успешно удалена";
         } catch (ScrapperRequestException e) {

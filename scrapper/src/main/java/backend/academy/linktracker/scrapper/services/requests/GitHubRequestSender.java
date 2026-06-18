@@ -13,15 +13,15 @@ import org.springframework.web.client.RestClient;
 
 @Component
 public class GitHubRequestSender implements UpdateRequestSender {
-    private final String token;
     private static final String root = "api.github.com";
-
-    public String getRoot() {
-        return root;
-    }
+    private final String token;
 
     public GitHubRequestSender(GithubProperties properties) {
         token = properties.getToken();
+    }
+
+    public String getRoot() {
+        return root;
     }
 
     // var uri = "https://api.github.com/repos/vadomerka/MindMines";

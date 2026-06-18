@@ -1,0 +1,8 @@
+app:
+  stackoverflow:
+    key: test-so-key
+    access-token: test-so-access
+  github:
+    token: test-github-token
+  telegram:
+    tgUrl: http://localhost:9999

@@ -27,7 +27,7 @@ public class TrackedRequestsSender {
                 .uri("/links")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("tgChatId", String.valueOf(chatId))
-                .header("tag", tag)
+                .header("tag", tag != null ? tag : "")
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, RequestsUtils::onScrapperErrors)
                 .toEntity(ListSourcesResponse.class);

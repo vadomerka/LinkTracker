@@ -13,15 +13,15 @@ import org.springframework.web.client.RestClient;
 
 @Component
 public class StackOverflowRequestSender implements UpdateRequestSender {
-    private final String token;
     private static final String root = "api.stackexchange.com";
-
-    public String getRoot() {
-        return root;
-    }
+    private final String token;
 
     public StackOverflowRequestSender(GithubProperties properties) {
         token = properties.getToken();
+    }
+
+    public String getRoot() {
+        return root;
     }
 
     // var uri = "https://api.stackexchange.com/";
