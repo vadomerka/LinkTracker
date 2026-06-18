@@ -15,12 +15,12 @@ import backend.academy.linktracker.models.http.external.UpdateResponse;
 import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
 import backend.academy.linktracker.models.http.internal.LinkUpdateRequestItem;
 import backend.academy.linktracker.scrapper.properties.KafkaSenderProperties;
-import backend.academy.linktracker.scrapper.services.senders.KafkaBotRequestsSender;
-import backend.academy.linktracker.scrapper.services.senders.KafkaSender;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import backend.academy.linktracker.scrapper.services.senders.KafkaSenderService;
+import backend.academy.linktracker.scrapper.services.senders.bot.KafkaBotRequestsSender;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest(
         classes = {
-            KafkaSender.class,
+            KafkaSenderService.class,
             KafkaBotRequestsSender.class,
             KafkaBotController.class,
             BotChatManager.class
