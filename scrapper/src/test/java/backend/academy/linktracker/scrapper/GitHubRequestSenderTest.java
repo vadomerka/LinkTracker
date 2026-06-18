@@ -7,7 +7,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import backend.academy.linktracker.scrapper.properties.GithubProperties;
 import backend.academy.linktracker.scrapper.services.requests.GitHubRequestSender;
 import org.junit.jupiter.api.BeforeEach;
