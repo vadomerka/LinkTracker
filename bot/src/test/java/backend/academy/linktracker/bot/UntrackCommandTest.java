@@ -24,9 +24,16 @@ class UntrackCommandTest {
 
     private static final long CHAT_ID = 42L;
     private static final String VALID_URL = "https://github.com/user/repo";
-    @Mock TrackedRequestsSender requestsSender;
-    @Mock TelegramBot bot;
-    @Mock Chat chat;
+
+    @Mock
+    TrackedRequestsSender requestsSender;
+
+    @Mock
+    TelegramBot bot;
+
+    @Mock
+    Chat chat;
+
     UntrackCommand untrackCommand;
 
     @BeforeEach
@@ -46,7 +53,8 @@ class UntrackCommandTest {
     @Test
     void nonExistingUrl_returnsErrorFromScrapper() {
         doThrow(new ScrapperRequestException("Ссылка не найдена"))
-                .when(requestsSender).removeTrackingUrl(CHAT_ID, VALID_URL);
+                .when(requestsSender)
+                .removeTrackingUrl(CHAT_ID, VALID_URL);
 
         var response = untrackCommand.execute(bot, null, chat, List.of("/untrack", VALID_URL));
 

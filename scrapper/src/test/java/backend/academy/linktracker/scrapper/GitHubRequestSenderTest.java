@@ -67,21 +67,17 @@ class GitHubRequestSenderTest {
 
         var url = wireMock.baseUrl() + "/repos/user/notfound";
 
-        assertThatCode(() -> sender.getResponse(url))
-                .isInstanceOf(Exception.class);
+        assertThatCode(() -> sender.getResponse(url)).isInstanceOf(Exception.class);
     }
 
     @Test
     void serverError_doesNotCrashApplication() {
         stubFor(get(urlEqualTo("/repos/user/error"))
-                .willReturn(aResponse()
-                        .withStatus(500)
-                        .withBody("Internal Server Error")));
+                .willReturn(aResponse().withStatus(500).withBody("Internal Server Error")));
 
         var url = wireMock.baseUrl() + "/repos/user/error";
 
-        assertThatCode(() -> sender.getResponse(url))
-                .isInstanceOf(Exception.class);
+        assertThatCode(() -> sender.getResponse(url)).isInstanceOf(Exception.class);
     }
 
     @Test
@@ -94,7 +90,6 @@ class GitHubRequestSenderTest {
 
         var url = wireMock.baseUrl() + "/repos/user/broken";
 
-        assertThatCode(() -> sender.getResponse(url))
-                .isInstanceOf(Exception.class);
+        assertThatCode(() -> sender.getResponse(url)).isInstanceOf(Exception.class);
     }
 }
