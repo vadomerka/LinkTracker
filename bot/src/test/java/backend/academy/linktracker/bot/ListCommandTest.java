@@ -24,9 +24,16 @@ class ListCommandTest {
 
     private static final long CHAT_ID = 42L;
     private static final String VALID_URL = "https://github.com/user/repo";
-    @Mock TrackedRequestsSender requestsSender;
-    @Mock TelegramBot bot;
-    @Mock Chat chat;
+
+    @Mock
+    TrackedRequestsSender requestsSender;
+
+    @Mock
+    TelegramBot bot;
+
+    @Mock
+    Chat chat;
+
     ChatStatusManager csm;
     ListCommand listCommand;
 

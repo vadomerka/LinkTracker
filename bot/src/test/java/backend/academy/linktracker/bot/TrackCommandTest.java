@@ -26,9 +26,16 @@ class TrackCommandTest {
 
     private static final long CHAT_ID = 42L;
     private static final String VALID_URL = "https://github.com/user/repo";
-    @Mock TrackedRequestsSender requestsSender;
-    @Mock TelegramBot bot;
-    @Mock Chat chat;
+
+    @Mock
+    TrackedRequestsSender requestsSender;
+
+    @Mock
+    TelegramBot bot;
+
+    @Mock
+    Chat chat;
+
     ChatStatusManager csm;
     TrackCommand trackCommand;
 
@@ -77,7 +84,8 @@ class TrackCommandTest {
     @Test
     void duplicateUrl_showsAlreadyTrackedMessage() {
         doThrow(new ScrapperRequestException("Ссылка уже отслеживается"))
-                .when(requestsSender).addTrackingUrl(anyLong(), eq(VALID_URL), anyList(), any());
+                .when(requestsSender)
+                .addTrackingUrl(anyLong(), eq(VALID_URL), anyList(), any());
 
         trackCommand.execute(bot, null, chat, List.of("/track"));
         trackCommand.execute(bot, null, chat, List.of(VALID_URL));
@@ -90,7 +98,8 @@ class TrackCommandTest {
     void invalidUrl_returnsErrorMessage() {
         var invalidUrl = "123://github.com/user/repo";
         doThrow(new ScrapperRequestException("Некорректная ссылка"))
-                .when(requestsSender).addTrackingUrl(anyLong(), eq(invalidUrl), anyList(), any());
+                .when(requestsSender)
+                .addTrackingUrl(anyLong(), eq(invalidUrl), anyList(), any());
 
         trackCommand.execute(bot, null, chat, List.of("/track"));
         trackCommand.execute(bot, null, chat, List.of(invalidUrl));

@@ -29,10 +29,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class LinkUpdateServiceTest {
 
     private static final String GITHUB_URL = "https://api.github.com/repos/user/repo";
-    private static final TrackedSource SOURCE =
-            new TrackedSource(1, GITHUB_URL, List.of(), List.of());
-    @Mock BotRequestsSender botSender;
-    @Mock ScrapperSenderService senderService;
+    private static final TrackedSource SOURCE = new TrackedSource(1, GITHUB_URL, List.of(), List.of());
+
+    @Mock
+    BotRequestsSender botSender;
+
+    @Mock
+    ScrapperSenderService senderService;
+
     private LinkUpdateService linkUpdateService;
     private TrackedSourceRepository repository;
 
@@ -40,7 +44,8 @@ class LinkUpdateServiceTest {
     void setUp() {
         repository = new TrackedSourceRepository();
         var linkUpdateRepository = new LinkUpdateRepository();
-        var tsManager = new TrackedSourceManager(repository, new backend.academy.linktracker.scrapper.factories.TrackedSourceFactory());
+        var tsManager = new TrackedSourceManager(
+                repository, new backend.academy.linktracker.scrapper.factories.TrackedSourceFactory());
         var luManager = new LinkUpdateManager(linkUpdateRepository);
         linkUpdateService = new LinkUpdateService(botSender, tsManager, luManager, senderService);
     }

@@ -34,12 +34,13 @@ class SourceControllerTest {
                 "url": "https://github.com/user/repo"
             }
             """;
-    @Autowired MockMvc mockMvc;
+
+    @Autowired
+    MockMvc mockMvc;
 
     @Test
     void addChat_returns200() throws Exception {
-        mockMvc.perform(post("/tg-chat/100"))
-                .andExpect(status().isOk());
+        mockMvc.perform(post("/tg-chat/100")).andExpect(status().isOk());
     }
 
     @Test
@@ -62,9 +63,7 @@ class SourceControllerTest {
                         .content(ADD_LINK_BODY))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/links")
-                        .header("tgChatId", 102)
-                        .header("tag", ""))
+        mockMvc.perform(get("/links").header("tgChatId", 102).header("tag", ""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.links[0].url").value(VALID_URL));
     }
@@ -99,9 +98,7 @@ class SourceControllerTest {
                         .content(REMOVE_LINK_BODY))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/links")
-                        .header("tgChatId", 104)
-                        .header("tag", ""))
+        mockMvc.perform(get("/links").header("tgChatId", 104).header("tag", ""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size").value(0));
     }
@@ -137,9 +134,7 @@ class SourceControllerTest {
                         .content(REMOVE_LINK_BODY))
                 .andExpect(status().is4xxClientError());
 
-        mockMvc.perform(get("/links")
-                        .header("tgChatId", 106)
-                        .header("tag", ""))
+        mockMvc.perform(get("/links").header("tgChatId", 106).header("tag", ""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.links[0].url").value(VALID_URL));
     }
@@ -169,7 +164,6 @@ class SourceControllerTest {
 
     @Test
     void deleteNonExistingChat_returns404() throws Exception {
-        mockMvc.perform(delete("/tg-chat/99999"))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(delete("/tg-chat/99999")).andExpect(status().isNotFound());
     }
 }
