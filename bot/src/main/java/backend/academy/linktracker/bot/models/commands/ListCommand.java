@@ -12,7 +12,6 @@ import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
 import java.util.ArrayList;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,7 +26,6 @@ public class ListCommand extends BotCommandExec {
         this.csm = csm;
     }
 
-    @NotNull
     private static String makeResponse(ListSourcesResponse res) {
         var sb = new StringBuilder("Список ссылок:\n");
         for (var ts : res.links()) {

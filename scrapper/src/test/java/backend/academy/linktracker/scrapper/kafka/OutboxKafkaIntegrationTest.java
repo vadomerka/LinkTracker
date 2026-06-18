@@ -22,7 +22,11 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.ActiveProfiles;
@@ -30,7 +34,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.support.TransactionTemplate;
 
-@SpringBootTest
+@SpringBootTest(classes = OutboxKafkaIntegrationTest.Application.class)
 @Import({KafkaIntegrationTestConfiguration.class, TestcontainersConfiguration.class})
 @ActiveProfiles("test")
 class OutboxKafkaIntegrationTest {
@@ -60,6 +64,7 @@ class OutboxKafkaIntegrationTest {
         registry.add("app.kafka.topic", () -> topic);
         registry.add("app.kafka.group", () -> group);
         registry.add("app.kafka.outbox.enabled", () -> "true");
+        registry.add("app.valkey.enabled", () -> "false");
         registry.add("spring.kafka.bootstrap-servers", KafkaIntegrationTestConfiguration::bootstrapServers);
         registry.add("spring.kafka.consumer.auto-offset-reset", () -> "earliest");
         registry.add("spring.kafka.consumer.key-deserializer", () -> StringDeserializer.class.getName());
@@ -110,4 +115,15 @@ class OutboxKafkaIntegrationTest {
             assertThat(records.iterator().next().value()).contains("github.com");
         }
     }
+
+    @SpringBootApplication(scanBasePackages = "backend.academy.linktracker.scrapper")
+    @ComponentScan(
+            basePackages = "backend.academy.linktracker.scrapper",
+            excludeFilters =
+                    @ComponentScan.Filter(
+                            type = FilterType.REGEX,
+                            pattern =
+                                    "backend\\.academy\\.linktracker\\.scrapper\\.services\\.requests\\.(GitHubRequestSender|StackOverflowRequestSender|ScrapperSenderService)"))
+    @ConfigurationPropertiesScan(basePackages = "backend.academy.linktracker.scrapper")
+    static class Application {}
 }

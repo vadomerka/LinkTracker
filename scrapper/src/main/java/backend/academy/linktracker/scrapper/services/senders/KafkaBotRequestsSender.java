@@ -27,7 +27,7 @@ public class KafkaBotRequestsSender implements BotRequestsSender {
         String key = properties.getGroup();
         String message = new ObjectMapper().writeValueAsString(request);
         try {
-            result = kafkaSender.sendMessage(topic, key, message);
+            kafkaSender.sendMessage(topic, key, message);
         } catch (Exception e) {
             throw new KafkaSenderException(String.format("Ошибка при отправке сообщения в kafka topic=%s", topic), e);
         }
