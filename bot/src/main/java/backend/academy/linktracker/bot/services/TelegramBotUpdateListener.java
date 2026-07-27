@@ -1,0 +1,56 @@
+package backend.academy.linktracker.bot.services;
+
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.Update;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LoggingEventBuilder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class TelegramBotUpdateListener implements UpdatesListener {
+    private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdateListener.class);
+    private final TelegramBot bot;
+    private final BotUtils utils;
+    private final BotCommandService commandService;
+
+    public TelegramBotUpdateListener(TelegramBot bot, BotUtils utils, BotCommandService commandService) {
+        this.bot = bot;
+        this.utils = utils;
+        this.commandService = commandService;
+        bot.setUpdatesListener(this);
+        logger.info("setUpdatesListener");
+    }
+
+    @Override
+    public int process(List<Update> list) {
+        for (var u : list) {
+            handleUpdate(u);
+        }
+
+        return CONFIRMED_UPDATES_ALL;
+    }
+
+    private void handleUpdate(Update update) {
+        if (update == null || update.message() == null || update.message().text() == null) {
+            return;
+        }
+
+        String text = update.message().text().trim();
+        Long chatId = update.message().chat().id();
+        LoggingEventBuilder logUpdate = logger.atDebug().addKeyValue("chatId", chatId);
+
+        String message;
+        var cmd = commandService.getCommand(text.toLowerCase());
+        if (cmd == null) {
+            message = "Неизвестная команда. Воспользуйтесь /help, чтобы посмотреть список доступных команд.";
+        } else {
+            message = cmd.execute(bot, update.message().from(), update.message().chat(), null);
+        }
+
+        utils.sendMessage(chatId, message);
+        logUpdate.log(String.format("Response message - %s", message));
+    }
+}
