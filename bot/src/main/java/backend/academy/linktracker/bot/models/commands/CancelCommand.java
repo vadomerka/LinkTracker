@@ -1,5 +1,6 @@
 package backend.academy.linktracker.bot.models.commands;
 
+import backend.academy.linktracker.bot.services.BotUtils;
 import backend.academy.linktracker.bot.services.ChatStatusManager;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Component;
 public class CancelCommand extends BotCommandExec {
     private final ChatStatusManager chatStatusManager;
 
-    public CancelCommand(ChatStatusManager chatStatusManager) {
-        super("/cancel", "command to start the bot");
+    public CancelCommand(BotUtils utils, ChatStatusManager chatStatusManager) {
+        super("/cancel", "command to start the bot", utils);
         this.chatStatusManager = chatStatusManager;
     }
 

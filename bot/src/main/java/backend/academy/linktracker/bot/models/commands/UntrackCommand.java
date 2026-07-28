@@ -1,5 +1,6 @@
 package backend.academy.linktracker.bot.models.commands;
 
+import backend.academy.linktracker.bot.services.BotUtils;
 import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import com.pengrad.telegrambot.TelegramBot;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Component;
 public class UntrackCommand extends BotCommandExec {
     private final TrackedRequestsSender requestsSender;
 
-    public UntrackCommand(TrackedRequestsSender requestsSender) {
-        super("/untrack", "command to stop tracking a link");
+    public UntrackCommand(BotUtils utils, TrackedRequestsSender requestsSender) {
+        super("/untrack", "command to stop tracking a link", utils);
         this.requestsSender = requestsSender;
     }
 

@@ -1,6 +1,7 @@
 package backend.academy.linktracker.bot.models.commands;
 
 import backend.academy.linktracker.bot.services.BotCommandService;
+import backend.academy.linktracker.bot.services.BotUtils;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
@@ -13,8 +14,8 @@ public class HelpCommand extends BotCommandExec {
     private transient BotCommandService commandService;
 
     @Lazy
-    public HelpCommand() {
-        super("/help", "command to start the bot");
+    public HelpCommand(BotUtils utils) {
+        super("/help", "command to start the bot", utils);
     }
 
     public void setCommandService(BotCommandService commandService) {
