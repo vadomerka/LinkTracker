@@ -1,6 +1,7 @@
 package backend.academy.linktracker.bot.models.commands;
 
 import backend.academy.linktracker.bot.models.ChatStatus;
+import backend.academy.linktracker.bot.services.BotUtils;
 import backend.academy.linktracker.bot.services.ChatStatusManager;
 import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
 import backend.academy.linktracker.models.exceptions.IllegalChatStatusCommand;
@@ -20,8 +21,8 @@ public class TrackCommand extends BotCommandExec {
     private final TrackedRequestsSender requestsSender;
     private final ChatStatusManager csm;
 
-    public TrackCommand(TrackedRequestsSender requestsSender, ChatStatusManager csm) {
-        super("/track", "command to start tracking a link");
+    public TrackCommand(BotUtils utils, TrackedRequestsSender requestsSender, ChatStatusManager csm) {
+        super("/track", "command to start tracking a link", utils);
         this.requestsSender = requestsSender;
         this.csm = csm;
     }

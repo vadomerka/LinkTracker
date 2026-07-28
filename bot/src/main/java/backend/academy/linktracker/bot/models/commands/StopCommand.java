@@ -1,5 +1,6 @@
 package backend.academy.linktracker.bot.models.commands;
 
+import backend.academy.linktracker.bot.services.BotUtils;
 import backend.academy.linktracker.bot.services.requests.ChatRequestsSender;
 import backend.academy.linktracker.models.exceptions.ScrapperRequestException;
 import com.pengrad.telegrambot.TelegramBot;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Component;
 public class StopCommand extends BotCommandExec {
     private final ChatRequestsSender requestsSender;
 
-    public StopCommand(ChatRequestsSender requestsSender) {
-        super("/stop", "command to stop the bot");
+    public StopCommand(BotUtils utils, ChatRequestsSender requestsSender) {
+        super("/stop", "command to stop the bot", utils);
         this.requestsSender = requestsSender;
     }
 
