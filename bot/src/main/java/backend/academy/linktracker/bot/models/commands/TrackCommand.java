@@ -21,8 +21,8 @@ public class TrackCommand extends BotCommandExec {
     private final TrackedRequestsSender requestsSender;
     private final ChatStatusManager csm;
 
-    public TrackCommand(BotUtils utils, TrackedRequestsSender requestsSender, ChatStatusManager csm) {
-        super("/track", "command to start tracking a link", utils);
+    public TrackCommand(TrackedRequestsSender requestsSender, ChatStatusManager csm) {
+        super("/track", "command to start tracking a link");
         this.requestsSender = requestsSender;
         this.csm = csm;
     }

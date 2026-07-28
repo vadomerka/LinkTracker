@@ -14,8 +14,8 @@ public class HelpCommand extends BotCommandExec {
     private transient BotCommandService commandService;
 
     @Lazy
-    public HelpCommand(BotUtils utils) {
-        super("/help", "command to start the bot", utils);
+    public HelpCommand() {
+        super("/help", "command to start the bot");
     }
 
     public void setCommandService(BotCommandService commandService) {

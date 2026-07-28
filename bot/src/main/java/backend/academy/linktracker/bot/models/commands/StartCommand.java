@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 public class StartCommand extends BotCommandExec {
     private final ChatRequestsSender requestsSender;
 
-    public StartCommand(BotUtils utils, ChatRequestsSender requestsSender) {
-        super("/start", "command to start the bot", utils);
+    public StartCommand(ChatRequestsSender requestsSender) {
+        super("/start", "command to start the bot");
         this.requestsSender = requestsSender;
     }
 

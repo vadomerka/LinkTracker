@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 public class StopCommand extends BotCommandExec {
     private final ChatRequestsSender requestsSender;
 
-    public StopCommand(BotUtils utils, ChatRequestsSender requestsSender) {
-        super("/stop", "command to stop the bot", utils);
+    public StopCommand(ChatRequestsSender requestsSender) {
+        super("/stop", "command to stop the bot");
         this.requestsSender = requestsSender;
     }
 
