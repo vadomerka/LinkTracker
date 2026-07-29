@@ -1,11 +1,15 @@
 package backend.academy.linktracker.scrapper.services.updates;
 
-import backend.academy.linktracker.models.TrackedSource;
 import backend.academy.linktracker.models.http.internal.LinkUpdateRequest;
-import backend.academy.linktracker.scrapper.services.ScrapperSenderService;
-import backend.academy.linktracker.scrapper.services.TrackedSourceManager;
+import backend.academy.linktracker.models.http.internal.LinkUpdateRequestItem;
+import backend.academy.linktracker.scrapper.models.entities.LinkEntity;
+import backend.academy.linktracker.scrapper.services.managers.ChatManager;
+import backend.academy.linktracker.scrapper.services.managers.LinkManager;
+import backend.academy.linktracker.scrapper.services.managers.orm.OrmChatManager;
+import backend.academy.linktracker.scrapper.services.managers.orm.OrmLinkManager;
 import backend.academy.linktracker.scrapper.services.requests.BotRequestsSender;
-import java.util.HashSet;
+import backend.academy.linktracker.scrapper.services.requests.ScrapperSenderService;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,53 +18,72 @@ import org.springframework.stereotype.Service;
 @Service
 public class LinkUpdateService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LinkUpdateService.class);
-    private final TrackedSourceManager tsManager;
-    private final LinkUpdateManager luManager;
+    private final ChatManager chManager;
+    private final LinkManager lManager;
     private final BotRequestsSender botSender;
     private final ScrapperSenderService senderService;
+    private final LinkUpdateInfoAnalyzeService analyzeService;
 
     public LinkUpdateService(
             BotRequestsSender botSender,
-            TrackedSourceManager tsManager,
-            LinkUpdateManager luManager,
-            ScrapperSenderService senderService) {
+            OrmChatManager chManager,
+            OrmLinkManager lManager,
+            ScrapperSenderService senderService,
+            LinkUpdateInfoAnalyzeService analyzeService) {
         this.botSender = botSender;
-        this.tsManager = tsManager;
-        this.luManager = luManager;
+        this.chManager = chManager;
+        this.lManager = lManager;
         this.senderService = senderService;
+        this.analyzeService = analyzeService;
     }
 
     public void updateLinks() {
-        var activeLinks = tsManager.getUniqueLinks();
-        var updLinks = getUpdLinks(activeLinks);
+        var activeLinks = lManager.getAllLinks().stream()
+                .filter(le -> lManager.isActive(le.getUrl()))
+                .toList();
 
+        var updLinks = getUpdLinks(activeLinks);
         if (updLinks == null || updLinks.isEmpty()) {
             LOGGER.info("Обновлений не обнаружено");
             return;
         }
 
-        for (var chatId : tsManager.getUniqueChats()) {
-            var updChatLinks = tsManager.filterChatLinks(chatId, updLinks);
-            if (updChatLinks.isEmpty()) continue;
-            botSender.sendUpdates(chatId, new LinkUpdateRequest(updLinks));
-        }
+        sendUpdLinksToChats(updLinks);
     }
 
-    private List<String> getUpdLinks(List<TrackedSource> activeLinks) {
+    private List<LinkUpdateRequestItem> getUpdLinks(List<LinkEntity> activeLinks) {
         if (activeLinks.isEmpty()) {
             LOGGER.info("Список ссылок пуст");
             return null;
         }
-        var updLinks = new HashSet<String>();
         LOGGER.info("activeLinks size: {}", activeLinks.size());
+
+        var updLinks = new ArrayList<LinkUpdateRequestItem>();
         for (var al : activeLinks) {
-            var time = senderService.getUrlUpdate(al.url());
-            if (time == null) continue;
-            LOGGER.info("url - {}; time - {}", al.url(), time);
-            if (luManager.isUpdated(al.url(), time)) {
-                updLinks.add(al.url());
+            var apiData = senderService.getLinkUpdateData(al.getUrl());
+            if (apiData == null) continue;
+
+            var updData = analyzeService.getUpdTime(al.getUrl(), al.getLastUpdate(), apiData);
+            if (updData == null) continue;
+
+            LOGGER.info("url - {}; time - {}", al.getUrl(), updData.lastUpdate());
+            if (lManager.isUpdated(al.getUrl(), updData.lastUpdate())) {
+                updLinks.add(updData);
             }
         }
-        return updLinks.stream().toList();
+        return updLinks;
+    }
+
+    public void sendUpdLinksToChats(List<LinkUpdateRequestItem> updLinks) {
+        for (var chat : chManager.getAllChats()) {
+            var chatUrls = chManager.getLinks(chat.getChatId()).stream()
+                    .map(LinkEntity::getUrl)
+                    .toList();
+            var chatUpdLinks =
+                    updLinks.stream().filter(ul -> chatUrls.contains(ul.url())).toList();
+            if (chatUpdLinks.isEmpty()) continue;
+
+            botSender.sendUpdates(chat.getChatId(), new LinkUpdateRequest(chatUpdLinks));
+        }
     }
 }

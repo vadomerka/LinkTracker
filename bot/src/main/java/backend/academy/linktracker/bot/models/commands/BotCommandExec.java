@@ -1,6 +1,5 @@
 package backend.academy.linktracker.bot.models.commands;
 
-import backend.academy.linktracker.bot.services.BotUtils;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.User;
@@ -14,7 +13,7 @@ public abstract class BotCommandExec {
     protected final String command;
     protected final String description;
 
-    public BotCommandExec(String command, String description, BotUtils utils) {
+    public BotCommandExec(String command, String description) {
         this.command = command;
         this.description = description;
     }

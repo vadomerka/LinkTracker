@@ -1,9 +1,11 @@
 package backend.academy.linktracker.scrapper.services.requests;
 
-import java.time.Instant;
+import backend.academy.linktracker.models.http.external.LinkUpdateData;
 
 public interface UpdateRequestSender {
     String getRoot();
 
-    Instant getResponse(String url);
+    boolean checkLink(String url);
+
+    LinkUpdateData getResponse(String url);
 }

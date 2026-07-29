@@ -1,7 +1,6 @@
 package backend.academy.linktracker.bot.models.commands;
 
 import backend.academy.linktracker.bot.models.ChatStatus;
-import backend.academy.linktracker.bot.services.BotUtils;
 import backend.academy.linktracker.bot.services.ChatStatusManager;
 import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
 import backend.academy.linktracker.models.exceptions.IllegalChatStatusCommand;
@@ -22,8 +21,8 @@ public class ListCommand extends BotCommandExec {
     private final TrackedRequestsSender requestsSender;
     private final ChatStatusManager csm;
 
-    public ListCommand(BotUtils utils, TrackedRequestsSender requestsSender, ChatStatusManager csm) {
-        super("/list", "command to stop tracking a link", utils);
+    public ListCommand(TrackedRequestsSender requestsSender, ChatStatusManager csm) {
+        super("/list", "command to stop tracking a link");
         this.requestsSender = requestsSender;
         this.csm = csm;
     }
@@ -39,12 +38,12 @@ public class ListCommand extends BotCommandExec {
                     sb.append(String.format("%s; ", tsTag));
                 }
             }
-            if (ts.filters() != null) {
-                sb.append("\n\tfilters: ");
-                for (var tsF : ts.filters()) {
-                    sb.append(String.format("%s; ", tsF));
-                }
-            }
+            //            if (ts.filters() != null) {
+            //                sb.append("\n\tfilters: ");
+            //                for (var tsF : ts.filters()) {
+            //                    sb.append(String.format("%s; ", tsF));
+            //                }
+            //            }
             sb.append("\n");
         }
         return sb.toString();
@@ -92,7 +91,9 @@ public class ListCommand extends BotCommandExec {
 
     private String getTrackedStage(Long chatId) {
         var data = csm.getCommandStatus(chatId).getChatData();
-        var tag = data.isEmpty() ? "" : data.getFirst();
+        var tag = data.isEmpty() ? null : data.getFirst();
+
+        csm.cancelStatus(chatId);
         var res = requestsSender.getTrackingUrls(chatId, tag).getBody();
         if (res == null) throw new ScrapperRequestException("Список ссылок не был получен");
 

@@ -1,0 +1,40 @@
+package backend.academy.linktracker.scrapper.models.entities;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@Table(name = "link")
+public class LinkEntity {
+    @Id
+    @Column(name = "url", nullable = false, unique = true)
+    private String url;
+
+    @Column(name = "last_update")
+    private Instant lastUpdate;
+
+    @Column(name = "update_body")
+    private String updateBody;
+
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private Instant createdAt;
+
+    @OneToMany(mappedBy = "link", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatLink> chatLinks = new ArrayList<>();
+
+    public LinkEntity() {}
+
+    public LinkEntity(String url) {
+        this.url = url;
+    }
+
+    public List<ChatEntity> getChats() {
+        return chatLinks.stream().map(ChatLink::getChat).distinct().toList();
+    }
+}

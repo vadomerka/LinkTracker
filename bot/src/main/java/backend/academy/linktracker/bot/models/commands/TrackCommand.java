@@ -1,7 +1,6 @@
 package backend.academy.linktracker.bot.models.commands;
 
 import backend.academy.linktracker.bot.models.ChatStatus;
-import backend.academy.linktracker.bot.services.BotUtils;
 import backend.academy.linktracker.bot.services.ChatStatusManager;
 import backend.academy.linktracker.bot.services.requests.TrackedRequestsSender;
 import backend.academy.linktracker.models.exceptions.IllegalChatStatusCommand;
@@ -21,8 +20,8 @@ public class TrackCommand extends BotCommandExec {
     private final TrackedRequestsSender requestsSender;
     private final ChatStatusManager csm;
 
-    public TrackCommand(BotUtils utils, TrackedRequestsSender requestsSender, ChatStatusManager csm) {
-        super("/track", "command to start tracking a link", utils);
+    public TrackCommand(TrackedRequestsSender requestsSender, ChatStatusManager csm) {
+        super("/track", "command to start tracking a link");
         this.requestsSender = requestsSender;
         this.csm = csm;
     }
@@ -95,9 +94,10 @@ public class TrackCommand extends BotCommandExec {
         var url = data.getFirst();
         var tags = data.subList(1, data.size());
 
+        // Перед отправкой запроса нужно отменить команду, тк в его обработчике ошибок этого нет.
+        csm.cancelStatus(chatId);
         requestsSender.addTrackingUrl(chatId, url, tags, null);
 
-        csm.cancelStatus(chatId);
         return "Ссылка добавлена в отслеживаемые.";
     }
 }
