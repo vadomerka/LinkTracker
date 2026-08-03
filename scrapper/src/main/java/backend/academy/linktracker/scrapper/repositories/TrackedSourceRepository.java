@@ -29,13 +29,13 @@ public class TrackedSourceRepository {
 
     public List<TrackedSource> getChatLinks(Long chatId) {
         var arr = chatLinks.get(chatId);
-        if (arr == null) throw new ChatNotFoundException("Чат не был найден.");
+        if (arr == null) throw new ChatNotFoundException();
         return arr;
     }
 
     public void addChat(Long chatId) {
         var arr = chatLinks.get(chatId);
-        if (arr != null) throw new ChatAlreadyExistsException("Чат уже существует.");
+        if (arr != null) throw new ChatAlreadyExistsException();
         chatLinks.put(chatId, new ArrayList<>());
     }
 
